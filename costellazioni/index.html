@@ -45,7 +45,11 @@
   color-scheme:light dark;
 }
 [data-palette="notturno"]{color-scheme:dark}
-@media (max-width:640px){:root{--rx:14px;--rp:42px}}
+@media (max-width:759px){
+  :root{--rx:17px;--rp:46px}
+  .gen::before,.filo{width:3px;margin-left:-1.5px}
+  .testo h3::before{width:18px;height:18px;left:calc(var(--rx) - var(--rp) - 9px)}
+}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%;scrollbar-color:var(--ink-2) var(--paper)}
@@ -127,8 +131,8 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .lato h2{margin:0;font:620 clamp(1.9rem,1.4rem + 2vw,3rem)/1.05 var(--display);letter-spacing:-.02em}
 .leggendo{margin-top:34px;padding-top:22px;border-top:3px double var(--ink)}
 .js .leggendo{animation:entra .5s var(--out) backwards}
-.leggendo .lt{margin:0;font:500 .82rem var(--display);color:var(--ink-2)}
-.leggendo .lt-t{margin:4px 0 16px;font:620 1.05rem/1.25 var(--display);text-wrap:balance}
+.leggendo .lt,.foglio .lt{margin:0;font:500 .82rem var(--display);color:var(--ink-2)}
+.leggendo .lt-t,.foglio .lt-t{margin:4px 0 16px;font:620 1.05rem/1.25 var(--display);text-wrap:balance}
 .sez{list-style:none;margin:0;padding:0 0 4px;position:relative}
 .sez::before{content:"";position:absolute;left:5px;top:12px;bottom:12px;width:1px;background:var(--line)}
 .sez a{display:block;position:relative;padding:5px 0 5px 26px;text-decoration:none;font:450 .88rem/1.35 var(--display);color:var(--ink-2);transition:color .16s var(--out)}
@@ -208,14 +212,29 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .testo .nota:last-child{margin-top:3em;padding-top:1.4em;border-top:3px double var(--ink)}
 .fine-art{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;margin-top:28px}
 
-/* pulsante flottante su telefono */
-.pill{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));z-index:35;display:none;align-items:center;gap:10px;
-  padding:12px 20px;border:0;border-radius:999px;background:var(--ink);color:var(--paper);font:560 .92rem var(--display);cursor:pointer;
-  box-shadow:0 8px 24px rgba(0,0,0,.18);transform:translate(-50%,140%);transition:transform .45s var(--drawer)}
-.pill svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6}
-.pill.su{transform:translate(-50%,0)}
-.pill:active{transform:translate(-50%,0) scale(.96)}
-@media (max-width:999px){.js .pill{display:inline-flex}}
+/* telefono: barra della sezione corrente e pannello delle sezioni */
+.pill{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:35;display:none;
+  align-items:center;gap:12px;padding:12px 16px 14px;border:0;border-radius:14px;background:var(--ink);color:var(--paper);cursor:pointer;text-align:left;
+  box-shadow:0 10px 30px rgba(0,0,0,.22);transform:translateY(160%);transition:transform .45s var(--drawer)}
+.pill.su{transform:none}
+.pill:active{transform:scale(.98)}
+.pill-t{flex:1;min-width:0}
+.pill-l{display:block;font:500 .75rem var(--display);opacity:.7}
+.pill-s{display:block;font:600 .95rem/1.25 var(--display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill-pr{position:absolute;left:16px;right:16px;bottom:7px;height:2px;border-radius:2px;background:rgba(127,127,127,.35);overflow:hidden}
+.pill-pr i{display:block;height:100%;background:var(--acc);transform-origin:0 50%;transform:scaleX(0)}
+.pill svg{flex:none;width:14px;height:9px;fill:none;stroke:currentColor;stroke-width:1.6}
+.velo-f{position:fixed;inset:0;z-index:44;background:rgba(0,0,0,.38);opacity:0;transition:opacity .3s var(--out)}
+.velo-f.su{opacity:1}
+.foglio{position:fixed;left:0;right:0;bottom:0;z-index:45;max-height:78svh;overflow:auto;overscroll-behavior:contain;
+  background:var(--paper);border-radius:18px 18px 0 0;padding:10px 22px calc(24px + env(safe-area-inset-bottom,0px));
+  box-shadow:0 -12px 40px rgba(0,0,0,.2);transform:translateY(100%);transition:transform .45s var(--drawer)}
+.foglio.su{transform:none}
+.foglio .maniglia{display:block;width:40px;height:4px;border-radius:4px;background:var(--line);margin:0 auto 16px}
+.foglio .sez a{font-size:1rem;padding:9px 0 9px 30px}
+.foglio .sez a::before{top:.85em;width:13px;height:13px}
+.foglio .sez::before{left:6px}
+@media (max-width:759px){.js .pill{display:flex}}
 
 /* ───────── coda e piede ───────── */
 .coda{max-width:var(--max);margin:0 auto;padding:0 var(--gut);scroll-margin-top:56px}
@@ -237,7 +256,11 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
   .js .aperta .testo>:nth-child(4){animation-delay:.21s}.js .aperta .testo>:nth-child(5){animation-delay:.28s}
   .js .aperta .testo>:nth-child(6){animation-delay:.35s}
 }
-@media (max-width:999px){
+@media (min-width:760px) and (max-width:999px){
+  .journal{grid-template-columns:minmax(200px,.36fr) minmax(0,1fr);gap:32px}
+  .lato h2{font-size:2rem}
+}
+@media (max-width:759px){
   .journal{grid-template-columns:minmax(0,1fr)}
   .lato{position:static;max-height:none;overflow:visible}
   .leggendo{display:none}
@@ -655,7 +678,13 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
   <p>Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</p>
 </footer>
 
-<button class="pill" id="pill" type="button" hidden><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button>
+<button class="pill" id="pill" type="button" aria-haspopup="dialog" aria-controls="foglio" hidden>
+  <span class="pill-t"><span class="pill-l">Sezioni dell&#x27;articolo</span><span class="pill-s" id="pill-s"></span></span>
+  <svg viewBox="0 0 14 9" aria-hidden="true"><path d="M1 8l6-6 6 6"/></svg>
+  <span class="pill-pr" aria-hidden="true"><i id="pill-pr"></i></span>
+</button>
+<div class="velo-f" id="velo-f" hidden></div>
+<div class="foglio" id="foglio" role="dialog" aria-modal="true" aria-label="Sezioni dell&#x27;articolo" hidden></div>
 
 <script>
 (function(){
@@ -671,6 +700,7 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
       voci=[].slice.call(d.querySelectorAll('.voce')), gen=d.querySelector('.gen'),
       testata=d.getElementById('testata'), prog=d.getElementById('prog'), pill=d.getElementById('pill'),
       leggendo=d.getElementById('leggendo'), fig=d.getElementById('fig'),
+      foglio=d.getElementById('foglio'), velo=d.getElementById('velo-f'), pillS=d.getElementById('pill-s'), pillPr=d.getElementById('pill-pr'),
       cur=null, tick=false, busy=false;
   var X='<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg>';
   function clamp(n){return Math.max(0,Math.min(1,n));}
@@ -725,6 +755,7 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
     [].forEach.call(hs,function(h){html+='<li><a href="#'+h.id+'">'+h.innerHTML+'</a></li>';});
     html+='</ol><button class="btn-c" type="button" data-chiudi>'+X+'<span>Chiudi l’articolo</span></button>';
     leggendo.innerHTML=html; leggendo.hidden=false;
+    foglio.innerHTML='<span class="maniglia" aria-hidden="true"></span>'+html;
   }
   function apri(v,instant){
     if(busy) return;
@@ -746,7 +777,7 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
     var collapse=function(){
       v.classList.remove('aperta'); setLabel(v,false);
       if(cur===v) cur=null;
-      leggendo.hidden=true; prog.classList.remove('on'); pill.classList.remove('su');
+      leggendo.hidden=true; prog.classList.remove('on'); pill.classList.remove('su'); last.pill=false; chiudiFoglio(false);
       history.replaceState(null,'',location.pathname+location.search);
       busy=false; update();
     };
@@ -754,13 +785,28 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
     if(v.getBoundingClientRect().top<0) smoothTo(topOf(v),collapse); else collapse();
   }
 
+  function apriFoglio(){
+    velo.hidden=false; foglio.hidden=false; foglio.offsetHeight;
+    velo.classList.add('su'); foglio.classList.add('su'); pill.setAttribute('aria-expanded','true');
+    var c=foglio.querySelector('[aria-current]')||foglio.querySelector('.sez a'); if(c) c.focus({preventScroll:true});
+    if(c&&c.scrollIntoView) c.scrollIntoView({block:'center'});
+  }
+  function chiudiFoglio(back){
+    if(foglio.hidden) return;
+    velo.classList.remove('su'); foglio.classList.remove('su'); pill.setAttribute('aria-expanded','false');
+    setTimeout(function(){foglio.hidden=true;velo.hidden=true;},reduce.matches?0:450);
+    if(back) pill.focus({preventScroll:true});
+  }
+  addEventListener('keydown',function(e){if(e.key==='Escape') chiudiFoglio(true);});
   d.addEventListener('click',function(e){
     var t=e.target.closest?e.target:null; if(!t) return;
     var a=t.closest('.leggi');
     if(a){ e.preventDefault(); var v=a.closest('.voce'); if(v.classList.contains('aperta')) chiudi(v); else apri(v,false); return; }
-    if(t.closest('[data-chiudi]')||t.closest('#pill')){ e.preventDefault(); chiudi(cur); return; }
+    if(t.closest('#pill')){ e.preventDefault(); apriFoglio(); return; }
+    if(t.closest('#velo-f')){ chiudiFoglio(true); return; }
+    if(t.closest('[data-chiudi]')){ e.preventDefault(); chiudiFoglio(false); chiudi(cur); return; }
     var s=t.closest('.sez a');
-    if(s){ e.preventDefault(); var h=d.getElementById(s.getAttribute('href').slice(1)); if(h) smoothTo(h.getBoundingClientRect().top+window.scrollY-84); }
+    if(s){ e.preventDefault(); chiudiFoglio(false); var h=d.getElementById(s.getAttribute('href').slice(1)); if(h) smoothTo(h.getBoundingClientRect().top+window.scrollY-84); }
   });
 
   /* le voci entrano quando arrivano nello schermo */
@@ -788,14 +834,15 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
     setOnce('p',p.toFixed(3),function(v){filo.style.transform='scaleY('+v+')';});
     voci.forEach(function(v,i){setOnce('n'+i,tops[i]+44<tip,function(on){v.classList.toggle('acceso',on);});});
     if(cur){
-      setOnce('pr',clamp((vh*.25-c.top)/c.height).toFixed(3),function(v){prog.style.transform='scaleX('+v+')';});
+      setOnce('pr',clamp((vh*.25-c.top)/c.height).toFixed(3),function(v){prog.style.transform='scaleX('+v+')';pillPr.style.transform='scaleX('+v+')';});
       var idx=-1; for(var k=0;k<hTops.length;k++){ if(hTops[k]<vh*.35) idx=k; }
       setOnce('idx',cur.id+idx,function(){
+        pillS.textContent=idx>=0?hs[idx].textContent:cur.querySelector('.apri h3').textContent;
         for(var k=0;k<hs.length;k++) hs[k].classList.toggle('passato',k<=idx);
-        var links=leggendo.querySelectorAll('.sez a');
+        var links=d.querySelectorAll('#leggendo .sez a, #foglio .sez a'), nl=links.length/2;
         for(var j=0;j<links.length;j++){
-          links[j].classList.toggle('fatto',j<idx);
-          if(j===idx) links[j].setAttribute('aria-current','true'); else links[j].removeAttribute('aria-current');
+          var jj=j%nl; links[j].classList.toggle('fatto',jj<idx);
+          if(jj===idx) links[j].setAttribute('aria-current','true'); else links[j].removeAttribute('aria-current');
         }
       });
       setOnce('pill',apriB<0&&c.bottom>vh*.6,function(v){pill.classList.toggle('su',v);});

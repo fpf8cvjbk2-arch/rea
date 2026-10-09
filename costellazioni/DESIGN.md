@@ -46,6 +46,12 @@ Selezionabili con `data-palette` su `<html>` o con `?palette=` nell'indirizzo: `
 
 Il diagramma si disegna da sé all'apertura (~2.3s, ease-out esponenziale `cubic-bezier(.23,1,.32,1)`): prima l'ink, in ultimo il rosso. Il resto è funzionale (<=200ms): hover, transizione tra vista elenco e articolo. `prefers-reduced-motion` disattiva disegno e transizioni.
 
+## Schermi stretti
+
+- Da 1000px in su: layout originale, invariato.
+- 760-999px (iPad in verticale): stesse due colonne, colonna sinistra più stretta, titoli delle sezioni a lato.
+- Sotto 760px (telefono): linea di 3px e pallini più grandi; in basso una barra con la sezione corrente e l'avanzamento, che apre un pannello dal basso con tutte le sezioni e "Chiudi l'articolo".
+
 ## Movimento attuale
 
 - Titolo: le parole salgono una alla volta, poi "prende la parola" si sottolinea nel colore d'accento.
