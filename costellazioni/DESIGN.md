@@ -36,11 +36,23 @@ Il rosso è l'unico colore: indica ciò che passa da una generazione all'altra (
 
 - Bottone primario: ink pieno, raggio 2px, `:active` scala .97. Bottone secondario: contorno 1.5px.
 - Elenco: voce intera cliccabile, nodo a sinistra su una linea verticale, linea che sfuma oltre l'ultimo articolo (il journal continua).
-- Articolo: una vista alla volta, indirizzabile con `#/slug`; indice delle sezioni in rail sticky (da 1000px) o a scomparsa (sotto).
+- Articolo: si espande dentro l'elenco, indirizzabile con `#/slug`; senza JavaScript tutti gli articoli sono già aperti.
 
-## Movimento (un solo momento autorizzato)
+## Palette alternative
+
+Selezionabili con `data-palette` su `<html>` o con `?palette=` nell'indirizzo: `originale` (con versione scura automatica), `indaco`, `archivio`, `notturno` (scura), `rame`, `vinaccia`. Ognuna ridefinisce gli stessi token (`--paper`, `--ink`, `--ink-2`, `--line`, `--acc`, `--acc-ink`, `--on-acc`).
+
+## Movimento (versione precedente, superata)
 
 Il diagramma si disegna da sé all'apertura (~2.3s, ease-out esponenziale `cubic-bezier(.23,1,.32,1)`): prima l'ink, in ultimo il rosso. Il resto è funzionale (<=200ms): hover, transizione tra vista elenco e articolo. `prefers-reduced-motion` disattiva disegno e transizioni.
+
+## Movimento attuale
+
+- Titolo: le parole salgono una alla volta, poi "prende la parola" si sottolinea nel colore d'accento.
+- Schema: si disegna da sé; un punto percorre in loop la linea d'accento; il nodo indice respira; segue appena il puntatore.
+- Elenco: le voci entrano scorrendo; il filo scende con la lettura e accende i nodi che raggiunge.
+- Articolo: si apre nel posto in cui si trova (`grid-template-rows` 0fr→1fr, 0.8s, curva drawer), i primi paragrafi entrano in sequenza, i nodi delle sezioni si accendono quando le superi. Su desktop un pannello laterale mostra le sezioni; su telefono un pulsante flottante chiude l'articolo.
+- `prefers-reduced-motion` spegne ogni animazione.
 
 ## Limiti e note
 

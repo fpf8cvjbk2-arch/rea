@@ -1,89 +1,114 @@
 <!DOCTYPE html>
-<html lang="it" class="no-js">
+<html lang="it" class="no-js" data-palette="originale">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Costellazioni quantiche retrocausali</title>
 <meta name="description" content="Journal sulle costellazioni familiari: dinamiche, letture, appunti di lavoro.">
 <meta property="og:title" content="Costellazioni quantiche retrocausali">
 <meta property="og:description" content="Journal sulle costellazioni familiari.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#F6F7F5" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#121417" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F6F7F5">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2315171B'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23F6F7F5' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23D4351C'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Literata:ital,opsz,wght@0,7..72,300..800;1,7..72,300..800&display=swap" rel="stylesheet">
 <style>
-:root{
+/* ───────── palette: cambia data-palette su <html>, oppure apri la pagina con ?palette=nome ───────── */
+:root,[data-palette="originale"]{
   --paper:#F6F7F5; --wash:#ECEEEA; --ink:#15171B; --ink-2:#4B5058; --line:#C5C9C4;
-  --red:#D4351C; --red-ink:#B22812; --sel-fg:#FFFFFF;
+  --acc:#D4351C; --acc-ink:#B22812; --on-acc:#FFFFFF;
+}
+@media (prefers-color-scheme:dark){
+  [data-palette="originale"]{--paper:#121417; --wash:#1A1D21; --ink:#ECEDEA; --ink-2:#A5ABB3; --line:#2F3439;
+    --acc:#FF5A3C; --acc-ink:#FF7A5F; --on-acc:#121417}
+}
+[data-palette="indaco"]{--paper:#F3F4F8; --wash:#E7E9F1; --ink:#10142B; --ink-2:#474D66; --line:#C7CADB;
+  --acc:#2F3FD0; --acc-ink:#2A37B8; --on-acc:#FFFFFF}
+[data-palette="archivio"]{--paper:#ECE8E0; --wash:#E2DDD2; --ink:#23201C; --ink-2:#5A544B; --line:#CFC8BB;
+  --acc:#8C2F39; --acc-ink:#7E2731; --on-acc:#FFFFFF}
+[data-palette="notturno"]{--paper:#0F1A1F; --wash:#152329; --ink:#E8EEEA; --ink-2:#9FB0AE; --line:#2A3A40;
+  --acc:#F2B33D; --acc-ink:#F6C462; --on-acc:#0F1A1F}
+[data-palette="rame"]{--paper:#EEF2EE; --wash:#E2E9E3; --ink:#142420; --ink-2:#4A5D57; --line:#C3CFC9;
+  --acc:#0F8A6B; --acc-ink:#0B6E55; --on-acc:#FFFFFF}
+[data-palette="vinaccia"]{--paper:#F4F1F6; --wash:#EAE4EE; --ink:#1E1626; --ink-2:#5A4E63; --line:#D3CAD9;
+  --acc:#B0306A; --acc-ink:#962657; --on-acc:#FFFFFF}
+
+:root{
   --display:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;
   --text:"Literata",Georgia,"Times New Roman",serif;
   --out:cubic-bezier(.23,1,.32,1);
+  --drawer:cubic-bezier(.32,.72,0,1);
   --gut:clamp(20px,5vw,56px); --max:1240px;
+  --rx:20px; --rp:64px;
   color-scheme:light dark;
 }
-@media (prefers-color-scheme:dark){
-  :root{--paper:#121417; --wash:#1A1D21; --ink:#ECEDEA; --ink-2:#A5ABB3; --line:#2F3439;
-    --red:#FF5A3C; --red-ink:#FF7A5F; --sel-fg:#121417}
-}
+[data-palette="notturno"]{color-scheme:dark}
+@media (max-width:640px){:root{--rx:14px;--rp:42px}}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%;scrollbar-color:var(--ink-2) var(--paper)}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--text);
   font-size:clamp(1.0625rem,1rem + .3vw,1.1875rem);line-height:1.7;font-optical-sizing:auto;
-  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-webkit-tap-highlight-color:transparent;
+  transition:background-color .4s var(--out),color .4s var(--out)}
 a{color:inherit}
-::selection{background:var(--red);color:var(--sel-fg)}
+button{font:inherit;color:inherit}
+::selection{background:var(--acc);color:var(--on-acc)}
 :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
-.fuori{position:absolute;left:-9999px}
 
 /* ───────── testata ───────── */
-.prog{position:fixed;inset:0 0 auto 0;height:3px;background:var(--red);z-index:40;pointer-events:none;
-  transform-origin:0 50%;transform:scaleX(var(--pr,0));opacity:0;transition:opacity .2s var(--out)}
+.prog{position:fixed;inset:0 0 auto 0;height:3px;background:var(--acc);z-index:40;pointer-events:none;
+  transform-origin:0 50%;transform:scaleX(var(--pr,0));opacity:0;transition:opacity .3s var(--out)}
 .prog.on{opacity:1}
 .testata{position:sticky;top:0;z-index:30;background:var(--paper);border-bottom:1px solid transparent;
-  transition:border-color .2s var(--out)}
+  transition:border-color .2s var(--out),background-color .4s var(--out)}
 .testata.scesa{border-bottom-color:var(--line)}
-.bar{max-width:var(--max);margin:0 auto;padding:14px var(--gut);display:flex;align-items:center;
-  justify-content:space-between;gap:20px}
-.marchio{display:flex;align-items:center;gap:12px;text-decoration:none;
-  font:600 15px/1.25 var(--display);letter-spacing:-.005em;max-width:25ch}
-.marchio svg{flex:none;width:38px;height:20px;fill:none;stroke:var(--ink);stroke-width:1.6}
+.bar{max-width:var(--max);margin:0 auto;padding:14px var(--gut);display:flex;align-items:center;justify-content:space-between;gap:20px}
+.marchio{display:flex;align-items:center;gap:12px;text-decoration:none;font:600 15px/1.25 var(--display);letter-spacing:-.005em;max-width:25ch}
+.marchio svg{flex:none;width:38px;height:20px;fill:none;stroke:var(--ink);stroke-width:1.6;overflow:visible}
+.marchio .mc{transform-origin:29px 10px;transition:transform .5s var(--out)}
+@media (hover:hover) and (pointer:fine){.marchio:hover .mc{transform:rotate(180deg) scale(1.15)}}
 .menu{display:flex;gap:clamp(16px,3vw,30px);font:500 14px var(--display)}
-.menu a{text-decoration:none;color:var(--ink-2);padding:6px 0;
-  text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;
+.menu a{color:var(--ink-2);padding:6px 0;text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;
   text-underline-offset:.35em;transition:color .16s var(--out),text-decoration-color .16s var(--out)}
-@media (hover:hover) and (pointer:fine){.menu a:hover{color:var(--ink);text-decoration-color:var(--red)}}
+@media (hover:hover) and (pointer:fine){.menu a:hover{color:var(--ink);text-decoration-color:var(--acc)}}
 @media (max-width:520px){.marchio{font-size:13.5px;gap:9px;max-width:none}.marchio svg{width:30px;height:16px}.menu{font-size:13px;gap:14px}.bar{gap:12px}}
 
-/* ───────── home: prima schermata ───────── */
+/* ───────── prima schermata ───────── */
 .hero{max-width:var(--max);margin:0 auto;padding:clamp(36px,7vh,88px) var(--gut) clamp(56px,10vh,112px);
-  display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:clamp(32px,6vw,88px);
-  align-items:center;min-height:min(86svh,800px)}
-.hero h1{margin:0;font:620 clamp(2.1rem,1.25rem + 3.6vw,4rem)/1.04 var(--display);font-stretch:96%;
-  letter-spacing:-.018em;text-wrap:balance}
-.hero .sotto{margin:clamp(20px,3vh,30px) 0 0;max-width:34ch;font-size:clamp(1.1rem,1rem + .5vw,1.3rem);
-  line-height:1.55;color:var(--ink-2)}
-.btn{display:inline-flex;align-items:center;gap:12px;margin-top:clamp(28px,5vh,44px);
-  background:var(--ink);color:var(--paper);padding:15px 26px;border-radius:2px;text-decoration:none;
-  font:560 1rem var(--display);transition:background-color .16s var(--out),transform .16s var(--out)}
-.btn svg,.vai svg,.torna svg{width:18px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6;
-  transition:transform .2s var(--out)}
+  display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:clamp(32px,6vw,88px);align-items:center;min-height:min(86svh,800px)}
+.hero h1{margin:0;font:620 clamp(2.1rem,1.25rem + 3.6vw,4rem)/1.06 var(--display);font-stretch:96%;letter-spacing:-.018em;text-wrap:balance}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .02em .14em;margin:0 -.02em -.14em}
+.w>span{display:inline-block}
+.js .w>span{animation:sale .95s var(--out) calc(.08s + var(--i)*42ms) backwards}
+@keyframes sale{from{transform:translateY(112%)}}
+.seg{background:linear-gradient(var(--acc),var(--acc)) 0 88%/0% .09em no-repeat;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.js .seg{animation:sotto 1.1s var(--out) 1.25s forwards}
+.no-js .seg{background-size:100% .09em}
+@keyframes sotto{to{background-size:100% .09em}}
+.hero .sotto{margin:clamp(20px,3vh,30px) 0 0;max-width:34ch;font-size:clamp(1.1rem,1rem + .5vw,1.3rem);line-height:1.55;color:var(--ink-2)}
+.js .hero .sotto,.js .hero .btn{animation:entra .9s var(--out) backwards}
+.js .hero .sotto{animation-delay:.55s}.js .hero .btn{animation-delay:.7s}
+@keyframes entra{from{opacity:0;transform:translateY(14px)}}
+.btn{display:inline-flex;align-items:center;gap:12px;margin-top:clamp(28px,5vh,44px);background:var(--ink);color:var(--paper);
+  padding:15px 26px;border-radius:2px;text-decoration:none;font:560 1rem var(--display);
+  transition:background-color .16s var(--out),transform .16s var(--out)}
+.btn svg{width:18px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6;transform:rotate(90deg);animation:bob 2.4s var(--out) 2s infinite}
+@keyframes bob{0%,60%,100%{transform:rotate(90deg) translateX(0)}30%{transform:rotate(90deg) translateX(4px)}}
 .btn:active{transform:scale(.97)}
-@media (hover:hover) and (pointer:fine){
-  .btn:hover{background:var(--red-ink)}
-  .btn:hover svg{transform:translateY(2px) rotate(90deg)}
-}
-.btn svg{transform:rotate(90deg)}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:var(--acc-ink);color:var(--on-acc)}}
 
 .gen-fig{margin:0;justify-self:end;width:100%;max-width:470px}
-.gen-fig svg{display:block;width:100%;height:auto;overflow:visible}
+.gen-fig svg{display:block;width:100%;height:auto;overflow:visible;transform:translate3d(var(--fx,0),var(--fy,0),0)}
 .gen-fig figcaption{margin-top:22px;font:400 .875rem/1.5 var(--display);color:var(--ink-2);max-width:40ch}
+.js .gen-fig figcaption{animation:entra .9s var(--out) 2.2s backwards}
 .s{fill:none;stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
-.s.r{stroke:var(--red)}
+.s.r{stroke:var(--acc)}
 .pieno{fill:var(--ink)}
+.punto{fill:var(--acc)}
+.alone{fill:none;stroke:var(--acc);stroke-width:1.5;transform-origin:254px 470px;animation:respira 3.2s var(--out) 2.4s infinite backwards}
+@keyframes respira{0%{transform:scale(1);opacity:.75}100%{transform:scale(1.9);opacity:0}}
 .dt{font:500 13px var(--display);fill:var(--ink-2);text-anchor:middle;font-variant-numeric:tabular-nums}
 .dr{animation:disegna .9s var(--out) var(--d,0s) backwards}
 .dt,.pieno{animation:appare .6s var(--out) var(--d,0s) backwards}
@@ -91,135 +116,123 @@ a{color:inherit}
 @keyframes appare{from{opacity:0}}
 @media (max-width:520px){.dt{display:none}}
 
-/* ───────── home: indice come discendenza ───────── */
+/* ───────── il journal: elenco come discendenza ───────── */
 .journal{max-width:var(--max);margin:0 auto;padding:clamp(36px,7vh,88px) var(--gut) clamp(40px,8vh,96px);
   display:grid;grid-template-columns:minmax(0,.34fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);scroll-margin-top:56px}
-.journal>h2{margin:0;font:620 clamp(1.9rem,1.4rem + 2vw,3rem)/1.05 var(--display);letter-spacing:-.02em;
-  position:sticky;top:92px;align-self:start}
+.lato{position:sticky;top:92px;align-self:start;max-height:calc(100svh - 112px);overflow:auto;scrollbar-width:thin}
+.lato h2{margin:0;font:620 clamp(1.9rem,1.4rem + 2vw,3rem)/1.05 var(--display);letter-spacing:-.02em}
+.leggendo{margin-top:34px;padding-top:22px;border-top:3px double var(--ink)}
+.js .leggendo{animation:entra .5s var(--out) backwards}
+.leggendo .lt{margin:0;font:500 .82rem var(--display);color:var(--ink-2)}
+.leggendo .lt-t{margin:4px 0 16px;font:620 1.05rem/1.25 var(--display);text-wrap:balance}
+.sez{list-style:none;margin:0;padding:0 0 4px;position:relative}
+.sez::before{content:"";position:absolute;left:5px;top:12px;bottom:12px;width:1px;background:var(--line)}
+.sez a{display:block;position:relative;padding:5px 0 5px 26px;text-decoration:none;font:450 .88rem/1.35 var(--display);color:var(--ink-2);transition:color .16s var(--out)}
+.sez a::before{content:"";position:absolute;left:0;top:.6em;width:11px;height:11px;border-radius:50%;border:1.5px solid var(--ink-2);background:var(--paper);
+  transition:background-color .25s var(--out),border-color .25s var(--out),box-shadow .25s var(--out)}
+@media (hover:hover) and (pointer:fine){.sez a:hover{color:var(--ink)}}
+.sez a.fatto::before{background:var(--ink-2)}
+.sez a[aria-current]{color:var(--ink);font-weight:600}
+.sez a[aria-current]::before{background:var(--acc);border-color:var(--acc);box-shadow:0 0 0 3px var(--paper),0 0 0 4.5px var(--acc)}
+.btn-c{display:inline-flex;align-items:center;gap:10px;margin-top:18px;padding:10px 16px;border:1.5px solid var(--ink);border-radius:2px;background:none;cursor:pointer;
+  font:560 .9rem var(--display);transition:background-color .16s var(--out),color .16s var(--out),transform .16s var(--out)}
+.btn-c svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6}
+.btn-c:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.btn-c:hover{background:var(--ink);color:var(--paper)}}
+
 .gen{list-style:none;margin:0;padding:0 0 56px;position:relative;--p:0}
-.gen::before,.gen::after{content:"";position:absolute;left:20px;top:46px;bottom:0;width:2px;margin-left:-1px;
-  -webkit-mask-image:linear-gradient(#000 calc(100% - 64px),transparent);
-  mask-image:linear-gradient(#000 calc(100% - 64px),transparent)}
+.gen::before,.gen::after{content:"";position:absolute;left:var(--rx);top:46px;bottom:0;width:2px;margin-left:-1px;
+  -webkit-mask-image:linear-gradient(#000 calc(100% - 64px),transparent);mask-image:linear-gradient(#000 calc(100% - 64px),transparent)}
 .gen::before{background:var(--line)}
-.gen::after{background:var(--red);transform-origin:50% 0;transform:scaleY(var(--p))}
-.gen li{position:relative}
-.gen a{display:block;padding:30px 0 34px 64px;text-decoration:none;position:relative}
-.nodo{position:absolute;left:9px;top:33px;width:22px;height:22px;border-radius:50%;
+.gen::after{background:var(--acc);transform-origin:50% 0;transform:scaleY(var(--p))}
+.voce{position:relative;scroll-margin-top:72px}
+.js .voce{opacity:0;transform:translateY(28px);transition:opacity .8s var(--out),transform .9s var(--out)}
+.js .voce.visto{opacity:1;transform:none}
+.apri{display:block;padding:30px 0 34px var(--rp);text-decoration:none;position:relative;cursor:pointer}
+.nodo{position:absolute;left:calc(var(--rx) - 11px);top:33px;width:22px;height:22px;border-radius:50%;
   border:2px solid var(--ink);background:var(--paper);z-index:1;
-  transition:box-shadow .18s var(--out),background-color .18s var(--out)}
-.gen time{font:500 .9rem var(--display);color:var(--ink-2);font-variant-numeric:tabular-nums;display:block}
-.gen h3{margin:6px 0 12px;font:620 clamp(1.5rem,1.15rem + 1.5vw,2.25rem)/1.1 var(--display);
-  letter-spacing:-.02em;text-wrap:balance;max-width:22ch;
-  text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;
-  text-underline-offset:.16em;transition:text-decoration-color .16s var(--out)}
-.estratto{margin:0;color:var(--ink-2);max-width:56ch}
+  transition:box-shadow .3s var(--out),background-color .3s var(--out),border-color .3s var(--out),transform .45s cubic-bezier(.34,1.56,.64,1)}
+.voce.acceso .nodo{border-color:var(--acc);background:var(--acc);transform:scale(1.08)}
+.voce.aperta .nodo{background:var(--paper);border-color:var(--acc);box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--acc)}
+.voce time{font:500 .9rem var(--display);color:var(--ink-2);font-variant-numeric:tabular-nums;display:block}
+.apri h3{margin:6px 0 12px;font:620 clamp(1.5rem,1.15rem + 1.5vw,2.25rem)/1.1 var(--display);letter-spacing:-.02em;text-wrap:balance;max-width:22ch;
+  text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.16em;
+  transition:text-decoration-color .16s var(--out),font-size .5s var(--out)}
+.voce.aperta .apri h3{font-size:clamp(2rem,1.2rem + 3vw,3.3rem);max-width:18ch}
+.estratto{margin:0;color:var(--ink-2);max-width:56ch;transition:font-size .5s var(--out)}
+.voce.aperta .estratto{font-style:italic;font-size:1.12em}
 .vai{display:inline-flex;align-items:center;gap:10px;margin-top:18px;font:560 .95rem var(--display)}
+.vai svg{width:18px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6;transition:transform .35s var(--out)}
+.voce.aperta .vai svg{transform:rotate(90deg)}
 .vai .tempo{color:var(--ink-2);font-weight:400}
-.vai .tempo:not(:empty)::before{content:"";display:inline-block;width:5px;height:5px;border:1.2px solid currentColor;
-  border-radius:50%;margin:0 10px 2px 0}
+.vai .tempo:not(:empty)::before{content:"";display:inline-block;width:5px;height:5px;border:1.2px solid currentColor;border-radius:50%;margin:0 10px 2px 0}
 @media (hover:hover) and (pointer:fine){
-  .gen a:hover h3{text-decoration-color:var(--red)}
-  .gen a:hover .nodo{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--ink);background:var(--ink)}
-  .gen a:hover .vai svg{transform:translateX(4px)}
+  .apri:hover h3{text-decoration-color:var(--acc)}
+  .voce:not(.aperta) .apri:hover .nodo{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--ink)}
+  .voce:not(.aperta) .apri:hover .vai svg{transform:translateX(5px)}
 }
-.gen a:active .nodo{background:var(--red);border-color:var(--red)}
+.apri:active .nodo{transform:scale(.9)}
 
-/* ───────── articolo ───────── */
-.js .articolo{display:none}
-.js .articolo.attivo{display:block}
-.art{max-width:var(--max);margin:0 auto;padding:clamp(24px,4vh,48px) var(--gut) clamp(56px,10vh,112px)}
-.torna{display:inline-flex;align-items:center;gap:10px;margin-bottom:clamp(24px,5vh,56px);
-  font:560 .95rem var(--display);text-decoration:none;color:var(--ink-2);transition:color .16s var(--out)}
-.torna svg{transform:rotate(180deg)}
-@media (hover:hover) and (pointer:fine){.torna:hover{color:var(--ink)}.torna:hover svg{transform:rotate(180deg) translateX(4px)}}
-.art-grid{display:grid;grid-template-columns:minmax(0,1fr);justify-content:center}
-.art-testa{margin-bottom:clamp(28px,5vh,52px)}
-.meta{margin:0;font:500 .9rem var(--display);color:var(--ink-2);font-variant-numeric:tabular-nums}
-.meta .tempo:not(:empty)::before{content:"";display:inline-block;width:5px;height:5px;border:1.2px solid currentColor;
-  border-radius:50%;margin:0 12px 2px 12px}
-.art-testa h2{margin:.35em 0 .5em;font:620 clamp(2.1rem,1.2rem + 4vw,3.9rem)/1.04 var(--display);
-  font-stretch:96%;letter-spacing:-.018em;text-wrap:balance;scroll-margin-top:90px}
-.art-testa h2:focus{outline:none}
-.art-testa .estratto{font-size:clamp(1.15rem,1.05rem + .5vw,1.35rem);line-height:1.55;font-style:italic;max-width:46ch}
-
-.rail-art{margin:0 0 32px}
-.rail-art summary{display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:pointer;
-  list-style:none;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  font:560 .95rem var(--display)}
-.rail-art summary::-webkit-details-marker{display:none}
-.rail-art summary svg{width:12px;height:8px;fill:none;stroke:currentColor;stroke-width:1.6;transition:transform .2s var(--out)}
-.rail-art[open] summary svg{transform:rotate(180deg)}
-.rail-art ol{list-style:none;margin:0;padding:14px 0 6px;position:relative}
-.rail-art ol::before{content:"";position:absolute;left:5px;top:22px;bottom:18px;width:1px;background:var(--line)}
-.rail-art li{margin:0}
-.rail-art a{display:block;position:relative;padding:5px 0 5px 26px;text-decoration:none;
-  font:450 .9rem/1.35 var(--display);color:var(--ink-2);transition:color .16s var(--out)}
-.rail-art a::before{content:"";position:absolute;left:0;top:.62em;width:11px;height:11px;border-radius:50%;
-  border:1.5px solid var(--ink-2);background:var(--paper);
-  transition:background-color .18s var(--out),border-color .18s var(--out),box-shadow .18s var(--out)}
-@media (hover:hover) and (pointer:fine){.rail-art a:hover{color:var(--ink)}}
-.rail-art a[aria-current]{color:var(--ink);font-weight:600}
-.rail-art a[aria-current]::before{background:var(--red);border-color:var(--red);box-shadow:0 0 0 3px var(--paper),0 0 0 4.5px var(--red)}
-
-@media (min-width:1000px){
-  .art-grid{grid-template-columns:230px minmax(0,66ch);column-gap:72px}
-  .art-testa{grid-column:2;grid-row:1}
-  .rail-art{grid-column:1;grid-row:2;position:sticky;top:96px;align-self:start;margin:0;
-    max-height:calc(100svh - 120px);overflow:auto;scrollbar-width:thin}
-  .rail-art summary{pointer-events:none;border:0;padding:0 0 8px;font-weight:620}
-  .rail-art summary svg{display:none}
-  .testo{grid-column:2;grid-row:2}
-}
-
+/* corpo dell'articolo: si apre nel posto in cui si trova */
+.js .corpo{display:grid;grid-template-rows:0fr;transition:grid-template-rows .8s var(--drawer)}
+.js .voce.aperta .corpo{grid-template-rows:1fr}
+.corpo.subito{transition:none!important}
+.corpo-in{min-height:0;overflow:hidden}
+.pad{padding:0 0 clamp(36px,7vh,72px) var(--rp)}
+.testo{max-width:66ch}
+.js .testo>*{opacity:0;transform:translateY(16px);transition:opacity .25s var(--out),transform .25s var(--out)}
+.js .aperta .testo>*{opacity:1;transform:none;transition:opacity .7s var(--out),transform .8s var(--out);transition-delay:.5s}
+.js .aperta .testo>:nth-child(1){transition-delay:.18s}.js .aperta .testo>:nth-child(2){transition-delay:.24s}
+.js .aperta .testo>:nth-child(3){transition-delay:.3s}.js .aperta .testo>:nth-child(4){transition-delay:.36s}
+.js .aperta .testo>:nth-child(5){transition-delay:.42s}
 .testo p{margin:0 0 1.15em}
-.testo h3{margin:2.5em 0 .7em;font:620 clamp(1.4rem,1.15rem + 1vw,1.85rem)/1.15 var(--display);
-  letter-spacing:-.018em;text-wrap:balance;scroll-margin-top:92px}
+.testo h3{position:relative;margin:2.5em 0 .7em;font:620 clamp(1.4rem,1.15rem + 1vw,1.85rem)/1.15 var(--display);letter-spacing:-.018em;text-wrap:balance;scroll-margin-top:92px}
+.testo h3::before{content:"";position:absolute;left:calc(var(--rx) - var(--rp) - 8px);top:.32em;width:16px;height:16px;border-radius:50%;
+  border:2px solid var(--ink);background:var(--paper);
+  transition:background-color .35s var(--out),border-color .35s var(--out),transform .5s cubic-bezier(.34,1.56,.64,1)}
+.testo h3.passato::before{background:var(--acc);border-color:var(--acc);transform:scale(1.12)}
 .testo strong{font-weight:660}
 .testo ul{list-style:none;margin:0 0 1.4em;padding:0}
 .testo li{position:relative;padding-left:1.8em;margin:0 0 .6em}
-.testo li::before{content:"";position:absolute;left:.15em;top:.66em;width:.6em;height:.6em;
-  border:1.5px solid var(--ink);border-radius:50%}
-.testo .citazione{margin:1.6em 0;padding-left:1.1em;border-left:1px solid var(--ink);
-  font-style:italic;font-size:1.14em;line-height:1.55}
+.testo li::before{content:"";position:absolute;left:.15em;top:.66em;width:.6em;height:.6em;border:1.5px solid var(--ink);border-radius:50%}
+.testo .citazione{margin:1.6em 0;padding-left:1.1em;border-left:1px solid var(--ink);font-style:italic;font-size:1.14em;line-height:1.55}
 .testo .nota{font-size:.92em;line-height:1.6;color:var(--ink-2);margin-top:1.2em}
 .testo .nota:last-child{margin-top:3em;padding-top:1.4em;border-top:3px double var(--ink)}
+.fine-art{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;margin-top:28px}
 
-.art-fine{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,4vw,48px);margin-top:clamp(48px,9vh,96px);
-  padding-top:28px;border-top:1px solid var(--line)}
-.pn{display:block;text-decoration:none;padding:6px 0}
-.pn.piu{grid-column:2;text-align:right}
-.pn .l{display:block;font:500 .85rem var(--display);color:var(--ink-2)}
-.pn .t{display:block;margin-top:6px;font:620 clamp(1.1rem,1rem + .6vw,1.4rem)/1.2 var(--display);letter-spacing:-.012em;
-  text-wrap:balance;text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;
-  text-underline-offset:.16em;transition:text-decoration-color .16s var(--out)}
-@media (hover:hover) and (pointer:fine){.pn:hover .t{text-decoration-color:var(--red)}}
-@media (min-width:1000px){.art-fine{grid-column:2}}
-@media (max-width:560px){.art-fine{grid-template-columns:1fr}.pn.piu{grid-column:1;text-align:left}}
+/* pulsante flottante su telefono */
+.pill{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));z-index:35;display:none;align-items:center;gap:10px;
+  padding:12px 20px;border:0;border-radius:999px;background:var(--ink);color:var(--paper);font:560 .92rem var(--display);cursor:pointer;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);transform:translate(-50%,140%);transition:transform .45s var(--drawer)}
+.pill svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6}
+.pill.su{transform:translate(-50%,0)}
+.pill:active{transform:translate(-50%,0) scale(.96)}
+@media (max-width:999px){.js .pill{display:inline-flex}}
 
 /* ───────── coda e piede ───────── */
 .coda{max-width:var(--max);margin:0 auto;padding:0 var(--gut);scroll-margin-top:56px}
-.coda-in{border-top:3px double var(--ink);padding:36px 0 56px;display:flex;justify-content:space-between;
-  align-items:center;gap:20px 32px;flex-wrap:wrap}
+.coda-in{border-top:3px double var(--ink);padding:36px 0 56px;display:flex;justify-content:space-between;align-items:center;gap:20px 32px;flex-wrap:wrap}
 .coda h2{margin:0;font:620 clamp(1.4rem,1.2rem + 1vw,1.9rem)/1.15 var(--display);letter-spacing:-.015em}
-.btn-o{display:inline-block;padding:13px 24px;border:1.5px solid var(--ink);border-radius:2px;text-decoration:none;
-  font:560 .95rem var(--display);transition:background-color .16s var(--out),color .16s var(--out),transform .16s var(--out)}
+.btn-o{display:inline-block;padding:13px 24px;border:1.5px solid var(--ink);border-radius:2px;text-decoration:none;font:560 .95rem var(--display);
+  transition:background-color .16s var(--out),color .16s var(--out),transform .16s var(--out)}
 .btn-o:active{transform:scale(.97)}
 @media (hover:hover) and (pointer:fine){.btn-o:hover{background:var(--ink);color:var(--paper)}}
-.piede{max-width:var(--max);margin:0 auto;padding:0 var(--gut) clamp(56px,10vh,96px);
-  font:400 .875rem/1.6 var(--display);color:var(--ink-2)}
+.piede{max-width:var(--max);margin:0 auto;padding:0 var(--gut) clamp(72px,12vh,112px);font:400 .875rem/1.6 var(--display);color:var(--ink-2)}
 .piede p{margin:0 0 8px;max-width:62ch}
 
-::view-transition-group(root){animation-duration:.2s}
+@media (max-width:999px){
+  .journal{grid-template-columns:minmax(0,1fr)}
+  .lato{position:static;max-height:none;overflow:visible}
+  .leggendo{display:none}
+}
 @media (max-width:899px){
   .hero{grid-template-columns:minmax(0,1fr);min-height:0}
   .gen-fig{justify-self:start;max-width:420px}
-  .journal{grid-template-columns:minmax(0,1fr)}
-  .journal>h2{position:static}
 }
 @media (prefers-reduced-motion:reduce){
-  .dr,.dt,.pieno{animation:none}
-  *{transition-duration:.01ms!important}
-  ::view-transition-group(root){animation:none}
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;transition-delay:0s!important}
+  .js .voce{opacity:1;transform:none}
+  .seg{background-size:100% .09em}
 }
 </style>
 </head>
@@ -229,7 +242,7 @@ a{color:inherit}
 <header class="testata" id="testata">
   <div class="bar">
     <a class="marchio" href="#">
-      <svg viewBox="0 0 38 20" aria-hidden="true"><path d="M2 3h14v14H2zM16 10h6M22 10a7 7 0 1 0 14 0a7 7 0 1 0-14 0"/></svg>
+      <svg viewBox="0 0 38 20" aria-hidden="true"><path d="M2 3h14v14H2zM16 10h6"/><path class="mc" d="M22 10a7 7 0 1 0 14 0a7 7 0 1 0-14 0"/></svg>
       <span>Costellazioni quantiche retrocausali</span>
     </a>
     <nav class="menu" aria-label="Principale"><a href="#journal">Journal</a><a href="#instagram">Instagram</a></nav>
@@ -237,18 +250,15 @@ a{color:inherit}
 </header>
 
 <main>
-<div id="home">
-
 <section class="hero">
   <div>
-    <h1>Quello che non è stato detto non tace: prende la parola nelle generazioni successive.</h1>
+    <h1 id="titolo">Quello che non è stato detto non tace: <span class="seg">prende la parola</span> nelle generazioni successive.</h1>
     <p class="sotto">Un journal sulle costellazioni familiari: dinamiche, letture, appunti di lavoro.</p>
     <a class="btn" href="#journal"><span>Leggi il journal</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></a>
   </div>
 
-  <figure class="gen-fig">
+  <figure class="gen-fig" id="fig">
     <svg viewBox="0 0 480 540" aria-hidden="true">
-      <!-- generazione 1 -->
       <path class="s dr" pathLength="1" style="--d:.05s" d="M62 48H106V92H62Z"/>
       <path class="s dr" pathLength="1" style="--d:.15s" d="M174 70a22 22 0 1 0 44 0a22 22 0 1 0-44 0"/>
       <path class="s dr" pathLength="1" style="--d:.3s" d="M106 70H174"/>
@@ -258,21 +268,22 @@ a{color:inherit}
       <path class="s dr r" pathLength="1" style="--d:.6s" d="M334 70H368"/>
       <path class="s dr" pathLength="1" style="--d:.7s" d="M368 70H402"/>
       <path class="s dr" pathLength="1" style="--d:.85s" d="M348 60L356 80M354 60L362 80"/>
-      <!-- discesa -->
       <path class="s dr" pathLength="1" style="--d:.5s" d="M140 70V248"/>
       <path class="s dr r" pathLength="1" style="--d:.95s" d="M368 70V248"/>
-      <!-- generazione 2 -->
       <path class="s dr" pathLength="1" style="--d:.9s" d="M118 270a22 22 0 1 0 44 0a22 22 0 1 0-44 0"/>
       <path class="s dr" pathLength="1" style="--d:1.1s" d="M346 248H390V292H346Z"/>
       <path class="s dr" pathLength="1" style="--d:1.1s" d="M162 270H254"/>
       <path class="s dr r" pathLength="1" style="--d:1.3s" d="M346 270H254"/>
-      <!-- generazione 3 -->
       <path class="s dr r" pathLength="1" style="--d:1.55s" d="M254 270V444"/>
+      <circle class="alone" cx="254" cy="470" r="26"/>
       <path class="s dr" pathLength="1" style="--d:1.8s" d="M234 470a20 20 0 1 0 40 0a20 20 0 1 0-40 0"/>
       <path class="s dr" pathLength="1" style="--d:1.9s" d="M228 470a26 26 0 1 0 52 0a26 26 0 1 0-52 0"/>
       <path class="s dr" pathLength="1" style="--d:1.9s" d="M254 380H340V463"/>
       <circle class="pieno" style="--d:2.1s" cx="340" cy="470" r="7"/>
-      <!-- date -->
+      <circle class="punto" id="punto" r="5" opacity="0">
+        <animateMotion id="viaggio" dur="4.6s" begin="2.4s;viaggio.end+1.6s" path="M312 70H368V270H254V444" calcMode="spline" keyPoints="0;1" keyTimes="0;1" keySplines=".45 0 .25 1"/>
+        <animate attributeName="opacity" dur="4.6s" begin="2.4s;viaggio.end+1.6s" values="0;1;1;0" keyTimes="0;.08;.85;1"/>
+      </circle>
       <text class="dt" style="--d:.5s" x="84" y="114">1927–2009</text>
       <text class="dt" style="--d:.55s" x="196" y="114">1931</text>
       <text class="dt" style="--d:.6s" x="312" y="114">1934–1966</text>
@@ -282,65 +293,26 @@ a{color:inherit}
       <text class="dt" style="--d:2.1s" x="254" y="520">1984</text>
       <text class="dt" style="--d:2.2s" x="340" y="500">1986</text>
     </svg>
-    <figcaption>Schema illustrativo di un albero familiare su tre generazioni. In rosso, ciò che passa da una generazione all&#x27;altra.</figcaption>
+    <figcaption>Schema illustrativo di un albero familiare su tre generazioni. In evidenza, ciò che passa da una generazione all&#x27;altra.</figcaption>
   </figure>
 </section>
 
 <section class="journal" id="journal">
-  <h2>Il journal</h2>
+  <div class="lato">
+    <h2>Il journal</h2>
+    <div class="leggendo" id="leggendo" hidden></div>
+  </div>
   <ol class="gen" role="list">
-    <li><a href="#/quando-il-corpo-dice-no" data-vai="quando-il-corpo-dice-no">
-      <span class="nodo" aria-hidden="true"></span>
-      <time datetime="2026-10-05">5 ottobre 2026</time>
-      <h3>Quando il corpo dice no</h3>
-      <p class="estratto">Una figlia che impara a servire la madre per avere un posto in famiglia. Ruoli invertiti, una ferita che passa tra le generazioni e il peso del dare continuo.</p>
-      <span class="vai"><span>Leggi l&#x27;articolo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span class="tempo"></span></span>
-    </a></li>
-    <li><a href="#/date-di-nascita-anniversari-e-lealta-invisibili" data-vai="date-di-nascita-anniversari-e-lealta-invisibili">
-      <span class="nodo" aria-hidden="true"></span>
-      <time datetime="2026-09-28">28 settembre 2026</time>
-      <h3>Date di nascita, anniversari e lealtà invisibili</h3>
-      <p class="estratto">Le famiglie hanno una memoria, e quella memoria sembra avere un calendario. Sindrome da anniversario, lealtà familiari e che cosa farne.</p>
-      <span class="vai"><span>Leggi l&#x27;articolo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span class="tempo"></span></span>
-    </a></li>
-    <li><a href="#/una-lettura-sistemica-del-giudizio-universale" data-vai="una-lettura-sistemica-del-giudizio-universale">
-      <span class="nodo" aria-hidden="true"></span>
-      <time datetime="2026-09-21">21 settembre 2026</time>
-      <h3>Una lettura sistemica del Giudizio Universale</h3>
-      <p class="estratto">Il centro che riordina, il femminile che accoglie, gli esclusi che restano dipinti sulla stessa parete. Tutti colpevoli, tutti possono essere graziati.</p>
-      <span class="vai"><span>Leggi l&#x27;articolo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span class="tempo"></span></span>
-    </a></li>
-    <li><a href="#/potere-personale-una-lettura-sistemica" data-vai="potere-personale-una-lettura-sistemica">
-      <span class="nodo" aria-hidden="true"></span>
-      <time datetime="2026-09-12">12 settembre 2026</time>
-      <h3>Potere personale: una lettura sistemica</h3>
-      <p class="estratto">Il potere non è un tratto di carattere: è l&#x27;effetto della posizione che una persona occupa nel proprio sistema familiare.</p>
-      <span class="vai"><span>Leggi l&#x27;articolo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span class="tempo"></span></span>
-    </a></li>
-    <li><a href="#/il-potere-che-attribuiamo-allaltro" data-vai="il-potere-che-attribuiamo-allaltro">
-      <span class="nodo" aria-hidden="true"></span>
-      <time datetime="2026-08-28">28 agosto 2026</time>
-      <h3>Il potere che attribuiamo all&#x27;altro</h3>
-      <p class="estratto">Ci sono incontri che ci accendono e insieme ci mettono a nudo. Una lettura sistemica delle relazioni.</p>
-      <span class="vai"><span>Leggi l&#x27;articolo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span class="tempo"></span></span>
-    </a></li>
-  </ol>
-</section>
-
-</div><!-- /home -->
-
-<!-- ═════════════ ARTICOLI ═════════════ -->
-
-<article class="articolo" id="a-quando-il-corpo-dice-no" data-slug="quando-il-corpo-dice-no" data-titolo="Quando il corpo dice no">
- <div class="art">
-  <a class="torna" href="#journal"><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span>Tutti gli articoli</span></a>
-  <div class="art-grid">
-   <header class="art-testa">
-    <p class="meta"><time datetime="2026-10-05">5 ottobre 2026</time><span class="tempo"></span></p>
-    <h2>Quando il corpo dice no</h2>
-    <p class="estratto">Una figlia che impara a servire la madre per avere un posto in famiglia. Ruoli invertiti, una ferita che passa tra le generazioni e il peso del dare continuo.</p>
-   </header>
-   <div class="testo">
+    <li class="voce" id="quando-il-corpo-dice-no">
+      <a class="apri" href="#/quando-il-corpo-dice-no" aria-controls="c-quando-il-corpo-dice-no">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-10-05">5 ottobre 2026</time>
+        <h3>Quando il corpo dice no</h3>
+        <p class="estratto">Una figlia che impara a servire la madre per avere un posto in famiglia. Ruoli invertiti, una ferita che passa tra le generazioni e il peso del dare continuo.</p>
+        <span class="vai"><span class="vai-t">Leggi l&#x27;articolo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span class="tempo"></span></span>
+      </a>
+      <div class="corpo" id="c-quando-il-corpo-dice-no"><div class="corpo-in"><div class="pad">
+       <div class="testo">
       <p>Prendiamo un caso di scuola. Si chiama Alessia, e intorno ai trentacinque anni le viene diagnosticata un&#x27;artrite reumatoide, una malattia autoimmune. Negli anni peggiora, in modo graduale e progressivo, fino a limitarle alcuni movimenti: soprattutto quelli delle mani.</p>
       <p>Questo articolo non parla della sua malattia, che appartiene alla medicina. Parla della sua storia familiare: di come una bambina possa crescere occupando un posto che non è il suo, e di come questo posto venga a volte tramandato, da una generazione all&#x27;altra, sotto forme diverse.</p>
       <h3>Una casa in cui nessuno si prende cura</h3>
@@ -375,21 +347,20 @@ a{color:inherit}
       <p>E poi, forse la parte più difficile, imparare a ricevere. Da altri, se non dalla madre. Ricevere cura, attenzione, aiuto, senza sentirsi in debito e senza correre subito a ricambiare. Per chi è cresciuto servendo, è un apprendimento lento: ricevere può sembrare quasi pericoloso, come se togliesse l&#x27;unica ragione per cui si ha un posto nel mondo.</p>
       <p>Ma è proprio da lì che passa la possibilità di interrompere la catena. Non dare meno per principio, ma dare per scelta, e non per necessità.</p>
       <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico. Alessia, Deborah, Olindo e Rosa sono nomi di fantasia: il caso descritto è un caso di scuola, e ogni riferimento a persone o cose è puramente casuale.</em></p>
-   </div>
-  </div>
- </div>
-</article>
-
-<article class="articolo" id="a-date-di-nascita-anniversari-e-lealta-invisibili" data-slug="date-di-nascita-anniversari-e-lealta-invisibili" data-titolo="Date di nascita, anniversari e lealtà invisibili">
- <div class="art">
-  <a class="torna" href="#journal"><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span>Tutti gli articoli</span></a>
-  <div class="art-grid">
-   <header class="art-testa">
-    <p class="meta"><time datetime="2026-09-28">28 settembre 2026</time><span class="tempo"></span></p>
-    <h2>Date di nascita, anniversari e lealtà invisibili</h2>
-    <p class="estratto">Le famiglie hanno una memoria, e quella memoria sembra avere un calendario. Sindrome da anniversario, lealtà familiari e che cosa farne.</p>
-   </header>
-   <div class="testo">
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+    <li class="voce" id="date-di-nascita-anniversari-e-lealta-invisibili">
+      <a class="apri" href="#/date-di-nascita-anniversari-e-lealta-invisibili" aria-controls="c-date-di-nascita-anniversari-e-lealta-invisibili">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-09-28">28 settembre 2026</time>
+        <h3>Date di nascita, anniversari e lealtà invisibili</h3>
+        <p class="estratto">Le famiglie hanno una memoria, e quella memoria sembra avere un calendario. Sindrome da anniversario, lealtà familiari e che cosa farne.</p>
+        <span class="vai"><span class="vai-t">Leggi l&#x27;articolo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span class="tempo"></span></span>
+      </a>
+      <div class="corpo" id="c-date-di-nascita-anniversari-e-lealta-invisibili"><div class="corpo-in"><div class="pad">
+       <div class="testo">
       <p>Ogni anno, verso la fine di novembre, una donna si sente spenta. Non succede nulla di particolare, eppure il sonno peggiora, l&#x27;umore scende, tutto costa più fatica. Solo dopo molto tempo scopre che in quelle stesse settimane, quando lei aveva due anni, la madre aveva perso un figlio. In casa non se n&#x27;era mai parlato.</p>
       <p>Un uomo, avvicinandosi ai quarantacinque anni, entra in un&#x27;inquietudine che non riesce a spiegare. Lascia il lavoro all&#x27;improvviso, la sua relazione vacilla. Suo padre era morto a quarantacinque anni.</p>
       <p>Sono coincidenze? Forse. Ma nel lavoro sistemico storie come queste si incontrano abbastanza spesso da meritare attenzione. Non perché il passato decida il nostro destino, ma perché le famiglie hanno una memoria, e quella memoria sembra avere un calendario.</p>
@@ -444,21 +415,20 @@ a{color:inherit}
       <p>Non è una diagnosi clinica e non dimostra rapporti di causa ed effetto. Se un malessere, psicologico o fisico, è persistente, intenso o preoccupante, la prima cosa da fare è rivolgersi a un medico o a uno psicoterapeuta qualificato. Il lavoro sulla storia familiare può affiancare quel percorso, mai sostituirlo.</p>
       <p>Fatta questa premessa, resta una possibilità preziosa: guardare il calendario della propria famiglia non per scoprirsi prigionieri, ma per accorgersi di ciò che, fino a quel momento, si ripeteva al buio.</p>
       <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</em></p>
-   </div>
-  </div>
- </div>
-</article>
-
-<article class="articolo" id="a-una-lettura-sistemica-del-giudizio-universale" data-slug="una-lettura-sistemica-del-giudizio-universale" data-titolo="Una lettura sistemica del Giudizio Universale">
- <div class="art">
-  <a class="torna" href="#journal"><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span>Tutti gli articoli</span></a>
-  <div class="art-grid">
-   <header class="art-testa">
-    <p class="meta"><time datetime="2026-09-21">21 settembre 2026</time><span class="tempo"></span></p>
-    <h2>Una lettura sistemica del Giudizio Universale</h2>
-    <p class="estratto">Il centro che riordina, il femminile che accoglie, gli esclusi che restano dipinti sulla stessa parete. Tutti colpevoli, tutti possono essere graziati.</p>
-   </header>
-   <div class="testo">
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+    <li class="voce" id="una-lettura-sistemica-del-giudizio-universale">
+      <a class="apri" href="#/una-lettura-sistemica-del-giudizio-universale" aria-controls="c-una-lettura-sistemica-del-giudizio-universale">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-09-21">21 settembre 2026</time>
+        <h3>Una lettura sistemica del Giudizio Universale</h3>
+        <p class="estratto">Il centro che riordina, il femminile che accoglie, gli esclusi che restano dipinti sulla stessa parete. Tutti colpevoli, tutti possono essere graziati.</p>
+        <span class="vai"><span class="vai-t">Leggi l&#x27;articolo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span class="tempo"></span></span>
+      </a>
+      <div class="corpo" id="c-una-lettura-sistemica-del-giudizio-universale"><div class="corpo-in"><div class="pad">
+       <div class="testo">
       <p>Chi entra nella Cappella Sistina alza gli occhi alla volta, ma è la parete dell&#x27;altare a fermarlo. Quasi quattrocento figure salgono, precipitano, si aggrappano, si voltano. Nessuna cornice le contiene e non c&#x27;è una storia da seguire in ordine: c&#x27;è un movimento, e tutto ruota intorno a un punto.</p>
       <p>Vorrei provare a guardare quest&#x27;opera con lo sguardo che uso nel lavoro con le costellazioni familiari. Non da storica dell&#x27;arte, e nemmeno da teologa: la mia è una lettura simbolica, e Michelangelo non aveva in mente nulla di tutto questo. Eppure l&#x27;affresco funziona come funziona un campo: ogni figura occupa un posto, porta una memoria e reagisce a un centro di gravità comune.</p>
       <h3>Il centro che riordina</h3>
@@ -518,21 +488,20 @@ a{color:inherit}
       <p>Tutti colpevoli, tutti possono essere graziati: è forse questo il messaggio più sistemico che Michelangelo ci abbia lasciato.</p>
       <p>Vale la pena ricordarlo la prossima volta che, in una famiglia, qualcuno viene descritto come quello che ha rovinato tutto. Anche lui è dipinto sulla stessa parete.</p>
       <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</em></p>
-   </div>
-  </div>
- </div>
-</article>
-
-<article class="articolo" id="a-potere-personale-una-lettura-sistemica" data-slug="potere-personale-una-lettura-sistemica" data-titolo="Potere personale: una lettura sistemica">
- <div class="art">
-  <a class="torna" href="#journal"><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span>Tutti gli articoli</span></a>
-  <div class="art-grid">
-   <header class="art-testa">
-    <p class="meta"><time datetime="2026-09-12">12 settembre 2026</time><span class="tempo"></span></p>
-    <h2>Potere personale: una lettura sistemica</h2>
-    <p class="estratto">Il potere non è un tratto di carattere: è l&#x27;effetto della posizione che una persona occupa nel proprio sistema familiare.</p>
-   </header>
-   <div class="testo">
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+    <li class="voce" id="potere-personale-una-lettura-sistemica">
+      <a class="apri" href="#/potere-personale-una-lettura-sistemica" aria-controls="c-potere-personale-una-lettura-sistemica">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-09-12">12 settembre 2026</time>
+        <h3>Potere personale: una lettura sistemica</h3>
+        <p class="estratto">Il potere non è un tratto di carattere: è l&#x27;effetto della posizione che una persona occupa nel proprio sistema familiare.</p>
+        <span class="vai"><span class="vai-t">Leggi l&#x27;articolo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span class="tempo"></span></span>
+      </a>
+      <div class="corpo" id="c-potere-personale-una-lettura-sistemica"><div class="corpo-in"><div class="pad">
+       <div class="testo">
       <p>Nel linguaggio comune il potere personale viene descritto come una qualità individuale: c&#x27;è chi ce l&#x27;ha e chi deve conquistarlo. In una prospettiva sistemica il discorso cambia. Il potere non è un tratto di carattere: è l&#x27;effetto della posizione che una persona occupa nel proprio sistema familiare.</p>
       <p>Chi sta al proprio posto dispone della propria forza. Chi occupa il posto di un altro — più grande o più piccolo del suo — dispone di una forza che non gli appartiene, e prima o poi la paga.</p>
       <p>Da qui nasce una domanda diversa. Non &quot;come faccio ad avere più potere&quot;, ma: <strong>quale posto occupo, e di chi era prima di me?</strong></p>
@@ -578,21 +547,20 @@ a{color:inherit}
       <p>È ciò che rimane disponibile a una persona quando smette di occupare posti che non sono suoi: quando non porta più il peso di un genitore, non rappresenta più un escluso, non chiede al partner ciò che spettava a un padre o a una madre.</p>
       <p>A quel punto la forza non serve più a tenere insieme il sistema. Può essere finalmente rivolta altrove — verso il proprio lavoro, i propri legami, la propria vita.</p>
       <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</em></p>
-   </div>
-  </div>
- </div>
-</article>
-
-<article class="articolo" id="a-il-potere-che-attribuiamo-allaltro" data-slug="il-potere-che-attribuiamo-allaltro" data-titolo="Il potere che attribuiamo all'altro">
- <div class="art">
-  <a class="torna" href="#journal"><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span>Tutti gli articoli</span></a>
-  <div class="art-grid">
-   <header class="art-testa">
-    <p class="meta"><time datetime="2026-08-28">28 agosto 2026</time><span class="tempo"></span></p>
-    <h2>Il potere che attribuiamo all&#x27;altro</h2>
-    <p class="estratto">Ci sono incontri che ci accendono e insieme ci mettono a nudo. Una lettura sistemica delle relazioni.</p>
-   </header>
-   <div class="testo">
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+    <li class="voce" id="il-potere-che-attribuiamo-allaltro">
+      <a class="apri" href="#/il-potere-che-attribuiamo-allaltro" aria-controls="c-il-potere-che-attribuiamo-allaltro">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-08-28">28 agosto 2026</time>
+        <h3>Il potere che attribuiamo all&#x27;altro</h3>
+        <p class="estratto">Ci sono incontri che ci accendono e insieme ci mettono a nudo. Una lettura sistemica delle relazioni.</p>
+        <span class="vai"><span class="vai-t">Leggi l&#x27;articolo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span class="tempo"></span></span>
+      </a>
+      <div class="corpo" id="c-il-potere-che-attribuiamo-allaltro"><div class="corpo-in"><div class="pad">
+       <div class="testo">
       <p class="nota"><em>Una lettura sistemica delle relazioni</em></p>
       <p>Ci sono incontri che ci accendono e insieme ci mettono a nudo. La persona che abbiamo davanti sembra più sicura, più libera, più desiderata: qualcuno che sceglie, mentre a noi resta la speranza di essere scelte. In quel momento le consegniamo un potere speciale e, senza accorgercene, dimentichiamo che molte delle qualità che ammiriamo in lei vivono anche in noi.</p>
       <p>Ma l&#x27;intensità di un legame non riguarda sempre e soltanto chi ci sta davanti. Riguarda anche le storie d&#x27;amore che abbiamo ereditato: il modo in cui, nella nostra famiglia, si sono vissuti il desiderio, la scelta, la fedeltà, l&#x27;attesa, il rifiuto. E il potere.</p>
@@ -649,11 +617,12 @@ a{color:inherit}
       <p class="citazione">Quale posizione ho imparato ad assumere in amore? Da chi l&#x27;ho appresa? E sono ancora disposta a occuparla?</p>
       <p>Riprendere il proprio potere significa riconoscere ciò che si è ereditato, distinguerlo da ciò che stiamo vivendo ora e scegliere, nel presente, una forma di relazione più libera, più reciproca, più consapevole.</p>
       <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</em></p>
-   </div>
-  </div>
- </div>
-</article>
-
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+  </ol>
+</section>
 </main>
 
 <section class="coda" id="instagram">
@@ -668,123 +637,166 @@ a{color:inherit}
   <p>Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</p>
 </footer>
 
+<button class="pill" id="pill" type="button" hidden><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button>
+
 <script>
 (function(){
   var d=document, root=d.documentElement;
   root.classList.remove('no-js'); root.classList.add('js');
-  var home=d.getElementById('home'), arts=[].slice.call(d.querySelectorAll('.articolo')),
-      testata=d.getElementById('testata'), prog=d.getElementById('prog'), gen=d.querySelector('.gen'),
-      reduce=matchMedia('(prefers-reduced-motion: reduce)'), wide=matchMedia('(min-width:1000px)'),
-      baseTitle=d.title, saved=0, current=null, tick=false;
-  var CHEV='<svg viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5"/></svg>';
-  var ARROW='<svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg>';
-  if('scrollRestoration' in history) history.scrollRestoration='manual';
 
+  /* palette di prova: ?palette=indaco | archivio | notturno | rame | vinaccia */
+  var pal=new URLSearchParams(location.search).get('palette');
+  if(pal&&/^(originale|indaco|archivio|notturno|rame|vinaccia)$/.test(pal)) root.dataset.palette=pal;
+
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)'), wide=matchMedia('(min-width:1000px)'),
+      fine=matchMedia('(hover:hover) and (pointer:fine)'),
+      voci=[].slice.call(d.querySelectorAll('.voce')), gen=d.querySelector('.gen'),
+      testata=d.getElementById('testata'), prog=d.getElementById('prog'), pill=d.getElementById('pill'),
+      leggendo=d.getElementById('leggendo'), fig=d.getElementById('fig'),
+      cur=null, tick=false, busy=false;
+  var X='<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg>';
   function clamp(n){return Math.max(0,Math.min(1,n));}
   function jump(y){window.scrollTo({top:y,left:0,behavior:'instant'});}
+  function topOf(el){return el.getBoundingClientRect().top+window.scrollY-72;}
+  function smoothTo(y,done){
+    if(reduce.matches||Math.abs(window.scrollY-y)<4){jump(y);if(done)done();return;}
+    var fired=false;function end(){if(fired)return;fired=true;removeEventListener('scrollend',end);if(done)done();}
+    if('onscrollend' in window) addEventListener('scrollend',end);
+    setTimeout(end,900);
+    window.scrollTo({top:y,behavior:'smooth'});
+  }
 
-  /* tempo di lettura, indice delle sezioni, articoli vicini */
-  arts.forEach(function(a,i){
-    var slug=a.dataset.slug,
-        words=a.querySelector('.testo').textContent.trim().split(/\s+/).length,
-        min=Math.max(1,Math.round(words/200)),
-        t=a.querySelector('.meta .tempo'),
-        it=d.querySelector('a[data-vai="'+slug+'"] .tempo');
-    if(t) t.textContent=min+' min di lettura';
-    if(it) it.textContent=min+' min';
-
-    var hs=[].slice.call(a.querySelectorAll('.testo h3'));
-    if(hs.length){
-      var det=d.createElement('details'); det.className='rail-art';
-      var sum=d.createElement('summary'); sum.innerHTML='<span>In questo articolo</span>'+CHEV;
-      var ol=d.createElement('ol');
-      hs.forEach(function(h,k){
-        h.id=slug+'-s'+(k+1);
-        var row=d.createElement('li'), link=d.createElement('a');
-        link.href='#'+h.id; link.textContent=h.textContent; row.appendChild(link); ol.appendChild(row);
+  /* titolo: parole che salgono una alla volta */
+  (function(){
+    var h=d.getElementById('titolo'), i=0;
+    function split(node){
+      [].slice.call(node.childNodes).forEach(function(n){
+        if(n.nodeType===3){
+          var frag=d.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(function(part){
+            if(!part) return;
+            if(/^\s+$/.test(part)){frag.appendChild(d.createTextNode(' '));return;}
+            var w=d.createElement('span'),inner=d.createElement('span');
+            w.className='w'; inner.textContent=part; inner.style.setProperty('--i',i++); w.appendChild(inner); frag.appendChild(w);
+          });
+          node.replaceChild(frag,n);
+        } else if(n.nodeType===1) split(n);
       });
-      det.appendChild(sum); det.appendChild(ol);
-      a.querySelector('.art-grid').insertBefore(det,a.querySelector('.testo'));
     }
+    split(h);
+  })();
 
-    var nav=d.createElement('nav'); nav.className='art-fine'; nav.setAttribute('aria-label','Altri articoli');
-    var newer=arts[i-1], older=arts[i+1], html='';
-    if(newer) html+='<a class="pn" href="#/'+newer.dataset.slug+'"><span class="l">Articolo più recente</span><span class="t">'+newer.querySelector('h2').innerHTML+'</span></a>';
-    if(older) html+='<a class="pn piu" href="#/'+older.dataset.slug+'"><span class="l">Articolo meno recente</span><span class="t">'+older.querySelector('h2').innerHTML+'</span></a>';
-    nav.innerHTML=html;
-    a.querySelector('.art-grid').appendChild(nav);
+  /* tempo di lettura e preparazione delle voci */
+  voci.forEach(function(v){
+    var a=v.querySelector('.apri'), t=v.querySelector('.testo'),
+        min=Math.max(1,Math.round(t.textContent.trim().split(/\s+/).length/200));
+    v.querySelector('.tempo').textContent=min+' min';
+    a.setAttribute('role','button'); a.setAttribute('aria-expanded','false');
+    [].forEach.call(t.querySelectorAll('h3'),function(h,k){h.id=v.id+'-s'+(k+1);});
   });
 
-  function syncDetails(){[].forEach.call(d.querySelectorAll('.rail-art'),function(x){x.open=wide.matches;});}
-  if(wide.addEventListener) wide.addEventListener('change',syncDetails);
-  syncDetails();
+  function setLabel(v,open){
+    v.querySelector('.vai-t').textContent=open?'Chiudi l’articolo':'Leggi l’articolo';
+    v.querySelector('.apri').setAttribute('aria-expanded',open?'true':'false');
+  }
+  function shut(v){ /* chiusura istantanea, senza spostare la vista */
+    var c=v.querySelector('.corpo'); c.classList.add('subito'); v.classList.remove('aperta'); setLabel(v,false);
+    c.offsetHeight; c.classList.remove('subito');
+  }
+  function buildLato(v){
+    var hs=v.querySelectorAll('.testo h3'), html='<p class="lt">Stai leggendo</p><p class="lt-t">'+v.querySelector('h3').innerHTML+'</p><ol class="sez">';
+    [].forEach.call(hs,function(h){html+='<li><a href="#'+h.id+'">'+h.innerHTML+'</a></li>';});
+    html+='</ol><button class="btn-c" type="button" data-chiudi>'+X+'<span>Chiudi l’articolo</span></button>';
+    leggendo.innerHTML=html; leggendo.hidden=false;
+  }
+  function apri(v,instant){
+    if(busy) return;
+    if(cur&&cur!==v){
+      var before=v.getBoundingClientRect().top; shut(cur);
+      jump(window.scrollY+v.getBoundingClientRect().top-before);
+    }
+    cur=v; v.classList.add('visto');
+    if(instant){var c=v.querySelector('.corpo');c.classList.add('subito');}
+    v.classList.add('aperta'); setLabel(v,true);
+    if(instant){c.offsetHeight;c.classList.remove('subito');}
+    history.replaceState(null,'','#/'+v.id);
+    buildLato(v); prog.classList.add('on'); pill.hidden=false;
+    if(instant) jump(topOf(v)); else smoothTo(topOf(v));
+    update();
+  }
+  function chiudi(v){
+    if(!v||busy) return;
+    var collapse=function(){
+      v.classList.remove('aperta'); setLabel(v,false);
+      if(cur===v) cur=null;
+      leggendo.hidden=true; prog.classList.remove('on'); pill.classList.remove('su');
+      history.replaceState(null,'',location.pathname+location.search);
+      busy=false; update();
+    };
+    busy=true;
+    if(v.getBoundingClientRect().top<0) smoothTo(topOf(v),collapse); else collapse();
+  }
 
   d.addEventListener('click',function(e){
-    var l=e.target.closest&&e.target.closest('.rail-art a'); if(!l) return;
-    e.preventDefault();
-    var t=d.getElementById(l.getAttribute('href').slice(1));
-    if(t){ t.scrollIntoView({behavior:reduce.matches?'auto':'smooth',block:'start'});
-      if(!wide.matches) l.closest('details').open=false; }
+    var t=e.target.closest?e.target:null; if(!t) return;
+    var a=t.closest('.apri');
+    if(a){ e.preventDefault(); var v=a.closest('.voce'); if(v.classList.contains('aperta')) chiudi(v); else apri(v,false); return; }
+    if(t.closest('[data-chiudi]')||t.closest('#pill')){ e.preventDefault(); chiudi(cur); return; }
+    var s=t.closest('.sez a');
+    if(s){ e.preventDefault(); var h=d.getElementById(s.getAttribute('href').slice(1)); if(h) smoothTo(h.getBoundingClientRect().top+window.scrollY-84); }
   });
 
-  /* posizione di lettura: filo rosso nell'indice, barra e nodo corrente nell'articolo */
+  /* le voci entrano quando arrivano nello schermo */
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visto');io.unobserve(e.target);}});},{rootMargin:'0px 0px -12% 0px'});
+    voci.forEach(function(v){io.observe(v);});
+  } else voci.forEach(function(v){v.classList.add('visto');});
+
+  /* il filo rosso scende con la lettura e accende i nodi che raggiunge */
   function update(){
     tick=false;
     var y=window.scrollY, vh=window.innerHeight;
     testata.classList.toggle('scesa',y>8);
-    if(current){
-      var r=current.querySelector('.testo').getBoundingClientRect();
-      prog.style.setProperty('--pr',clamp((vh*.25-r.top)/r.height).toFixed(4));
-      var links=current.querySelectorAll('.rail-art a'), hs=current.querySelectorAll('.testo h3'), idx=-1;
-      for(var k=0;k<hs.length;k++){ if(hs[k].getBoundingClientRect().top<vh*.3) idx=k; }
+    var g=gen.getBoundingClientRect(), L=g.height-46, p=clamp((vh*.62-g.top-46)/L);
+    gen.style.setProperty('--p',p.toFixed(4));
+    var tip=g.top+46+p*L;
+    voci.forEach(function(v){var n=v.querySelector('.nodo').getBoundingClientRect();v.classList.toggle('acceso',n.top+11<tip);});
+    if(cur){
+      var c=cur.querySelector('.testo').getBoundingClientRect();
+      prog.style.setProperty('--pr',clamp((vh*.25-c.top)/c.height).toFixed(4));
+      var hs=cur.querySelectorAll('.testo h3'), links=leggendo.querySelectorAll('.sez a'), idx=-1;
+      for(var k=0;k<hs.length;k++){var on=hs[k].getBoundingClientRect().top<vh*.35;hs[k].classList.toggle('passato',on);if(on) idx=k;}
       for(var j=0;j<links.length;j++){
+        links[j].classList.toggle('fatto',j<idx);
         if(j===idx) links[j].setAttribute('aria-current','true'); else links[j].removeAttribute('aria-current');
       }
-    }else if(gen&&!home.hidden){
-      var g=gen.getBoundingClientRect();
-      gen.style.setProperty('--p',clamp((vh*.62-g.top)/g.height).toFixed(4));
+      var h=cur.querySelector('.apri').getBoundingClientRect();
+      pill.classList.toggle('su',h.bottom<0&&c.bottom>vh*.6);
     }
   }
   function onScroll(){if(!tick){tick=true;requestAnimationFrame(update);}}
   addEventListener('scroll',onScroll,{passive:true});
   addEventListener('resize',onScroll);
 
-  /* vista: elenco o singolo articolo, indirizzabile con #/slug */
-  function swap(fn,instant){
-    if(!instant&&d.startViewTransition&&!reduce.matches) d.startViewTransition(fn); else fn();
+  /* lo schema segue appena il puntatore */
+  if(fig&&!reduce.matches){
+    var tx=0,ty=0,cx=0,cy=0,running=false;
+    function loop(){cx+=(tx-cx)*.08;cy+=(ty-cy)*.08;fig.style.setProperty('--fx',cx.toFixed(2)+'px');fig.style.setProperty('--fy',cy.toFixed(2)+'px');
+      if(Math.abs(tx-cx)>.05||Math.abs(ty-cy)>.05) requestAnimationFrame(loop); else running=false;}
+    addEventListener('pointermove',function(e){
+      if(!fine.matches||window.scrollY>window.innerHeight) return;
+      tx=(e.clientX/window.innerWidth-.5)*-16; ty=(e.clientY/window.innerHeight-.5)*-12;
+      if(!running){running=true;requestAnimationFrame(loop);}
+    },{passive:true});
   }
-  function showArticle(a,instant){
-    swap(function(){
-      if(!current) saved=window.scrollY;
-      home.hidden=true;
-      arts.forEach(function(x){x.classList.toggle('attivo',x===a);});
-      current=a; d.title=a.dataset.titolo+' — Costellazioni quantiche retrocausali';
-      prog.classList.add('on'); syncDetails(); jump(0);
-      var h=a.querySelector('h2'); h.setAttribute('tabindex','-1'); h.focus({preventScroll:true});
-      update();
-    },instant);
+
+  /* link diretto a un articolo: #/titolo */
+  function daHash(){
+    var m=location.hash.match(/^#\/(.+)$/); if(!m) return;
+    var v=d.getElementById(decodeURIComponent(m[1])); if(v&&v.classList.contains('voce')&&v!==cur) apri(v,true);
   }
-  function showHome(hash,instant){
-    swap(function(){
-      var was=current;
-      home.hidden=false;
-      arts.forEach(function(x){x.classList.remove('attivo');});
-      current=null; d.title=baseTitle; prog.classList.remove('on');
-      var target=hash&&hash.length>1&&d.getElementById(hash.slice(1));
-      if(was&&saved>0) jump(saved); else if(target) target.scrollIntoView(); else jump(0);
-      update();
-    },instant);
-  }
-  function route(instant){
-    var h=location.hash;
-    if(h==='#instagram') return;
-    var m=h.match(/^#\/(.+)$/), slug=m&&decodeURIComponent(m[1]), art=null;
-    if(slug) arts.forEach(function(a){if(a.dataset.slug===slug) art=a;});
-    if(art) showArticle(art,instant); else showHome(h,instant);
-  }
-  addEventListener('hashchange',function(){route(false);});
-  route(true);
-  update();
+  addEventListener('hashchange',daHash);
+  daHash(); update();
 })();
 </script>
 </body>
