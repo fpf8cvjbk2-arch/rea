@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="it" class="no-js" data-palette="originale">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Costellazioni quantiche retrocausali</title>
+<meta name="description" content="Journal sulle costellazioni familiari: dinamiche, letture, appunti di lavoro.">
+<meta property="og:title" content="Costellazioni quantiche retrocausali">
+<meta property="og:description" content="Journal sulle costellazioni familiari.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F6F7F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121417" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2315171B'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23F6F7F5' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23D4351C'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,96,400..660&family=Literata:ital,opsz,wght@0,7..72,400..660;1,7..72,400..500&display=swap" rel="stylesheet">
+<style>
+/* ───────── palette: cambia data-palette su <html>, oppure apri la pagina con ?palette=nome ───────── */
+:root,[data-palette="originale"]{
+  --paper:#F6F7F5; --wash:#ECEEEA; --ink:#15171B; --ink-2:#4B5058; --line:#C5C9C4;
+  --acc:#D4351C; --acc-ink:#B22812; --on-acc:#FFFFFF;
+}
+@media (prefers-color-scheme:dark){
+  [data-palette="originale"]{--paper:#121417; --wash:#1A1D21; --ink:#ECEDEA; --ink-2:#A5ABB3; --line:#2F3439;
+    --acc:#FF5A3C; --acc-ink:#FF7A5F; --on-acc:#121417}
+}
+[data-palette="indaco"]{--paper:#F3F4F8; --wash:#E7E9F1; --ink:#10142B; --ink-2:#474D66; --line:#C7CADB;
+  --acc:#2F3FD0; --acc-ink:#2A37B8; --on-acc:#FFFFFF}
+[data-palette="archivio"]{--paper:#ECE8E0; --wash:#E2DDD2; --ink:#23201C; --ink-2:#5A544B; --line:#CFC8BB;
+  --acc:#8C2F39; --acc-ink:#7E2731; --on-acc:#FFFFFF}
+[data-palette="notturno"]{--paper:#0F1A1F; --wash:#152329; --ink:#E8EEEA; --ink-2:#9FB0AE; --line:#2A3A40;
+  --acc:#F2B33D; --acc-ink:#F6C462; --on-acc:#0F1A1F}
+[data-palette="rame"]{--paper:#EEF2EE; --wash:#E2E9E3; --ink:#142420; --ink-2:#4A5D57; --line:#C3CFC9;
+  --acc:#0F8A6B; --acc-ink:#0B6E55; --on-acc:#FFFFFF}
+[data-palette="vinaccia"]{--paper:#F4F1F6; --wash:#EAE4EE; --ink:#1E1626; --ink-2:#5A4E63; --line:#D3CAD9;
+  --acc:#B0306A; --acc-ink:#962657; --on-acc:#FFFFFF}
+
+:root{
+  --display:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --text:"Literata",Georgia,"Times New Roman",serif;
+  --out:cubic-bezier(.23,1,.32,1);
+  --drawer:cubic-bezier(.32,.72,0,1);
+  --gut:clamp(20px,5vw,56px); --max:1240px;
+  --rx:20px; --rp:64px;
+  color-scheme:light dark;
+}
+[data-palette="notturno"]{color-scheme:dark}
+@media (max-width:759px){
+  :root{--rx:17px;--rp:46px}
+  .gen::before,.filo{width:3px;margin-left:-1.5px}
+  .testo h3::before{width:18px;height:18px;left:calc(var(--rx) - var(--rp) - 9px)}
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;scrollbar-color:var(--ink-2) var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--text);
+  font-size:clamp(1.0625rem,1rem + .3vw,1.1875rem);line-height:1.7;font-optical-sizing:auto;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-webkit-tap-highlight-color:transparent;
+  transition:background-color .4s var(--out),color .4s var(--out)}
+a{color:inherit}
+button{font:inherit;color:inherit}
+button,a,[role="button"]{touch-action:manipulation}
+button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+::selection{background:var(--acc);color:var(--on-acc)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+
+/* ───────── testata ───────── */
+.prog{position:fixed;inset:0 0 auto 0;height:3px;background:var(--acc);z-index:40;pointer-events:none;
+  transform-origin:0 50%;transform:scaleX(0);will-change:transform;opacity:0;transition:opacity .3s var(--out)}
+.prog.on{opacity:1}
+.testata{position:sticky;top:0;z-index:30;background:var(--paper);border-bottom:1px solid transparent;
+  transition:border-color .2s var(--out),background-color .4s var(--out)}
+.testata.scesa{border-bottom-color:var(--line)}
+.bar{max-width:var(--max);margin:0 auto;padding:14px max(var(--gut),env(safe-area-inset-right,0px)) 14px max(var(--gut),env(safe-area-inset-left,0px));display:flex;align-items:center;justify-content:space-between;gap:20px}
+.marchio{display:flex;align-items:center;gap:12px;text-decoration:none;font:600 15px/1.25 var(--display);letter-spacing:-.005em;max-width:25ch}
+.marchio svg{flex:none;width:38px;height:20px;fill:none;stroke:var(--ink);stroke-width:1.6;overflow:visible}
+.marchio .mc{transform-origin:29px 10px;transition:transform .5s var(--out)}
+@media (hover:hover) and (pointer:fine){.marchio:hover .mc{transform:rotate(180deg) scale(1.15)}}
+.menu{display:flex;gap:clamp(16px,3vw,30px);font:500 14px var(--display)}
+.menu a{color:var(--ink-2);padding:6px 0;text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;
+  text-underline-offset:.35em;transition:color .16s var(--out),text-decoration-color .16s var(--out)}
+@media (hover:hover) and (pointer:fine){.menu a:hover{color:var(--ink);text-decoration-color:var(--acc)}}
+@media (max-width:520px){.marchio{font-size:13.5px;gap:9px;max-width:none}.marchio svg{width:30px;height:16px}.menu{font-size:13px;gap:14px}.bar{gap:12px}}
+
+/* ───────── prima schermata ───────── */
+.hero{max-width:var(--max);margin:0 auto;padding:clamp(36px,7vh,88px) var(--gut) clamp(56px,10vh,112px);
+  display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:clamp(32px,6vw,88px);align-items:center;min-height:min(86svh,800px)}
+.hero h1{margin:0;font:620 clamp(2.1rem,1.25rem + 3.6vw,4rem)/1.06 var(--display);font-stretch:96%;letter-spacing:-.018em;text-wrap:balance}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .02em .14em;margin:0 -.02em -.14em}
+.w>span{display:inline-block}
+.js .w>span{animation:sale .95s var(--out) calc(.08s + var(--i)*42ms) backwards}
+@keyframes sale{from{transform:translateY(112%)}}
+.seg{background:linear-gradient(var(--acc),var(--acc)) 0 88%/0% .09em no-repeat;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.js .seg{animation:sotto 1.1s var(--out) 1.25s forwards}
+.no-js .seg{background-size:100% .09em}
+@keyframes sotto{to{background-size:100% .09em}}
+.hero .sotto{margin:clamp(20px,3vh,30px) 0 0;max-width:34ch;font-size:clamp(1.1rem,1rem + .5vw,1.3rem);line-height:1.55;color:var(--ink-2)}
+.js .hero .sotto,.js .hero .btn{animation:entra .9s var(--out) backwards}
+.js .hero .sotto{animation-delay:.55s}.js .hero .btn{animation-delay:.7s}
+@keyframes entra{from{opacity:0;transform:translateY(14px)}}
+.btn{display:inline-flex;align-items:center;gap:12px;margin-top:clamp(28px,5vh,44px);background:var(--ink);color:var(--paper);
+  padding:15px 26px;border-radius:2px;text-decoration:none;font:560 1rem var(--display);
+  transition:background-color .16s var(--out),transform .16s var(--out)}
+.btn svg{width:18px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6;transform:rotate(90deg);animation:bob 2.4s var(--out) 2s infinite}
+@keyframes bob{0%,60%,100%{transform:rotate(90deg) translateX(0)}30%{transform:rotate(90deg) translateX(4px)}}
+.btn:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:var(--acc-ink);color:var(--on-acc)}}
+
+.gen-fig{margin:0;justify-self:end;width:100%;max-width:470px}
+.gen-fig svg{display:block;width:100%;height:auto;overflow:visible;transform:translate3d(var(--fx,0),var(--fy,0),0)}
+.gen-fig figcaption{margin-top:22px;font:400 .875rem/1.5 var(--display);color:var(--ink-2);max-width:40ch}
+.js .gen-fig figcaption{animation:entra .9s var(--out) 2.2s backwards}
+.s{fill:none;stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
+.s.r{stroke:var(--acc)}
+.pieno{fill:var(--ink)}
+.punto{fill:var(--acc)}
+.fermo .alone{animation-play-state:paused}
+.alone{fill:none;stroke:var(--acc);stroke-width:1.5;transform-origin:254px 470px;animation:respira 3.2s var(--out) 2.4s infinite backwards}
+@keyframes respira{0%{transform:scale(1);opacity:.75}100%{transform:scale(1.9);opacity:0}}
+.dt{font:500 13px var(--display);fill:var(--ink-2);text-anchor:middle;font-variant-numeric:tabular-nums}
+.dr{animation:disegna .9s var(--out) var(--d,0s) backwards}
+.dt,.pieno{animation:appare .6s var(--out) var(--d,0s) backwards}
+@keyframes disegna{from{stroke-dasharray:1;stroke-dashoffset:1}to{stroke-dasharray:1;stroke-dashoffset:0}}
+@keyframes appare{from{opacity:0}}
+@media (max-width:520px){.dt{display:none}}
+
+/* ───────── il journal: elenco come discendenza ───────── */
+.journal{max-width:var(--max);margin:0 auto;padding:clamp(36px,7vh,88px) var(--gut) clamp(40px,8vh,96px);
+  display:grid;grid-template-columns:minmax(0,.34fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);scroll-margin-top:56px}
+.lato{position:sticky;top:92px;align-self:start;max-height:calc(100svh - 112px);overflow:auto;scrollbar-width:thin}
+.lato h2{margin:0;font:620 clamp(1.9rem,1.4rem + 2vw,3rem)/1.05 var(--display);letter-spacing:-.02em}
+.leggendo{margin-top:34px;padding-top:22px;border-top:3px double var(--ink)}
+.js .leggendo{animation:entra .5s var(--out) backwards}
+.leggendo .lt,.foglio .lt{margin:0;font:500 .82rem var(--display);color:var(--ink-2)}
+.leggendo .lt-t,.foglio .lt-t{margin:4px 0 16px;font:620 1.05rem/1.25 var(--display);text-wrap:balance}
+.sez{list-style:none;margin:0;padding:0 0 4px;position:relative}
+.sez::before{content:"";position:absolute;left:5px;top:12px;bottom:12px;width:1px;background:var(--line)}
+.sez a{display:block;position:relative;padding:5px 0 5px 26px;text-decoration:none;font:450 .88rem/1.35 var(--display);color:var(--ink-2);transition:color .16s var(--out)}
+.sez a::before{content:"";position:absolute;left:0;top:.6em;width:11px;height:11px;border-radius:50%;border:1.5px solid var(--ink-2);background:var(--paper);
+  transition:background-color .25s var(--out),border-color .25s var(--out),box-shadow .25s var(--out)}
+@media (hover:hover) and (pointer:fine){.sez a:hover{color:var(--ink)}}
+.sez a.fatto::before{background:var(--ink-2)}
+.sez a[aria-current]{color:var(--ink);font-weight:600}
+.sez a[aria-current]::before{background:var(--acc);border-color:var(--acc);box-shadow:0 0 0 3px var(--paper),0 0 0 4.5px var(--acc)}
+.btn-c{display:inline-flex;align-items:center;gap:10px;margin-top:18px;padding:10px 16px;border:1.5px solid var(--ink);border-radius:2px;background:none;cursor:pointer;
+  font:560 .9rem var(--display);transition:background-color .16s var(--out),color .16s var(--out),transform .16s var(--out)}
+.btn-c svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6}
+.btn-c:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.btn-c:hover{background:var(--ink);color:var(--paper)}}
+
+.gen{list-style:none;margin:0;padding:0 0 56px;position:relative;--p:0}
+.gen::before,.filo{content:"";position:absolute;left:var(--rx);top:46px;bottom:0;width:2px;margin-left:-1px;
+  -webkit-mask-image:linear-gradient(#000 calc(100% - 64px),transparent);mask-image:linear-gradient(#000 calc(100% - 64px),transparent)}
+.gen::before{background:var(--line)}
+.filo{display:block;background:var(--acc);transform-origin:50% 0;transform:scaleY(0);will-change:transform;pointer-events:none}
+.voce{position:relative;scroll-margin-top:72px}
+.js .voce{opacity:0;transform:translateY(28px);transition:opacity .8s var(--out),transform .9s var(--out)}
+.js .voce.visto{opacity:1;transform:none}
+.apri{display:block;padding:30px 0 34px var(--rp);position:relative}
+.nodo{position:absolute;left:calc(var(--rx) - 11px);top:33px;width:22px;height:22px;border-radius:50%;
+  border:2px solid var(--ink);background:var(--paper);z-index:1;
+  transition:box-shadow .3s var(--out),background-color .3s var(--out),border-color .3s var(--out),transform .45s cubic-bezier(.34,1.56,.64,1)}
+.voce.acceso .nodo{border-color:var(--acc);background:var(--acc);transform:scale(1.08)}
+.voce.aperta .nodo{background:var(--paper);border-color:var(--acc);box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--acc)}
+.voce time{font:500 .9rem var(--display);color:var(--ink-2);font-variant-numeric:tabular-nums;display:block}
+.apri h3{margin:6px 0 12px;font:620 clamp(1.5rem,1.15rem + 1.5vw,2.25rem)/1.1 var(--display);letter-spacing:-.02em;text-wrap:balance;max-width:22ch;
+  }
+.estratto{margin:0;color:var(--ink-2);max-width:56ch}
+.voce.aperta .estratto{font-style:italic}
+.azioni{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-top:22px}
+.no-js .leggi{display:none}
+.leggi{display:inline-flex;align-items:center;gap:12px;padding:13px 22px;border:0;border-radius:2px;background:var(--ink);color:var(--paper);cursor:pointer;
+  font:560 .98rem var(--display);transition:background-color .16s var(--out),color .16s var(--out),transform .16s var(--out)}
+.leggi svg{width:18px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6;transition:transform .35s var(--out)}
+.leggi:active{transform:scale(.97)}
+.voce.aperta .leggi{background:none;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.voce.aperta .leggi svg{transform:rotate(-90deg)}
+.azioni .tempo{font:400 .92rem var(--display);color:var(--ink-2)}
+.azioni .tempo:not(:empty)::before{content:"";display:inline-block;width:5px;height:5px;border:1.2px solid currentColor;border-radius:50%;margin:0 10px 2px 0}
+@media (hover:hover) and (pointer:fine){
+  .voce:not(.aperta) .leggi:hover{background:var(--acc-ink);color:var(--on-acc)}
+  .voce:not(.aperta) .leggi:hover svg{transform:translateX(5px)}
+  .voce.aperta .leggi:hover{background:var(--ink);color:var(--paper)}
+  .voce:not(.aperta):hover .nodo{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--ink)}
+}
+
+/* corpo dell'articolo: si apre nel posto in cui si trova */
+.js .corpo{display:grid;grid-template-rows:0fr;transition:grid-template-rows .8s var(--drawer)}
+.js .voce.aperta .corpo{grid-template-rows:1fr}
+.corpo.subito{transition:none!important}
+.corpo-in{min-height:0;overflow:hidden}
+.pad{padding:0 0 clamp(36px,7vh,72px) var(--rp)}
+.testo{max-width:66ch}
+.js .testo>*{opacity:0;transform:translateY(16px);transition:opacity .25s var(--out),transform .25s var(--out)}
+.js .aperta .testo>*{opacity:1;transform:none;transition:opacity .7s var(--out),transform .8s var(--out);transition-delay:.5s}
+.js .aperta .testo>:nth-child(1){transition-delay:.18s}.js .aperta .testo>:nth-child(2){transition-delay:.24s}
+.js .aperta .testo>:nth-child(3){transition-delay:.3s}.js .aperta .testo>:nth-child(4){transition-delay:.36s}
+.js .aperta .testo>:nth-child(5){transition-delay:.42s}
+.testo p{margin:0 0 1.15em}
+.testo>:nth-child(n+10):not(h3){content-visibility:auto;contain-intrinsic-size:auto 180px}
+.testo h3{position:relative;margin:2.5em 0 .7em;font:620 clamp(1.4rem,1.15rem + 1vw,1.85rem)/1.15 var(--display);letter-spacing:-.018em;text-wrap:balance;scroll-margin-top:92px}
+.testo h3::before{content:"";position:absolute;left:calc(var(--rx) - var(--rp) - 8px);top:.32em;width:16px;height:16px;border-radius:50%;
+  border:2px solid var(--ink);background:var(--paper);
+  transition:background-color .35s var(--out),border-color .35s var(--out),transform .5s cubic-bezier(.34,1.56,.64,1)}
+.testo h3.passato::before{background:var(--acc);border-color:var(--acc);transform:scale(1.12)}
+.testo strong{font-weight:660}
+.testo ul{list-style:none;margin:0 0 1.4em;padding:0}
+.testo li{position:relative;padding-left:1.8em;margin:0 0 .6em}
+.testo li::before{content:"";position:absolute;left:.15em;top:.66em;width:.6em;height:.6em;border:1.5px solid var(--ink);border-radius:50%}
+.testo .citazione{margin:1.6em 0;padding-left:1.1em;border-left:1px solid var(--ink);font-style:italic;font-size:1.14em;line-height:1.55}
+.testo .nota{font-size:.92em;line-height:1.6;color:var(--ink-2);margin-top:1.2em}
+.testo .nota:last-child{margin-top:3em;padding-top:1.4em;border-top:3px double var(--ink)}
+.fine-art{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;margin-top:28px}
+
+/* telefono: barra della sezione corrente e pannello delle sezioni */
+.pill{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:35;display:none;
+  align-items:center;gap:12px;padding:12px 16px 14px;border:0;border-radius:14px;background:var(--ink);color:var(--paper);cursor:pointer;text-align:left;
+  box-shadow:0 10px 30px rgba(0,0,0,.22);transform:translateY(160%);transition:transform .45s var(--drawer)}
+.pill.su{transform:none}
+.pill:active{transform:scale(.98)}
+.pill-t{flex:1;min-width:0}
+.pill-l{display:block;font:500 .75rem var(--display);opacity:.7}
+.pill-s{display:block;font:600 .95rem/1.25 var(--display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill-pr{position:absolute;left:16px;right:16px;bottom:7px;height:2px;border-radius:2px;background:rgba(127,127,127,.35);overflow:hidden}
+.pill-pr i{display:block;height:100%;background:var(--acc);transform-origin:0 50%;transform:scaleX(0)}
+.pill svg{flex:none;width:14px;height:9px;fill:none;stroke:currentColor;stroke-width:1.6}
+.velo-f{position:fixed;inset:0;z-index:44;background:rgba(0,0,0,.38);opacity:0;transition:opacity .3s var(--out)}
+.velo-f.su{opacity:1}
+.foglio{position:fixed;left:0;right:0;bottom:0;z-index:45;max-height:78svh;overflow:auto;overscroll-behavior:contain;
+  background:var(--paper);border-radius:18px 18px 0 0;padding:10px 22px calc(24px + env(safe-area-inset-bottom,0px));
+  box-shadow:0 -12px 40px rgba(0,0,0,.2);transform:translateY(100%);transition:transform .45s var(--drawer)}
+.foglio.su{transform:none}
+.foglio .maniglia{display:block;width:40px;height:4px;border-radius:4px;background:var(--line);margin:0 auto 16px}
+.foglio .sez a{font-size:1rem;padding:9px 0 9px 30px}
+.foglio .sez a::before{top:.85em;width:13px;height:13px}
+.foglio .sez::before{left:6px}
+@media (max-width:759px){.js .pill{display:flex}}
+
+/* ───────── coda e piede ───────── */
+.coda{max-width:var(--max);margin:0 auto;padding:0 var(--gut);scroll-margin-top:56px}
+.coda-in{border-top:3px double var(--ink);padding:36px 0 56px;display:flex;justify-content:space-between;align-items:center;gap:20px 32px;flex-wrap:wrap}
+.coda h2{margin:0;font:620 clamp(1.4rem,1.2rem + 1vw,1.9rem)/1.15 var(--display);letter-spacing:-.015em}
+.btn-o{display:inline-block;padding:13px 24px;border:1.5px solid var(--ink);border-radius:2px;text-decoration:none;font:560 .95rem var(--display);
+  transition:background-color .16s var(--out),color .16s var(--out),transform .16s var(--out)}
+.btn-o:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.btn-o:hover{background:var(--ink);color:var(--paper)}}
+.piede{max-width:var(--max);margin:0 auto;padding:0 var(--gut) clamp(72px,12vh,112px);font:400 .875rem/1.6 var(--display);color:var(--ink-2)}
+.piede p{margin:0 0 8px;max-width:62ch}
+
+@media (max-width:999px),(pointer:coarse){
+  .js .corpo{display:block;transition:none}
+  .js .voce:not(.aperta) .corpo{display:none}
+  .js .testo>*,.js .aperta .testo>*{opacity:1;transform:none;transition:none}
+  .js .aperta .testo>:nth-child(-n+6){animation:entra .7s var(--out) backwards}
+  .js .aperta .testo>:nth-child(2){animation-delay:.07s}.js .aperta .testo>:nth-child(3){animation-delay:.14s}
+  .js .aperta .testo>:nth-child(4){animation-delay:.21s}.js .aperta .testo>:nth-child(5){animation-delay:.28s}
+  .js .aperta .testo>:nth-child(6){animation-delay:.35s}
+}
+@media (min-width:760px) and (max-width:999px){
+  .journal{grid-template-columns:minmax(200px,.36fr) minmax(0,1fr);gap:32px}
+  .lato h2{font-size:2rem}
+}
+@media (max-width:759px){
+  .journal{grid-template-columns:minmax(0,1fr)}
+  .lato{position:static;max-height:none;overflow:visible}
+  .leggendo{display:none}
+}
+@media (max-width:899px){
+  .hero{grid-template-columns:minmax(0,1fr);min-height:0}
+  .gen-fig{justify-self:start;max-width:420px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;transition-delay:0s!important}
+  .js .voce{opacity:1;transform:none}
+  .seg{background-size:100% .09em}
+}
+</style>
+</head>
+<body>
+<div class="prog" id="prog" aria-hidden="true"></div>
+
+<header class="testata" id="testata">
+  <div class="bar">
+    <a class="marchio" href="#">
+      <svg viewBox="0 0 38 20" aria-hidden="true"><path d="M2 3h14v14H2zM16 10h6"/><path class="mc" d="M22 10a7 7 0 1 0 14 0a7 7 0 1 0-14 0"/></svg>
+      <span>Costellazioni quantiche retrocausali</span>
+    </a>
+    <nav class="menu" aria-label="Principale"><a href="#journal">Journal</a><a href="#instagram">Instagram</a></nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div>
+    <h1 id="titolo">Quello che non è stato detto non tace: <span class="seg">prende la parola</span> nelle generazioni successive.</h1>
+    <p class="sotto">Un journal sulle costellazioni familiari: dinamiche, letture, appunti di lavoro.</p>
+    <a class="btn" href="#journal"><span>Leggi il journal</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></a>
+  </div>
+
+  <figure class="gen-fig" id="fig">
+    <svg viewBox="0 0 480 540" aria-hidden="true">
+      <path class="s dr" pathLength="1" style="--d:.05s" d="M62 48H106V92H62Z"/>
+      <path class="s dr" pathLength="1" style="--d:.15s" d="M174 70a22 22 0 1 0 44 0a22 22 0 1 0-44 0"/>
+      <path class="s dr" pathLength="1" style="--d:.3s" d="M106 70H174"/>
+      <path class="s dr r" pathLength="1" style="--d:.2s" d="M290 48H334V92H290Z"/>
+      <path class="s dr r" pathLength="1" style="--d:.45s" d="M290 48L334 92M334 48L290 92"/>
+      <path class="s dr" pathLength="1" style="--d:.3s" d="M402 70a22 22 0 1 0 44 0a22 22 0 1 0-44 0"/>
+      <path class="s dr r" pathLength="1" style="--d:.6s" d="M334 70H368"/>
+      <path class="s dr" pathLength="1" style="--d:.7s" d="M368 70H402"/>
+      <path class="s dr" pathLength="1" style="--d:.85s" d="M348 60L356 80M354 60L362 80"/>
+      <path class="s dr" pathLength="1" style="--d:.5s" d="M140 70V248"/>
+      <path class="s dr r" pathLength="1" style="--d:.95s" d="M368 70V248"/>
+      <path class="s dr" pathLength="1" style="--d:.9s" d="M118 270a22 22 0 1 0 44 0a22 22 0 1 0-44 0"/>
+      <path class="s dr" pathLength="1" style="--d:1.1s" d="M346 248H390V292H346Z"/>
+      <path class="s dr" pathLength="1" style="--d:1.1s" d="M162 270H254"/>
+      <path class="s dr r" pathLength="1" style="--d:1.3s" d="M346 270H254"/>
+      <path class="s dr r" pathLength="1" style="--d:1.55s" d="M254 270V444"/>
+      <circle class="alone" cx="254" cy="470" r="26"/>
+      <path class="s dr" pathLength="1" style="--d:1.8s" d="M234 470a20 20 0 1 0 40 0a20 20 0 1 0-40 0"/>
+      <path class="s dr" pathLength="1" style="--d:1.9s" d="M228 470a26 26 0 1 0 52 0a26 26 0 1 0-52 0"/>
+      <path class="s dr" pathLength="1" style="--d:1.9s" d="M254 380H340V463"/>
+      <circle class="pieno" style="--d:2.1s" cx="340" cy="470" r="7"/>
+      <circle class="punto" id="punto" r="5" opacity="0">
+        <animateMotion id="viaggio" dur="4.6s" begin="2.4s;viaggio.end+1.6s" path="M312 70H368V270H254V444" calcMode="spline" keyPoints="0;1" keyTimes="0;1" keySplines=".45 0 .25 1"/>
+        <animate attributeName="opacity" dur="4.6s" begin="2.4s;viaggio.end+1.6s" values="0;1;1;0" keyTimes="0;.08;.85;1"/>
+      </circle>
+      <text class="dt" style="--d:.5s" x="84" y="114">1927–2009</text>
+      <text class="dt" style="--d:.55s" x="196" y="114">1931</text>
+      <text class="dt" style="--d:.6s" x="312" y="114">1934–1966</text>
+      <text class="dt" style="--d:.65s" x="424" y="114">1938</text>
+      <text class="dt" style="--d:1.2s" x="140" y="316">1958</text>
+      <text class="dt" style="--d:1.25s" x="368" y="316">1955</text>
+      <text class="dt" style="--d:2.1s" x="254" y="520">1984</text>
+      <text class="dt" style="--d:2.2s" x="340" y="500">1986</text>
+    </svg>
+    <figcaption>Schema illustrativo di un albero familiare su tre generazioni. In evidenza, ciò che passa da una generazione all&#x27;altra.</figcaption>
+  </figure>
+</section>
+
+<section class="journal" id="journal">
+  <div class="lato">
+    <h2>Il journal</h2>
+    <div class="leggendo" id="leggendo" hidden></div>
+  </div>
+  <ol class="gen" role="list">
+    <li class="filo" aria-hidden="true"></li>
+    <li class="voce" id="quando-il-corpo-dice-no">
+      <div class="apri" data-slug="quando-il-corpo-dice-no">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-10-05">5 ottobre 2026</time>
+        <h3>Quando il corpo dice no</h3>
+        <p class="estratto">Una figlia che impara a servire la madre per avere un posto in famiglia. Ruoli invertiti, una ferita che passa tra le generazioni e il peso del dare continuo.</p>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-quando-il-corpo-dice-no"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
+      <div class="corpo" id="c-quando-il-corpo-dice-no"><div class="corpo-in"><div class="pad">
+       <div class="testo">
+      <p>Prendiamo un caso di scuola. Si chiama Alessia, e intorno ai trentacinque anni le viene diagnosticata un&#x27;artrite reumatoide, una malattia autoimmune. Negli anni peggiora, in modo graduale e progressivo, fino a limitarle alcuni movimenti: soprattutto quelli delle mani.</p>
+      <p>Questo articolo non parla della sua malattia, che appartiene alla medicina. Parla della sua storia familiare: di come una bambina possa crescere occupando un posto che non è il suo, e di come questo posto venga a volte tramandato, da una generazione all&#x27;altra, sotto forme diverse.</p>
+      <h3>Una casa in cui nessuno si prende cura</h3>
+      <p>Alessia è figlia unica.</p>
+      <p>La madre, Deborah, è una donna poco attenta ai bisogni della famiglia, e in particolare a quelli della bambina. Non è solo distrazione: c&#x27;è qualcosa di più attivo, una specie di indifferenza aggressiva. Quando sente che ci sarebbe bisogno di lei, non si muove.</p>
+      <p>Il padre, Olindo, è assente in un altro modo. Sembra un uomo che si trova in una vita in cui non avrebbe voluto essere: distaccato dalla moglie e dalla figlia, presente il meno possibile, occupato a farsi gli affari propri.</p>
+      <p>In mezzo, una bambina che cresce sostanzialmente da sola.</p>
+      <h3>Un posto a qualunque costo</h3>
+      <p>Un bambino ha bisogno di un posto nella propria famiglia più di quanto abbia bisogno di qualunque altra cosa. Se il posto di figlio non è disponibile — se nessuno lo accoglie, lo vede, lo nutre — se ne cerca un altro.</p>
+      <p>Alessia capisce molto presto che l&#x27;unico modo per esistere accanto alla madre è diventarle utile. Non ricevere, ma dare. E così diventa, un passo alla volta, la sua inserviente: la governante della casa, quella che si occupa di tutto ciò che serve, perfino la complice di ciò che la madre mette in atto nei confronti del marito.</p>
+      <p>Nel lavoro sistemico questo fenomeno ha un nome: <strong>parentificazione</strong>, o inversione dei ruoli. Il figlio assume nei confronti del genitore una funzione che spetterebbe al genitore: si prende cura, protegge, sostiene, contiene. La relazione diventa asimmetrica nel senso sbagliato. Non è più chi viene prima a dare a chi viene dopo, ma il contrario.</p>
+      <p>Il prezzo è alto, e quasi sempre invisibile. La bambina che serve impara a dimenticarsi di sé. Impara che il suo valore sta in ciò che fa per gli altri. E non impara a ricevere: non perché non lo desideri, ma perché ricevere, nella sua esperienza, non è mai stato possibile.</p>
+      <h3>Uno sguardo alla generazione precedente</h3>
+      <p>Per capire una madre che non riesce a dare, il lavoro sistemico chiede di fare un passo indietro e guardare sua madre.</p>
+      <p>Anche lì si ritrova una dinamica simile, ma con un tratto in più: la colpa. Rosa, la nonna di Alessia, faceva sentire i propri figli colpevoli di esistere — come se fossero loro la causa delle sue fatiche, dei suoi problemi, della sua vita difficile. Bambini continuamente attaccati, svalutati, tolti dal posto di figli e trascinati in un ruolo da adulti: dovevano provvedere non solo a sé stessi, ma al resto della famiglia.</p>
+      <p>In Deborah, ancora bambina, questa esperienza lascia una ferita profonda, che si esprime come una forma depressiva. Una parte di lei si spegne sotto le accuse. Non si sente degna di ricevere.</p>
+      <p>E qui si crea quello che si potrebbe chiamare un cortocircuito. Da adulta, quando si trova nella posizione di dover dare — accudire una figlia, contenerla, confermarla — si riattiva in lei il desiderio mai soddisfatto della bambina che voleva essere amata. Le due cose si scontrano: la bambina che chiede e l&#x27;adulta che dovrebbe offrire. E il sistema si spegne. Non riesce a dare nulla.</p>
+      <h3>Due risposte opposte alla stessa ferita</h3>
+      <p>Visto da questa distanza, il quadro cambia.</p>
+      <p>Deborah e Alessia portano la stessa ferita: nessuna delle due ha potuto essere davvero figlia. Ma hanno reagito in modi opposti. Deborah si è spenta, e non riesce a dare. La figlia, per trovare un ruolo, ha cominciato a dare tutto, senza mai fermarsi e senza mai ricevere.</p>
+      <p>Il <strong>dare continuo</strong> di Alessia non è generosità nel senso comune del termine. È una strategia di sopravvivenza: il modo che una bambina ha trovato per avere un posto in una casa in cui il posto di figlia non c&#x27;era.</p>
+      <p>Questa lettura non serve a stabilire chi ha colpa. Ogni persona in questa catena è stata, prima di tutto, una bambina a cui è mancato qualcosa. Rosa, che accusava. Deborah, che si è spenta. Alessia, che ha servito. Riconoscerlo non giustifica il dolore che ciascuna ha causato, ma permette di vederlo dentro una storia più grande di ogni singola persona.</p>
+      <h3>E il corpo?</h3>
+      <p>Il titolo di questo articolo è un&#x27;immagine, e va preso come tale.</p>
+      <p>Nel lavoro sistemico capita che si guardi anche alla malattia, e nel caso di Alessia la tentazione di collegare le cose è forte: una donna che ha usato le mani per servire tutta la vita, e una malattia che colpisce proprio le mani.</p>
+      <p>Qui serve molta chiarezza. L&#x27;artrite reumatoide è una malattia autoimmune con cause biologiche: vi concorrono fattori genetici, ormonali e ambientali, e richiede la cura di un reumatologo. Non esiste alcuna prova che una dinamica familiare la provochi, né che decida quali articolazioni verranno colpite. Alcuni studi osservano che lo stress cronico e le esperienze difficili vissute nell&#x27;infanzia si associano a un rischio un po&#x27; più alto di malattie autoimmuni in generale: è un fattore tra molti, non una spiegazione della malattia di una persona.</p>
+      <p>Per questo l&#x27;immagine delle mani che hanno sempre dato può avere un valore, ma solo come immagine. Può aiutare Alessia a guardare la propria storia, a riconoscere quanto ha dato e quanto poco ha ricevuto. Non può diventare il racconto di come si è ammalata. Una lettura di questo tipo, presa alla lettera, rischierebbe di aggiungere un peso a chi è già malato — l&#x27;idea di essersi procurato la malattia — e magari di distogliere dalle cure.</p>
+      <p>La storia familiare e la malattia possono stare una accanto all&#x27;altra, nella vita di una persona, senza che una sia la causa dell&#x27;altra.</p>
+      <h3>Imparare a ricevere</h3>
+      <p>Che cosa può cambiare, allora?</p>
+      <p>Il lavoro sistemico non chiede ad Alessia di smettere di voler bene alla madre, né di rinnegarla. Le propone qualcosa di più sottile: tornare al suo posto di figlia. Riconoscere che Deborah ha la sua storia e il suo destino, che vengono da lontano, e che non è compito della figlia ripararli. Restituire ciò che non le appartiene: il ruolo di inserviente, la responsabilità per il benessere di un&#x27;adulta, il dovere di dare per meritare un posto.</p>
+      <p>E poi, forse la parte più difficile, imparare a ricevere. Da altri, se non dalla madre. Ricevere cura, attenzione, aiuto, senza sentirsi in debito e senza correre subito a ricambiare. Per chi è cresciuto servendo, è un apprendimento lento: ricevere può sembrare quasi pericoloso, come se togliesse l&#x27;unica ragione per cui si ha un posto nel mondo.</p>
+      <p>Ma è proprio da lì che passa la possibilità di interrompere la catena. Non dare meno per principio, ma dare per scelta, e non per necessità.</p>
+      <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico. Alessia, Deborah, Olindo e Rosa sono nomi di fantasia: il caso descritto è un caso di scuola, e ogni riferimento a persone o cose è puramente casuale.</em></p>
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+    <li class="voce" id="date-di-nascita-anniversari-e-lealta-invisibili">
+      <div class="apri" data-slug="date-di-nascita-anniversari-e-lealta-invisibili">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-09-28">28 settembre 2026</time>
+        <h3>Date di nascita, anniversari e lealtà invisibili</h3>
+        <p class="estratto">Le famiglie hanno una memoria, e quella memoria sembra avere un calendario. Sindrome da anniversario, lealtà familiari e che cosa farne.</p>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-date-di-nascita-anniversari-e-lealta-invisibili"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
+      <div class="corpo" id="c-date-di-nascita-anniversari-e-lealta-invisibili"><div class="corpo-in"><div class="pad">
+       <div class="testo">
+      <p>Ogni anno, verso la fine di novembre, una donna si sente spenta. Non succede nulla di particolare, eppure il sonno peggiora, l&#x27;umore scende, tutto costa più fatica. Solo dopo molto tempo scopre che in quelle stesse settimane, quando lei aveva due anni, la madre aveva perso un figlio. In casa non se n&#x27;era mai parlato.</p>
+      <p>Un uomo, avvicinandosi ai quarantacinque anni, entra in un&#x27;inquietudine che non riesce a spiegare. Lascia il lavoro all&#x27;improvviso, la sua relazione vacilla. Suo padre era morto a quarantacinque anni.</p>
+      <p>Sono coincidenze? Forse. Ma nel lavoro sistemico storie come queste si incontrano abbastanza spesso da meritare attenzione. Non perché il passato decida il nostro destino, ma perché le famiglie hanno una memoria, e quella memoria sembra avere un calendario.</p>
+      <h3>Una data che non è solo anagrafica</h3>
+      <p>Dal punto di vista sistemico, la data di nascita non è soltanto un&#x27;informazione sul documento d&#x27;identità. È un segnalibro: indica in quale momento della storia emotiva della famiglia una persona è arrivata.</p>
+      <p>Nessuno nasce in un tempo neutro. Si nasce mentre la famiglia sta attraversando qualcosa: un lutto, una migrazione, una difficoltà economica, una separazione, un segreto, un cambiamento importante. A volte si nasce dopo una perdita, e la nuova vita viene accolta — senza che nessuno lo dica — come una riparazione.</p>
+      <p>In questo senso la data di nascita è un punto d&#x27;incontro fra tre storie: la propria biografia, la biografia della famiglia e delle generazioni precedenti — quella che si chiama dimensione <strong>transgenerazionale</strong> — e il contesto storico e sociale del tempo.</p>
+      <p>Si può guardare a quella data come a un appuntamento fra la storia personale e quella del clan. Un appuntamento da esplorare, non una spiegazione da applicare.</p>
+      <h3>Lealtà invisibili</h3>
+      <p>Il concetto di <strong>lealtà familiare</strong> è stato elaborato dallo psichiatra ungherese-americano Ivan Böszörményi-Nagy, fondatore della cosiddetta <em>terapia contestuale</em>. Il suo libro più noto si intitola proprio <em>Lealtà invisibili</em>.</p>
+      <p>L&#x27;idea è semplice e profonda. In ogni famiglia esistono legami di obbligo, di riconoscenza, di fedeltà e di reciprocità. Alcuni sono consapevoli: sappiamo di dovere qualcosa ai nostri genitori, sentiamo di volerli onorare. Altri agiscono in silenzio, e orientano le nostre scelte senza che ce ne accorgiamo.</p>
+      <p>Una lealtà invisibile può spingere una persona a non superare chi l&#x27;ha preceduta. A non concedersi una felicità che sente &quot;troppo grande&quot; rispetto a quella che i suoi hanno avuto. A ripetere una sofferenza familiare pur di non sentirsi estranea. Sotto, in forma implicita, risuona spesso un messaggio che nessuno ha mai pronunciato:</p>
+      <p class="citazione"><em>Se soffro come te, resto con te. Se vivo diversamente, rischio di tradirti.</em></p>
+      <p>Le forme più frequenti sono tre. Non permettersi di stare meglio di un genitore o di un antenato che ha sofferto molto. Ripetere destini difficili — fallimenti, solitudini, malattie, rinunce — per restare vicini al dolore di famiglia. Sacrificare desideri, progetti o relazioni per mantenere l&#x27;equilibrio emotivo del sistema.</p>
+      <p>La data di nascita può diventare uno dei luoghi in cui queste fedeltà si attivano: soprattutto quando cade vicino a un anniversario doloroso, o quando la vita porta la persona a raggiungere un&#x27;età che per qualcuno della famiglia è stata decisiva.</p>
+      <h3>La sindrome da anniversario</h3>
+      <p>Chi ha dato nome a questo fenomeno è Anne Ancelin Schützenberger, psicoterapeuta francese e figura di riferimento dell&#x27;approccio transgenerazionale, autrice di un libro diventato un classico, tradotto in italiano come <em>La sindrome degli antenati</em>.</p>
+      <p>Con <strong>sindrome da anniversario</strong> si indica la possibile riattivazione di emozioni, sintomi, crisi o comportamenti in prossimità di una data collegata a un evento importante della famiglia: una morte, un incidente, una separazione, una perdita, una migrazione, un fallimento, un trauma che non è stato elaborato.</p>
+      <p>La ricorrenza può prendere tre forme:</p>
+      <ul>
+      <li><strong>la stessa data</strong>: un malessere o una crisi che si ripresenta ogni anno nello stesso periodo</li>
+      <li><strong>la stessa età</strong>: una persona attraversa una fase difficile all&#x27;età in cui un genitore è morto, si è separato o ha vissuto una perdita importante</li>
+      <li><strong>il periodo intorno all&#x27;anniversario</strong>, in cui la vulnerabilità emotiva può aumentare.</li>
+      </ul>
+      <p>Schützenberger parla anche di <strong>stress da anniversario</strong>: nelle settimane vicine a una data carica di memoria, una persona può sentirsi più tesa, stanca, triste, ansiosa o conflittuale, senza collegare in alcun modo ciò che prova all&#x27;evento di origine. Spesso, infatti, non conosce nemmeno la data dell&#x27;evento.</p>
+      <h3>Il doppio anniversario</h3>
+      <p>C&#x27;è un caso che colpisce più degli altri, ed è quello che Schützenberger chiama <strong>doppio anniversario</strong>: una persona raggiunge l&#x27;età in cui un genitore o un antenato ha vissuto un evento traumatico, e proprio in quel periodo attraversa una crisi, una difficoltà nella coppia, un sintomo o una svolta improvvisa.</p>
+      <p>È la storia dell&#x27;uomo dei quarantacinque anni. Il lavoro sistemico, però, non afferma che la sua crisi sia <em>causata</em> dalla morte del padre. Si chiede piuttosto se quell&#x27;età custodisca una memoria, una paura o una fedeltà che nessuno ha mai nominato. Magari, senza saperlo, quell&#x27;uomo non si è mai immaginato più vecchio del padre. Magari superare quell&#x27;età gli sembra una specie di sorpasso.</p>
+      <p>La ripetizione non è mai inevitabile, e non ha valore di previsione. È una pista, non una sentenza.</p>
+      <h3>Quando anniversario e lealtà si intrecciano</h3>
+      <p>Le due cose spesso si incontrano. La data o l&#x27;età riattiva la memoria dell&#x27;evento; la lealtà invisibile rende difficile distinguersi da quel destino.</p>
+      <p>Di solito la persona non ripete lo stesso fatto: ne ripete il <strong>nucleo emotivo</strong>. La perdita, l&#x27;esclusione, l&#x27;abbandono, il sacrificio, la colpa, la solitudine.</p>
+      <p>Una bambina nasce pochi mesi dopo la morte di un nonno molto amato, e cresce sentendosi — senza che nessuno glielo chieda — chiamata a consolare. Una persona vive ogni anno un calo dell&#x27;umore nel periodo in cui, decenni prima, un genitore aveva subito un grave fallimento. Un adulto entra in crisi di coppia all&#x27;età in cui un antenato era stato lasciato, o era rimasto solo.</p>
+      <p>In questa prospettiva la ripetizione può essere letta come una forma di fedeltà. Non una scelta consapevole, ma un modo per restare legati a chi ha sofferto, e per dare un posto a un dolore rimasto senza parole.</p>
+      <h3>La data di nascita come appuntamento</h3>
+      <p>Se la data di nascita è un punto d&#x27;ancoraggio nel tempo familiare, allora può suggerire domande. Non risposte definitive, ma domande utili:</p>
+      <ul>
+      <li>Che cosa è successo nella mia famiglia nei mesi prima e dopo la mia nascita?</li>
+      <li>Ci sono lutti, nascite, aborti, migrazioni, separazioni vicini alla mia data?</li>
+      <li>A quali età i miei genitori e i miei nonni hanno attraversato passaggi difficili? E che cosa vivo io, alle stesse età?</li>
+      <li>Ci sono emozioni o sintomi che ritornano in un periodo preciso dell&#x27;anno?</li>
+      </ul>
+      <p>Uno strumento utile per mettere ordine è il <strong>genosociogramma</strong>: un albero genealogico arricchito, in cui accanto ai nomi si annotano date, età, legami, eventi critici, risorse e ripetizioni. Non serve a trovare un colpevole, né a incasellare la persona nel passato. Serve a rendere visibili connessioni che meritano di essere ascoltate.</p>
+      <h3>Trasformare la lealtà</h3>
+      <p>Il lavoro transgenerazionale non chiede di rinnegare la propria famiglia, né di tagliare i legami. Chiede di distinguere l&#x27;amore dalla ripetizione della sofferenza.</p>
+      <p>Posso riconoscere ciò che è accaduto. Posso onorare chi mi ha preceduto. E, nello stesso momento, posso darmi il permesso di vivere una storia diversa. Restare fedeli non significa soffrire allo stesso modo: si può essere leali anche vivendo bene ciò che a qualcun altro è stato negato.</p>
+      <p>Per questo la domanda centrale non è <em>&quot;come faccio a liberarmi dalla mia famiglia?&quot;</em>, ma:</p>
+      <p class="citazione"><em>Come posso appartenere senza rinunciare a me stessa, o a me stesso?</em></p>
+      <p>Rendere consapevoli date, età, ricorrenze e lealtà permette di passare da una ripetizione automatica a una scelta più libera e più responsabile.</p>
+      <h3>Una cautela necessaria</h3>
+      <p>Una parola di onestà, prima di chiudere. Quando si comincia a cercare coincidenze nelle date di famiglia, se ne trovano sempre: in ogni albero genealogico ci sono decine di date, e la nostra mente è bravissima a notare quelle che combaciano e a dimenticare tutte le altre. Per questo la sindrome da anniversario va usata come uno strumento per esplorare, non come una prova.</p>
+      <p>Non è una diagnosi clinica e non dimostra rapporti di causa ed effetto. Se un malessere, psicologico o fisico, è persistente, intenso o preoccupante, la prima cosa da fare è rivolgersi a un medico o a uno psicoterapeuta qualificato. Il lavoro sulla storia familiare può affiancare quel percorso, mai sostituirlo.</p>
+      <p>Fatta questa premessa, resta una possibilità preziosa: guardare il calendario della propria famiglia non per scoprirsi prigionieri, ma per accorgersi di ciò che, fino a quel momento, si ripeteva al buio.</p>
+      <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</em></p>
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+    <li class="voce" id="una-lettura-sistemica-del-giudizio-universale">
+      <div class="apri" data-slug="una-lettura-sistemica-del-giudizio-universale">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-09-21">21 settembre 2026</time>
+        <h3>Una lettura sistemica del Giudizio Universale</h3>
+        <p class="estratto">Il centro che riordina, il femminile che accoglie, gli esclusi che restano dipinti sulla stessa parete. Tutti colpevoli, tutti possono essere graziati.</p>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-una-lettura-sistemica-del-giudizio-universale"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
+      <div class="corpo" id="c-una-lettura-sistemica-del-giudizio-universale"><div class="corpo-in"><div class="pad">
+       <div class="testo">
+      <p>Chi entra nella Cappella Sistina alza gli occhi alla volta, ma è la parete dell&#x27;altare a fermarlo. Quasi quattrocento figure salgono, precipitano, si aggrappano, si voltano. Nessuna cornice le contiene e non c&#x27;è una storia da seguire in ordine: c&#x27;è un movimento, e tutto ruota intorno a un punto.</p>
+      <p>Vorrei provare a guardare quest&#x27;opera con lo sguardo che uso nel lavoro con le costellazioni familiari. Non da storica dell&#x27;arte, e nemmeno da teologa: la mia è una lettura simbolica, e Michelangelo non aveva in mente nulla di tutto questo. Eppure l&#x27;affresco funziona come funziona un campo: ogni figura occupa un posto, porta una memoria e reagisce a un centro di gravità comune.</p>
+      <h3>Il centro che riordina</h3>
+      <p>Al centro non c&#x27;è un Dio lontano e immobile. C&#x27;è Cristo, colto nell&#x27;istante che precede il verdetto, con il braccio sollevato. Intorno a lui i corpi si dispongono come una corona in rotazione.</p>
+      <p>Quel gesto viene letto quasi sempre come una condanna. Guardandolo con attenzione, però, è anche qualcos&#x27;altro: un gesto che rimette le cose al loro posto. Separa, distingue, colloca. È come se una forza centrale dicesse: <em>ora ogni cosa deve essere vista, riconosciuta e messa dove le spetta.</em></p>
+      <p>È ciò che accade quando una costellazione si mette in movimento. Non arriva una spiegazione, arriva una ricollocazione: qualcuno trova finalmente il proprio posto, qualcun altro restituisce quello che non era suo.</p>
+      <p>In questa lettura Cristo è il principio ordinatore del campo: la forza maschile che separa, giudica e dà forma. Tutto si muove intorno a lui, ma nulla gli è estraneo — nemmeno ciò che viene respinto.</p>
+      <h3>Maria: il femminile che accoglie</h3>
+      <p>Accanto a Cristo siede la Vergine. È raccolta, con lo sguardo abbassato e il corpo rivolto verso il Figlio, quasi ritirato. Non contrasta il suo gesto e non cerca di fermarlo. Non incarna una forza: accoglie. Porta nel centro della scena l&#x27;energia del femminile — la comprensione, la compassione, l&#x27;ascolto del dolore.</p>
+      <p>Il centro dell&#x27;affresco, allora, non è una figura sola, ma una coppia di polarità. Da una parte un maschile forte, che giudica, separa e mette ordine. Dall&#x27;altra un femminile compassionevole, che comprende, contiene e ricorda che ogni sentenza cade su vite concrete. L&#x27;uno distingue; l&#x27;altra accoglie ciò che è stato distinto.</p>
+      <p>Nel linguaggio sistemico maschile e femminile non indicano gli uomini e le donne, ma due qualità che ogni persona e ogni famiglia portano dentro di sé. E il campo ha bisogno di entrambe. Una famiglia in cui domina soltanto il maschile che giudica diventa un tribunale: tutto viene valutato, niente viene accolto. Una famiglia in cui c&#x27;è soltanto il femminile che comprende rischia l&#x27;opposto: tutto viene accolto, ma niente viene mai guardato fino in fondo. L&#x27;ordine senza compassione ferisce; la compassione senza ordine confonde.</p>
+      <h3>Gli angeli portano la memoria</h3>
+      <p>Gli angeli, nella parte alta, non sono una decorazione. Alcuni reggono gli strumenti della Passione: la croce, la corona di spine, la colonna della flagellazione. Altri suonano le trombe e risvegliano i morti.</p>
+      <p>I primi dicono una cosa precisa: il giudizio non può essere separato dalla storia del dolore. Prima di stabilire chi è salvo, bisogna riconoscere ciò che è stato attraversato. È il passaggio che nel lavoro sistemico si tende a saltare: si vorrebbe arrivare subito alla soluzione, mentre prima va guardato il prezzo che qualcuno ha pagato.</p>
+      <p>Le trombe chiamano i morti, ma possono chiamare anche ciò che in una famiglia è stato messo a tacere: il lutto che non si nomina, la separazione di cui non si parla, il parente sparito dalle fotografie. Il loro suono dice una cosa sola, e la dice con chiarezza: <strong>nessun elemento escluso scompare davvero.</strong> Prima o poi ritorna e chiede di essere visto.</p>
+      <h3>I reprobi: l&#x27;ombra del sistema</h3>
+      <p>Nella parte bassa, a destra, angeli e demoni trascinano i dannati verso l&#x27;Inferno, mentre Caronte li traghetta oltre la soglia.</p>
+      <p>Considerarli semplicemente &quot;i cattivi&quot; è la lettura più povera. Rappresentano ciò che il sistema ha espulso: la vergogna, la colpa mai elaborata, la rabbia rimossa, l&#x27;antenato dimenticato, il comportamento che tutti condannano senza chiedersi da dove sia nato.</p>
+      <p>La loro posizione in basso non significa che non valgano nulla. Significa che sono lontani dal centro, separati dal movimento ascendente della vita. Ed è qui che l&#x27;affresco diventa una lezione sistemica: ciò che viene escluso continua a esercitare una forza invisibile sul resto del campo. Può essere ripetuto, compensato o rappresentato, senza saperlo, da qualcuno delle generazioni successive.</p>
+      <h3>Esclusi, eppure dipinti sulla stessa parete</h3>
+      <p>È il dettaglio che considero più importante, e sta sotto gli occhi di chiunque entri.</p>
+      <p>I dannati precipitano, ma restano nell&#x27;affresco. La loro esclusione è rappresentata, non cancellata. Michelangelo avrebbe potuto lasciarli fuori dall&#x27;immagine; invece li ha messi dentro: in basso, ma dentro.</p>
+      <p>Da qui si distinguono due livelli che, nel lavoro con le famiglie, fanno tutta la differenza.</p>
+      <p>C&#x27;è l&#x27;<strong>appartenenza originaria</strong>: ogni figura appartiene alla stessa storia, senza eccezioni. E c&#x27;è la <strong>posizione nel campo</strong>: ognuna occupa un posto diverso, secondo la direzione del proprio destino.</p>
+      <p>Confonderli è l&#x27;errore più comune. Una persona può avere un posto nel sistema anche quando il suo comportamento ha causato dolore, anche quando è stata allontanata. <em>Appartenere non significa essere approvati</em>: significa essere riconosciuti come parte della storia.</p>
+      <p>Davanti a una figura esclusa, una costellazione non dice quasi mai &quot;questa persona non appartiene&quot;. Dice piuttosto: questa persona è stata separata, e la separazione deve essere vista.</p>
+      <h3>Il campo comprende anche la caduta</h3>
+      <p>L&#x27;affresco non è diviso in fasce ordinate: è un vortice. A sinistra i risorti riprendono il proprio corpo e risalgono; al centro le trombe chiamano; in alto i santi fanno corona; a destra i dannati vengono trascinati verso il basso.</p>
+      <p>Il campo, quindi, non coincide con il Paradiso. È l&#x27;intero spazio del giudizio e comprende la colpa, la paura, la memoria, la caduta. La salvezza non si comprende senza la dannazione, e il centro esiste perché ci sono figure periferiche.</p>
+      <p>In questa luce la salvezza somiglia a un ritorno al proprio posto, e la dannazione a una caduta fuori dalla relazione e dall&#x27;appartenenza. Non c&#x27;è qualcuno che manda via: c&#x27;è una frattura, una parte del sistema che è stata allontanata e continua a essere trascinata verso il basso.</p>
+      <h3>Colpa e grazia</h3>
+      <p>L&#x27;affresco non è soltanto una scena teologica: rispecchia le convinzioni filosofiche e religiose del suo autore. Negli anni in cui lavorava alla parete, Michelangelo frequentava Vittoria Colonna e il circolo dei cosiddetti &quot;spirituali&quot;, che meditavano sul peccato e sulla salvezza come dono gratuito, non come merito da conquistare. Le sue poesie degli anni successivi sono attraversate dallo stesso tormento: il senso acuto della propria colpa e l&#x27;attesa di una grazia che non si può guadagnare.</p>
+      <p>Sulla parete, questa convinzione diventa un contrasto tragico. Nessuno è innocente: santi e dannati hanno gli stessi corpi, la stessa carne, la stessa inquietudine, e perfino chi si salva guarda Cristo con timore. Secondo una lettura molto diffusa, Michelangelo avrebbe ritratto sé stesso nella pelle scorticata che san Bartolomeo tiene in mano: un volto svuotato, sospeso tra la caduta e la salvezza.</p>
+      <p>Il messaggio è duro e, insieme, consolante: <strong>tutti sono colpevoli, tutti possono essere graziati.</strong> La grazia non cancella la colpa: la attraversa.</p>
+      <p>In chiave sistemica è un passaggio decisivo. Nelle famiglie si tende a dividere il campo tra innocenti e colpevoli, vittime e responsabili. L&#x27;affresco suggerisce un&#x27;altra posizione: la colpa riguarda tutti, e proprio per questo nessuno è escluso dalla possibilità di essere riaccolto. Riconoscere la propria parte, senza scaricarla su un solo membro della famiglia, è spesso ciò che rende possibile la riconciliazione.</p>
+      <h3>La soglia</h3>
+      <p>La fascia inferiore della parete è attraversata da passaggi: i sepolcri che si aprono, i corpi che si ricompongono, la barca di Caronte, il confine oltre il quale i dannati vengono condotti.</p>
+      <p>Non è una scena immobile, ma un momento di trasformazione. Alcuni cercano di salire, altri vengono trascinati giù, molti sono ancora a metà strada.</p>
+      <p>La soglia è il punto in cui una verità non può più essere evitata. Il passato ritorna, ciò che era nascosto affiora, ciascuno si ritrova davanti al proprio posto. In questo senso il giudizio non è soltanto una sentenza: è un processo di chiarificazione. La confusione si trasforma in ordine — e quasi sempre, prima, fa male.</p>
+      <h3>Due costellazioni nella stessa cappella</h3>
+      <p>C&#x27;è un&#x27;ultima cosa che si coglie soltanto alzando lo sguardo e poi riabbassandolo.</p>
+      <p>La volta fu dipinta tra il 1508 e il 1512: la creazione, Adamo ed Eva, il diluvio, i profeti, le sibille, gli antenati di Cristo. È il tempo dell&#x27;origine e ha la forma di una genealogia, in cui ogni cosa discende da ciò che la precede. Al centro, Dio tende la mano e trasmette la vita.</p>
+      <p>La parete dell&#x27;altare arriva più di vent&#x27;anni dopo, tra il 1536 e il 1541. Nel frattempo c&#x27;erano stati la Riforma di Lutero, nel 1517, e il Sacco di Roma, nel 1527: la città considerata il cuore della cristianità era stata profanata dalle truppe imperiali. Michelangelo non torna a dipingere dentro l&#x27;ottimismo del primo Rinascimento: torna dopo una catastrofe collettiva.</p>
+      <p>E si vede. Sulla volta le scene sono ordinate, separate, leggibili una per una. Sulla parete il campo esplode, e la fiducia in un ordine visibile non c&#x27;è più.</p>
+      <p>Le due opere, tuttavia, non si contraddicono: sono due momenti della stessa costellazione. La volta inaugura la relazione, la parete ne chiede conto. La prima dice: <em>tu appartieni a una storia che ha avuto un&#x27;origine.</em> La seconda: <em>tu sei chiamato a rispondere del posto che occupi in questa storia.</em></p>
+      <p>A pensarci bene, l&#x27;intera cappella funziona come un sistema completo: le pareti laterali raccontano l&#x27;alleanza e la comunità, la volta l&#x27;origine, l&#x27;altare il compimento. Chi entra li attraversa con il proprio corpo, in pochi passi.</p>
+      <h3>Il campo di oggi</h3>
+      <p>Il parallelo con il presente è fecondo, a patto di non dire che il nostro tempo sia uguale a quello di Michelangelo. Non lo è. Ma entrambe le epoche vivono una crisi del centro: allora era in discussione l&#x27;unità religiosa e politica dell&#x27;Europa; oggi lo sono la fiducia nelle istituzioni, la possibilità di una verità condivisa, la sensazione di appartenere allo stesso mondo.</p>
+      <p>Nell&#x27;affresco il centro è visibile, e tutte le figure, anche le più lontane, sono in rapporto con esso. Oggi il centro non è più condiviso allo stesso modo: istituzioni, religioni, media, piattaforme digitali, comunità e tecnologie si contendono il compito di orientarci, e nessuna immagine riesce più a dare ordine all&#x27;esperienza di tutti.</p>
+      <p>C&#x27;è poi una differenza che riguarda il giudizio stesso. Nel dipinto è concentrato in una sola figura e avviene alla fine dei tempi. Oggi è disperso e continuo: giudichiamo e veniamo giudicati ogni giorno, in tempo reale, sui social, nel dibattito pubblico, dentro le famiglie. Viviamo in un giudizio universale permanente, ma senza un giudice riconosciuto. Ne deriva una pressione costante: dimostrare di stare dalla parte giusta.</p>
+      <p>E dove c&#x27;è paura, un sistema cerca qualcuno da spingere ai margini. Vale per le famiglie come per le società, in ogni epoca e in ogni schieramento, perché ciascuno ha le proprie figure da mettere fuori dal campo. L&#x27;analogia va usata con prudenza: nessuno, oggi, corrisponde ai dannati dell&#x27;affresco, e non spetta a me indicare chi sarebbero. Ma la domanda che l&#x27;affresco lascia aperta resta seria, e ognuno può rivolgerla a sé stesso e al proprio gruppo: <em>chi stiamo mettendo fuori dal campo per non guardare una crisi che appartiene a tutti?</em></p>
+      <p>Anche i messaggeri sono cambiati. Nell&#x27;affresco gli angeli annunciano e portano i segni della memoria. Oggi questo compito spetta a chi rende visibili sofferenze ignorate: giornalisti, testimoni, scienziati, insegnanti, comunità che custodiscono la memoria di un trauma collettivo. Esistono però anche messaggeri che disorientano, e la difficoltà di distinguere gli uni dagli altri è forse il tratto più caratteristico del nostro campo.</p>
+      <p>Un&#x27;ultima corrispondenza, questa volta con la volta. Il gesto della Creazione di Adamo — due mani che quasi si sfiorano, una che dà la vita e una che la riceve — è diventato improvvisamente attuale in un&#x27;epoca in cui costruiamo cose capaci di agire da sole. Che cosa significa creare? C&#x27;è differenza tra generare una forma e trasmettere la vita? E quale responsabilità ha chi dà origine a qualcosa che poi non controlla del tutto? Sono domande sull&#x27;origine: cioè domande sistemiche.</p>
+      <h3>Perché guardarlo così</h3>
+      <p>Una parete dipinta cinque secoli fa non offre soluzioni a nessuno. Ma tiene insieme, in un&#x27;unica immagine, qualcosa che nella vita delle famiglie e in quella collettiva facciamo fatica a tenere insieme: il giudizio e l&#x27;appartenenza non si escludono.</p>
+      <p>Ogni destino individuale diventa comprensibile soltanto dentro il campo più grande a cui appartiene. La caduta, l&#x27;esclusione, la colpa non stanno fuori dall&#x27;immagine: cambia il loro rapporto con il centro, non la loro presenza.</p>
+      <p>Tutti colpevoli, tutti possono essere graziati: è forse questo il messaggio più sistemico che Michelangelo ci abbia lasciato.</p>
+      <p>Vale la pena ricordarlo la prossima volta che, in una famiglia, qualcuno viene descritto come quello che ha rovinato tutto. Anche lui è dipinto sulla stessa parete.</p>
+      <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</em></p>
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+    <li class="voce" id="potere-personale-una-lettura-sistemica">
+      <div class="apri" data-slug="potere-personale-una-lettura-sistemica">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-09-12">12 settembre 2026</time>
+        <h3>Potere personale: una lettura sistemica</h3>
+        <p class="estratto">Il potere non è un tratto di carattere: è l&#x27;effetto della posizione che una persona occupa nel proprio sistema familiare.</p>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-potere-personale-una-lettura-sistemica"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
+      <div class="corpo" id="c-potere-personale-una-lettura-sistemica"><div class="corpo-in"><div class="pad">
+       <div class="testo">
+      <p>Nel linguaggio comune il potere personale viene descritto come una qualità individuale: c&#x27;è chi ce l&#x27;ha e chi deve conquistarlo. In una prospettiva sistemica il discorso cambia. Il potere non è un tratto di carattere: è l&#x27;effetto della posizione che una persona occupa nel proprio sistema familiare.</p>
+      <p>Chi sta al proprio posto dispone della propria forza. Chi occupa il posto di un altro — più grande o più piccolo del suo — dispone di una forza che non gli appartiene, e prima o poi la paga.</p>
+      <p>Da qui nasce una domanda diversa. Non &quot;come faccio ad avere più potere&quot;, ma: <strong>quale posto occupo, e di chi era prima di me?</strong></p>
+      <h3>I tre principi che reggono un sistema</h3>
+      <p>Il lavoro sistemico osserva che ogni famiglia tende a organizzarsi intorno a tre esigenze di fondo. Quando una di queste viene disattesa, il sistema cerca di compensare, e quasi sempre lo fa attraverso chi arriva dopo.</p>
+      <p><strong>Appartenenza.</strong> Chiunque sia entrato a far parte del sistema ne fa parte per sempre: un figlio non nato, un primo marito, un fratello morto da piccolo, un parente di cui non si parla più. Se qualcuno viene escluso, il suo posto non resta vuoto: un discendente tenderà a rappresentarlo, spesso ripetendone il destino senza saperne nulla.</p>
+      <p><strong>Ordine.</strong> Chi è arrivato prima ha la precedenza su chi è arrivato dopo. I genitori vengono prima dei figli, il primo legame prima del secondo. Quando l&#x27;ordine si inverte — un figlio che sostiene un genitore, un secondo matrimonio che cancella il primo — la responsabilità si sposta sulle spalle sbagliate.</p>
+      <p><strong>Equilibrio tra dare e ricevere.</strong> Tra pari, quello che si riceve va restituito, altrimenti il legame si carica. Tra genitori e figli l&#x27;equilibrio non è possibile né richiesto: i genitori danno, i figli ricevono e passano avanti, alla generazione successiva.</p>
+      <p>Quasi tutte le distorsioni del potere che si osservano nelle relazioni adulte nascono da una di queste tre.</p>
+      <h3>Il motore: la coscienza familiare</h3>
+      <p>C&#x27;è un meccanismo che tiene in piedi tutto il sistema, e vale la pena nominarlo perché spiega molte cose che sembrano irrazionali.</p>
+      <p>Ogni persona porta con sé una specie di bussola che segnala quando l&#x27;appartenenza è al sicuro e quando è a rischio. La sentiamo come <strong>senso di colpa e senso di innocenza</strong>. Ci sentiamo innocenti quando facciamo ciò che tiene insieme il nostro gruppo, in colpa quando ce ne allontaniamo — anche se ciò che ci tiene dentro ci fa male, e anche se ciò che ci allontanerebbe sarebbe un bene.</p>
+      <p>È per questo che tante persone rinunciano alla propria forza con una determinazione che a loro stesse appare incomprensibile. Riuscire meglio dei propri genitori, essere più felici, amare con più libertà: tutto ciò può essere vissuto inconsciamente come un tradimento. Dove c&#x27;è una rinuncia al potere personale, quasi sempre c&#x27;è un&#x27;appartenenza da proteggere.</p>
+      <h3>Quando il potere si gonfia</h3>
+      <p><strong>Si sviluppa quando</strong> un bambino prende un posto più grande del suo: un genitore assente, malato, in lutto, oppure occupato a sostenere il proprio dolore; un genitore escluso di cui non si può parlare; una coppia in cui uno dei due si appoggia al figlio invece che al partner.</p>
+      <p>Il bambino non sceglie: accorre. È ciò che nel lavoro sistemico viene chiamato <strong>amore cieco</strong> — la disponibilità totale di un figlio a farsi carico, purché il sistema regga.</p>
+      <p><strong>Da adulti</strong> questa posizione si riconosce da alcuni tratti ricorrenti: iper-responsabilità, difficoltà quasi fisica a ricevere, tendenza a scegliere partner da salvare o da sistemare, e un&#x27;autorità che funziona finché l&#x27;altro ha bisogno e vacilla appena l&#x27;altro sta bene. È un potere reale ma faticoso, perché poggia su una posizione che non è mai stata la propria. E si accompagna spesso a una stanchezza che nessun riposo risolve.</p>
+      <h3>Quando il potere si ritira</h3>
+      <p><strong>Si sviluppa quando</strong> occupare spazio è stato pericoloso: un fratello più fragile da non superare, un genitore che non tollerava di essere messo in discussione, una madre o una nonna a cui la forza era stata tolta, un ambiente in cui la femminilità o l&#x27;iniziativa venivano punite.</p>
+      <p>Qui il bambino impara l&#x27;operazione inversa: restare piccolo per non minacciare nessuno. Anche questa è lealtà. <em>Se tu non hai potuto, non lo farò nemmeno io.</em></p>
+      <p><strong>Da adulti</strong> compaiono l&#x27;attesa come modalità principale di relazione, l&#x27;adattamento automatico, la difficoltà a dire no, e — questo è il punto meno ovvio — un potere che continua comunque a esercitarsi, ma per vie indirette: il silenzio, la colpa, il sacrificio esibito, il ritiro. Nessuno rinuncia davvero al potere. Chi non può esercitarlo apertamente lo esercita di nascosto, e le relazioni diventano illeggibili.</p>
+      <h3>Quando l&#x27;avvicinamento si interrompe</h3>
+      <p><strong>Si sviluppa quando</strong> il movimento naturale del bambino verso un genitore viene interrotto presto: una separazione, un ricovero, una nascita difficile, un lutto che ha reso la madre irraggiungibile, una depressione, un trasferimento.</p>
+      <p>Il movimento non scompare: si blocca a metà, insieme al dolore e alla rabbia che lo accompagnavano.</p>
+      <p><strong>Da adulti</strong> questo produce la dinamica più comune nelle coppie: si desidera la vicinanza e la si teme nello stesso momento. Ci si avvicina e poi ci si ritira, si cerca chi è distante e si fugge chi è disponibile. Chi vive dall&#x27;altra parte lo interpreta come un gioco di potere, e in un certo senso lo è — ma la posta in gioco non è l&#x27;altro. È un avvicinamento rimasto sospeso trent&#x27;anni prima.</p>
+      <h3>Lo squilibrio nella coppia</h3>
+      <p><strong>Si sviluppa quando</strong> il dare e il ricevere smettono di alternarsi.</p>
+      <p>Chi dà molto più di quanto riceve accumula un credito, e il credito è potere: rende l&#x27;altro debitore, quindi in posizione subordinata. Chi riceve senza poter restituire accumula un debito, e il debito diventa insostenibile: prima o poi si allontana, spesso senza sapere spiegare perché. Il partner che dà si sente tradito proprio da chi ha aiutato di più. È una delle scene più frequenti nel lavoro con le coppie, ed è un problema di equilibrio, non di ingratitudine.</p>
+      <p>C&#x27;è poi una variante più profonda: quando uno dei due guarda l&#x27;altro come si guarda un genitore — chiedendo ciò che avrebbe dovuto ricevere altrove. In quel caso la coppia non è più tra pari, e il potere si distribuisce come tra un adulto e un bambino. Nessuna buona volontà risolve la cosa finché la richiesta resta indirizzata alla persona sbagliata.</p>
+      <h3>Che cosa riequilibra</h3>
+      <p>Il lavoro sistemico non punta a rafforzare la persona, ma a rimetterla al suo posto. Quando la posizione si sistema, la forza torna da sola.</p>
+      <p>I movimenti che si osservano più spesso sono questi:</p>
+      <ul>
+      <li><strong>riconoscere chi è stato escluso</strong>, e dargli un posto nel proprio sguardo, anche solo interiormente</li>
+      <li><strong>restituire ciò che non ci appartiene</strong> — un peso, un dolore, un compito preso in prestito da qualcuno che è venuto prima</li>
+      <li><strong>lasciare ai genitori ciò che è loro</strong>, compreso il loro destino, senza doverlo riparare</li>
+      <li><strong>ricevere ciò che è stato dato</strong>, per quanto incompleto sia stato: chi non riceve dai genitori resta in difficoltà a ricevere da chiunque</li>
+      <li><strong>mettersi alla pari nella coppia</strong>, riportando all&#x27;origine le richieste che appartengono all&#x27;infanzia.</li>
+      </ul>
+      <p>Nessuno di questi movimenti è un esercizio da fare una volta. Sono orientamenti, e chiedono tempo.</p>
+      <h3>Il potere personale, in termini sistemici</h3>
+      <p>Il potere personale non è forza di volontà, e non si conquista contro qualcuno.</p>
+      <p>È ciò che rimane disponibile a una persona quando smette di occupare posti che non sono suoi: quando non porta più il peso di un genitore, non rappresenta più un escluso, non chiede al partner ciò che spettava a un padre o a una madre.</p>
+      <p>A quel punto la forza non serve più a tenere insieme il sistema. Può essere finalmente rivolta altrove — verso il proprio lavoro, i propri legami, la propria vita.</p>
+      <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</em></p>
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+    <li class="voce" id="il-potere-che-attribuiamo-allaltro">
+      <div class="apri" data-slug="il-potere-che-attribuiamo-allaltro">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-08-28">28 agosto 2026</time>
+        <h3>Il potere che attribuiamo all&#x27;altro</h3>
+        <p class="estratto">Ci sono incontri che ci accendono e insieme ci mettono a nudo. Una lettura sistemica delle relazioni.</p>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-il-potere-che-attribuiamo-allaltro"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
+      <div class="corpo" id="c-il-potere-che-attribuiamo-allaltro"><div class="corpo-in"><div class="pad">
+       <div class="testo">
+      <p class="nota"><em>Una lettura sistemica delle relazioni</em></p>
+      <p>Ci sono incontri che ci accendono e insieme ci mettono a nudo. La persona che abbiamo davanti sembra più sicura, più libera, più desiderata: qualcuno che sceglie, mentre a noi resta la speranza di essere scelte. In quel momento le consegniamo un potere speciale e, senza accorgercene, dimentichiamo che molte delle qualità che ammiriamo in lei vivono anche in noi.</p>
+      <p>Ma l&#x27;intensità di un legame non riguarda sempre e soltanto chi ci sta davanti. Riguarda anche le storie d&#x27;amore che abbiamo ereditato: il modo in cui, nella nostra famiglia, si sono vissuti il desiderio, la scelta, la fedeltà, l&#x27;attesa, il rifiuto. E il potere.</p>
+      <p>Due domande bastano ad aprire uno spazio:</p>
+      <p class="citazione">Che cosa sta accadendo tra me e questa persona?</p>
+      <p class="citazione">Quale storia familiare si sta riattivando dentro di me?</p>
+      <h3>Il potere nella storia familiare</h3>
+      <p>Ogni famiglia trasmette, quasi sempre senza dirlo, un&#x27;idea implicita di come funziona l&#x27;amore. In certe case il potere appartiene a chi se ne va, a chi non si espone, a chi decide quando avvicinarsi e quando sparire. In altre appartiene a chi resta, aspetta, accudisce e sopporta.</p>
+      <p>Raramente queste idee arrivano sotto forma di racconto. Passano attraverso ciò che si diceva dell&#x27;amore e, ancora di più, attraverso ciò che non si nominava mai: le separazioni taciute, i tradimenti diventati leggenda oppure segreto, i ruoli che madri, padri e nonni hanno occupato senza mai discuterli, il modo in cui era lecito — o vietato — mostrare desiderio e rabbia, lo spazio riservato alle donne e quello riservato agli uomini.</p>
+      <p>Gli studi sull&#x27;attaccamento e sui sistemi familiari indicano che certi modelli relazionali possono attraversare le generazioni. Mai però in modo lineare, e mai come una condanna.</p>
+      <h3>Quando l&#x27;altro occupa una posizione antica</h3>
+      <p>Capita che una persona appena incontrata ci risulti, emotivamente, già familiare. Non perché somigli davvero a qualcuno della nostra storia, ma perché rimette in moto una configurazione che conosciamo a memoria.</p>
+      <p>Lui cerca e io mi nascondo. Lui decide la distanza e io aspetto. Lui sembra avere molte possibilità e io temo di non essere scelta. Lui ha il potere e io cerco di riconquistarlo. Oppure: lui si avvicina e io devo proteggere il mio spazio, perché desidero essere vista ma temo ciò che accadrebbe se lo fossi davvero.</p>
+      <p>Quando accade, la relazione presente diventa il luogo in cui un vecchio equilibrio torna a cercare il suo assetto. La persona che ci attrae non è necessariamente la causa di tutto quello che proviamo: è piuttosto il punto attraverso cui una memoria relazionale più ampia riesce finalmente a farsi sentire.</p>
+      <h3>Il potere maschile e il potere femminile</h3>
+      <p>Una lettura sistemica può interrogare anche il modo in cui, nella nostra famiglia, il potere è stato distribuito tra uomini e donne.</p>
+      <p>Possiamo aver assorbito messaggi mai pronunciati ad alta voce: che l&#x27;uomo sceglie e la donna viene scelta; che lui può avere una vita affettiva ampia mentre lei attende; che il desiderio femminile è pericoloso, o quantomeno sconveniente; che per essere amate bisogna restare disponibili; che una donna forte finisce sola; che il proprio potere va tenuto nascosto, per non spaventare l&#x27;altro; che l&#x27;amore, per essere vero, deve costare una rinuncia.</p>
+      <p>Queste convinzioni diventano invisibili proprio perché sono arrivate presto, prima che avessimo parole per discuterle. Non le condividiamo, eppure possiamo ritrovarci a viverle.</p>
+      <p class="citazione">Sto riconoscendo in lui una qualità reale, o sto ripetendo l&#x27;antica idea che il potere appartenga soprattutto al maschile?</p>
+      <h3>Lealtà invisibili</h3>
+      <p>In lavoro sistemico si parla di <em>lealtà invisibili</em> per indicare quei legami interiori attraverso cui, senza saperlo, restiamo fedeli alla nostra famiglia.</p>
+      <p>Una fedeltà di questo tipo può prendere forme molto diverse. Può portarci a scegliere persone emotivamente non disponibili, o a innamorarci proprio di chi mantiene le distanze. Può farci vivere l&#x27;attesa come una prova d&#x27;amore, o attrarci verso chi ha molte relazioni. Può assegnarci il ruolo di colei che comprende, aspetta, salva. E può spingerci a evitare la reciprocità nel momento esatto in cui diventa concreta e possibile — perché una reciprocità piena rischierebbe di smentire il modello familiare in cui l&#x27;amore non è mai del tutto accessibile.</p>
+      <p>Nulla di tutto questo significa che le nostre scelte sentimentali siano decise dagli antenati. La storia familiare è una chiave di lettura tra le altre: contano anche il temperamento, le esperienze personali, il contesto culturale, le relazioni che ci hanno formate lungo la strada.</p>
+      <p class="citazione">Quale posizione relazionale sto ripetendo? E quale posizione nuova vorrei sperimentare?</p>
+      <h3>Quando sottrarsi significa proteggere una storia</h3>
+      <p>Il bisogno di non essere raggiunte può voler dire molte cose. Può essere un confine sano, una richiesta di tempo, il rifiuto legittimo di un contatto vissuto come invadente.</p>
+      <p>In una prospettiva sistemica, però, quello stesso bisogno può diventare una domanda sulla storia da cui proveniamo. Nella nostra famiglia, essere cercate era rassicurante o minaccioso? La presenza dell&#x27;altro era affidabile o imprevedibile? Si poteva dire di no senza perdere l&#x27;amore? Le donne avevano uno spazio personale, e gli uomini rispettavano i confini? La vicinanza somigliava alla cura o al controllo? Sparire era l&#x27;unico modo conosciuto per sentirsi libere?</p>
+      <p>A volte non ci stiamo nascondendo dalla persona che abbiamo davanti, ma dall&#x27;esperienza antica che la sua presenza risveglia.</p>
+      <h3>Ritirare la proiezione</h3>
+      <p>Ritirare una proiezione non significa smettere di vedere l&#x27;altro. Significa riprendersi ciò che gli abbiamo consegnato senza accorgercene.</p>
+      <p>Se gli attribuiamo libertà, vale la pena chiederci dove, nella nostra vita, desideriamo essere più libere. Se gli attribuiamo fascino, possiamo riconoscere la nostra capacità di desiderare e di essere desiderate. Se gli attribuiamo il potere di scegliere, possiamo tornare a sentire che scegliamo anche noi.</p>
+      <p>Alcune domande aiutano questo passaggio:</p>
+      <ul>
+      <li>Che cosa penso che lui possieda e io no?</li>
+      <li>Quale ruolo assumo accanto a lui?</li>
+      <li>Questo ruolo somiglia a quello di qualcuno nella mia famiglia?</li>
+      <li>Che cosa temo accadrebbe se riconoscessi pienamente il mio potere?</li>
+      <li>Da chi ho imparato che in amore uno insegue e l&#x27;altra si fa raggiungere?</li>
+      <li>Che cosa significa, per me, essere scelta?</li>
+      <li>Quale forma di reciprocità è mancata nella mia storia?</li>
+      </ul>
+      <h3>Il potere nella relazione presente</h3>
+      <p>Il potere personale non consiste nel controllare l&#x27;altro, né nel sottrarsi per alimentare il desiderio. Consiste nel restare capaci di scegliere anche quando l&#x27;attrazione è forte.</p>
+      <p>Significa potersi dire: <em>mi piaci, e non ho bisogno di idealizzarti</em>. Posso ascoltare ciò che provo senza trasformarlo subito in una certezza. Posso desiderare vicinanza e, allo stesso tempo, avere bisogno di distanza. Posso guardare i fatti invece di vivere di supposizioni. Posso essere disponibile senza essere sempre reperibile. Posso essere amata senza rinunciare ai miei confini. E posso scegliere un rapporto diverso da tutti quelli che la mia famiglia ha conosciuto.</p>
+      <p>I modelli relazionali si trasmettono, è vero. Ma si trasformano anche, attraverso le esperienze concrete, la qualità dei legami che costruiamo e la possibilità di imparare modi nuovi e più sicuri di stare con l&#x27;altro.</p>
+      <h3>Dalla ripetizione alla trasformazione</h3>
+      <p>Una lettura sistemica non si esaurisce nella ricerca di antenati, date e corrispondenze. Il suo valore più profondo sta nello spazio di consapevolezza che apre.</p>
+      <p class="citazione">Sto vivendo questa relazione soltanto nel presente, o sto anche rispondendo a una storia più antica?</p>
+      <p>La consapevolezza non cancella il passato: interrompe l&#x27;automatismo. Permette di distinguere ciò che appartiene alla famiglia da ciò che appartiene alla nostra scelta di oggi.</p>
+      <p>Forse nella nostra genealogia l&#x27;amore è stato legato all&#x27;attesa. O alla rinuncia. O al controllo. O alla paura di essere sostituite. Ma una storia ereditata può diventare il punto di partenza di qualcosa di diverso. Non siamo obbligate a occupare la posizione che ci è stata consegnata.</p>
+      <h3>Conclusione</h3>
+      <p>L&#x27;altro può risvegliare il nostro potere, ma può anche riattivare un&#x27;organizzazione antica: chi cerca e chi fugge, chi decide e chi aspetta, chi ha molte possibilità e chi teme di non essere scelto.</p>
+      <p>Per questo una relazione intensa è anche un&#x27;occasione: ci mostra il presente e, insieme, le tracce della nostra storia.</p>
+      <p class="citazione">Quale posizione ho imparato ad assumere in amore? Da chi l&#x27;ho appresa? E sono ancora disposta a occuparla?</p>
+      <p>Riprendere il proprio potere significa riconoscere ciò che si è ereditato, distinguerlo da ciò che stiamo vivendo ora e scegliere, nel presente, una forma di relazione più libera, più reciproca, più consapevole.</p>
+      <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</em></p>
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+  </ol>
+</section>
+</main>
+
+<section class="coda" id="instagram">
+  <div class="coda-in">
+    <h2>Anche su Instagram</h2>
+    <a class="btn-o" href="https://www.instagram.com/costellazioni_q.r/" target="_blank" rel="noopener">Vai al profilo</a>
+  </div>
+</section>
+
+<footer class="piede">
+  <p>Costellazioni quantiche retrocausali — costellazioni familiari.</p>
+  <p>Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</p>
+</footer>
+
+<button class="pill" id="pill" type="button" aria-haspopup="dialog" aria-controls="foglio" hidden>
+  <span class="pill-t"><span class="pill-l">Sezioni dell&#x27;articolo</span><span class="pill-s" id="pill-s"></span></span>
+  <svg viewBox="0 0 14 9" aria-hidden="true"><path d="M1 8l6-6 6 6"/></svg>
+  <span class="pill-pr" aria-hidden="true"><i id="pill-pr"></i></span>
+</button>
+<div class="velo-f" id="velo-f" hidden></div>
+<div class="foglio" id="foglio" role="dialog" aria-modal="true" aria-label="Sezioni dell&#x27;articolo" hidden></div>
+
+<script>
+(function(){
+  var d=document, root=d.documentElement;
+  root.classList.remove('no-js'); root.classList.add('js');
+
+  /* palette di prova: ?palette=indaco | archivio | notturno | rame | vinaccia */
+  var pal=new URLSearchParams(location.search).get('palette');
+  if(pal&&/^(originale|indaco|archivio|notturno|rame|vinaccia)$/.test(pal)) root.dataset.palette=pal;
+
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)'), wide=matchMedia('(min-width:1000px)'),
+      fine=matchMedia('(hover:hover) and (pointer:fine)'),
+      voci=[].slice.call(d.querySelectorAll('.voce')), gen=d.querySelector('.gen'),
+      testata=d.getElementById('testata'), prog=d.getElementById('prog'), pill=d.getElementById('pill'),
+      leggendo=d.getElementById('leggendo'), fig=d.getElementById('fig'),
+      foglio=d.getElementById('foglio'), velo=d.getElementById('velo-f'), pillS=d.getElementById('pill-s'), pillPr=d.getElementById('pill-pr'),
+      cur=null, tick=false, busy=false;
+  var X='<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg>';
+  function clamp(n){return Math.max(0,Math.min(1,n));}
+  function jump(y){window.scrollTo({top:y,left:0,behavior:'instant'});}
+  function topOf(el){return el.getBoundingClientRect().top+window.scrollY-72;}
+  function smoothTo(y,done){
+    if(reduce.matches||Math.abs(window.scrollY-y)<4){jump(y);if(done)done();return;}
+    var fired=false;function end(){if(fired)return;fired=true;removeEventListener('scrollend',end);if(done)done();}
+    if('onscrollend' in window) addEventListener('scrollend',end);
+    setTimeout(end,900);
+    window.scrollTo({top:y,behavior:'smooth'});
+  }
+
+  /* titolo: parole che salgono una alla volta */
+  (function(){
+    var h=d.getElementById('titolo'), i=0;
+    function split(node){
+      [].slice.call(node.childNodes).forEach(function(n){
+        if(n.nodeType===3){
+          var frag=d.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(function(part){
+            if(!part) return;
+            if(/^\s+$/.test(part)){frag.appendChild(d.createTextNode(' '));return;}
+            var w=d.createElement('span'),inner=d.createElement('span');
+            w.className='w'; inner.textContent=part; inner.style.setProperty('--i',i++); w.appendChild(inner); frag.appendChild(w);
+          });
+          node.replaceChild(frag,n);
+        } else if(n.nodeType===1) split(n);
+      });
+    }
+    split(h);
+  })();
+
+  /* tempo di lettura e preparazione delle voci */
+  voci.forEach(function(v){
+    var t=v.querySelector('.testo'),
+        min=Math.max(1,Math.round(t.textContent.trim().split(/\s+/).length/200));
+    v.querySelector('.tempo').textContent=min+' min di lettura';
+    [].forEach.call(t.querySelectorAll('h3'),function(h,k){h.id=v.id+'-s'+(k+1);});
+  });
+
+  function setLabel(v,open){
+    v.querySelector('.vai-t').textContent=open?'Chiudi l’articolo':'Leggi l’articolo completo';
+    v.querySelector('.leggi').setAttribute('aria-expanded',open?'true':'false');
+  }
+  function shut(v){ /* chiusura istantanea, senza spostare la vista */
+    var c=v.querySelector('.corpo'); c.classList.add('subito'); v.classList.remove('aperta'); setLabel(v,false);
+    c.offsetHeight; c.classList.remove('subito');
+  }
+  function buildLato(v){
+    var hs=v.querySelectorAll('.testo h3'), html='<p class="lt">Stai leggendo</p><p class="lt-t">'+v.querySelector('h3').innerHTML+'</p><ol class="sez">';
+    [].forEach.call(hs,function(h){html+='<li><a href="#'+h.id+'">'+h.innerHTML+'</a></li>';});
+    html+='</ol><button class="btn-c" type="button" data-chiudi>'+X+'<span>Chiudi l’articolo</span></button>';
+    leggendo.innerHTML=html; leggendo.hidden=false;
+    foglio.innerHTML='<span class="maniglia" aria-hidden="true"></span>'+html;
+  }
+  function apri(v,instant){
+    if(busy) return;
+    if(cur&&cur!==v){
+      var before=v.getBoundingClientRect().top; shut(cur);
+      jump(window.scrollY+v.getBoundingClientRect().top-before);
+    }
+    cur=v; v.classList.add('visto');
+    if(instant){var c=v.querySelector('.corpo');c.classList.add('subito');}
+    v.classList.add('aperta'); setLabel(v,true);
+    if(instant){c.offsetHeight;c.classList.remove('subito');}
+    history.replaceState(null,'','#/'+v.id);
+    buildLato(v); prog.classList.add('on'); pill.hidden=false;
+    if(instant) jump(topOf(v)); else smoothTo(topOf(v));
+    update();
+  }
+  function chiudi(v){
+    if(!v||busy) return;
+    var collapse=function(){
+      v.classList.remove('aperta'); setLabel(v,false);
+      if(cur===v) cur=null;
+      leggendo.hidden=true; prog.classList.remove('on'); pill.classList.remove('su'); last.pill=false; chiudiFoglio(false);
+      history.replaceState(null,'',location.pathname+location.search);
+      busy=false; update();
+    };
+    busy=true;
+    if(v.getBoundingClientRect().top<0) smoothTo(topOf(v),collapse); else collapse();
+  }
+
+  function apriFoglio(){
+    velo.hidden=false; foglio.hidden=false; foglio.offsetHeight;
+    velo.classList.add('su'); foglio.classList.add('su'); pill.setAttribute('aria-expanded','true');
+    var c=foglio.querySelector('[aria-current]')||foglio.querySelector('.sez a'); if(c) c.focus({preventScroll:true});
+    if(c&&c.scrollIntoView) c.scrollIntoView({block:'center'});
+  }
+  function chiudiFoglio(back){
+    if(foglio.hidden) return;
+    velo.classList.remove('su'); foglio.classList.remove('su'); pill.setAttribute('aria-expanded','false');
+    setTimeout(function(){foglio.hidden=true;velo.hidden=true;},reduce.matches?0:450);
+    if(back) pill.focus({preventScroll:true});
+  }
+  addEventListener('keydown',function(e){if(e.key==='Escape') chiudiFoglio(true);});
+  d.addEventListener('click',function(e){
+    var t=e.target.closest?e.target:null; if(!t) return;
+    var a=t.closest('.leggi');
+    if(a){ e.preventDefault(); var v=a.closest('.voce'); if(v.classList.contains('aperta')) chiudi(v); else apri(v,false); return; }
+    if(t.closest('#pill')){ e.preventDefault(); apriFoglio(); return; }
+    if(t.closest('#velo-f')){ chiudiFoglio(true); return; }
+    if(t.closest('[data-chiudi]')){ e.preventDefault(); chiudiFoglio(false); chiudi(cur); return; }
+    var s=t.closest('.sez a');
+    if(s){ e.preventDefault(); chiudiFoglio(false); var h=d.getElementById(s.getAttribute('href').slice(1)); if(h) smoothTo(h.getBoundingClientRect().top+window.scrollY-84); }
+  });
+
+  /* le voci entrano quando arrivano nello schermo */
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visto');io.unobserve(e.target);}});},{rootMargin:'0px 0px -12% 0px'});
+    voci.forEach(function(v){io.observe(v);});
+  } else voci.forEach(function(v){v.classList.add('visto');});
+
+  /* il filo rosso scende con la lettura e accende i nodi che raggiunge */
+  var filo=d.querySelector('.filo'), last={};
+  function setOnce(k,v,fn){if(last[k]!==v){last[k]=v;fn(v);}}
+  function update(){
+    tick=false;
+    /* letture */
+    var y=window.scrollY, vh=window.innerHeight, g=gen.getBoundingClientRect(),
+        tops=voci.map(function(v){return v.getBoundingClientRect().top;}), c=null, hs=null, hTops=null, apriB=0;
+    if(cur){
+      c=cur.querySelector('.testo').getBoundingClientRect();
+      hs=cur.querySelectorAll('.testo h3'); hTops=[].map.call(hs,function(h){return h.getBoundingClientRect().top;});
+      apriB=cur.querySelector('.apri').getBoundingClientRect().bottom;
+    }
+    /* scritture */
+    var L=g.height-46, p=clamp((vh*.62-g.top-46)/L), tip=g.top+46+p*L;
+    setOnce('scesa',y>8,function(v){testata.classList.toggle('scesa',v);});
+    setOnce('p',p.toFixed(3),function(v){filo.style.transform='scaleY('+v+')';});
+    voci.forEach(function(v,i){setOnce('n'+i,tops[i]+44<tip,function(on){v.classList.toggle('acceso',on);});});
+    if(cur){
+      setOnce('pr',clamp((vh*.25-c.top)/c.height).toFixed(3),function(v){prog.style.transform='scaleX('+v+')';pillPr.style.transform='scaleX('+v+')';});
+      var idx=-1; for(var k=0;k<hTops.length;k++){ if(hTops[k]<vh*.35) idx=k; }
+      setOnce('idx',cur.id+idx,function(){
+        pillS.textContent=idx>=0?hs[idx].textContent:cur.querySelector('.apri h3').textContent;
+        for(var k=0;k<hs.length;k++) hs[k].classList.toggle('passato',k<=idx);
+        var links=d.querySelectorAll('#leggendo .sez a, #foglio .sez a'), nl=links.length/2;
+        for(var j=0;j<links.length;j++){
+          var jj=j%nl; links[j].classList.toggle('fatto',jj<idx);
+          if(jj===idx) links[j].setAttribute('aria-current','true'); else links[j].removeAttribute('aria-current');
+        }
+      });
+      setOnce('pill',apriB<0&&c.bottom>vh*.6,function(v){pill.classList.toggle('su',v);});
+    } else { setOnce('pill',false,function(){pill.classList.remove('su');}); last.idx=null; }
+  }
+  function onScroll(){if(!tick){tick=true;requestAnimationFrame(update);}}
+  addEventListener('scroll',onScroll,{passive:true});
+  addEventListener('resize',onScroll);
+
+  /* lo schema segue appena il puntatore */
+  if(fig&&!reduce.matches){
+    var tx=0,ty=0,cx=0,cy=0,running=false;
+    function loop(){cx+=(tx-cx)*.08;cy+=(ty-cy)*.08;fig.style.setProperty('--fx',cx.toFixed(2)+'px');fig.style.setProperty('--fy',cy.toFixed(2)+'px');
+      if(Math.abs(tx-cx)>.05||Math.abs(ty-cy)>.05) requestAnimationFrame(loop); else running=false;}
+    addEventListener('pointermove',function(e){
+      if(!fine.matches||window.scrollY>window.innerHeight) return;
+      tx=(e.clientX/window.innerWidth-.5)*-16; ty=(e.clientY/window.innerHeight-.5)*-12;
+      if(!running){running=true;requestAnimationFrame(loop);}
+    },{passive:true});
+  }
+
+  if(fig&&'IntersectionObserver' in window){
+    var svg=fig.querySelector('svg');
+    new IntersectionObserver(function(es){var vis=es[0].isIntersecting;fig.classList.toggle('fermo',!vis);
+      if(svg.pauseAnimations){ if(vis) svg.unpauseAnimations(); else svg.pauseAnimations(); }}).observe(fig);
+  }
+
+  /* link diretto a un articolo: #/titolo */
+  function daHash(){
+    var m=location.hash.match(/^#\/(.+)$/); if(!m) return;
+    var v=d.getElementById(decodeURIComponent(m[1])); if(v&&v.classList.contains('voce')&&v!==cur) apri(v,true);
+  }
+  addEventListener('hashchange',daHash);
+  daHash(); update();
+})();
+</script>
+</body>
+</html>
