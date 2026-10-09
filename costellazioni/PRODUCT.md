@@ -28,10 +28,10 @@ A journal written from lived practice, with explicit epistemic honesty: every es
 
 - Site name: "Costellazioni quantiche retrocausali" (kept verbatim).
 - All article text, dates, titles, excerpts and closing disclaimers are preserved word for word.
-- Instagram is the only outbound call to action today (placeholder link https://instagram.com/ to be replaced by the owner).
+- Instagram is the only outbound call to action today (https://www.instagram.com/costellazioni_q.r/).
 - The footer disclaimer (not a psychotherapy) stays.
 
 ## Open decisions
 
-- Real Instagram profile URL; a contact route for potential clients is not defined yet (do not invent one).
+- A contact route for potential clients is not defined yet (do not invent one).
 - The previous background photo was dropped; the visual world is replaced.
