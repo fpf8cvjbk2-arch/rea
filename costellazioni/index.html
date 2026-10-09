@@ -8,11 +8,12 @@
 <meta property="og:title" content="Costellazioni quantiche retrocausali">
 <meta property="og:description" content="Journal sulle costellazioni familiari.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#F6F7F5">
+<meta name="theme-color" content="#F6F7F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121417" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2315171B'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23F6F7F5' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23D4351C'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=Literata:ital,opsz,wght@0,7..72,300..800;1,7..72,300..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,96,400..660&family=Literata:ital,opsz,wght@0,7..72,400..660;1,7..72,400..500&display=swap" rel="stylesheet">
 <style>
 /* ───────── palette: cambia data-palette su <html>, oppure apri la pagina con ?palette=nome ───────── */
 :root,[data-palette="originale"]{
@@ -54,17 +55,19 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--text);
   transition:background-color .4s var(--out),color .4s var(--out)}
 a{color:inherit}
 button{font:inherit;color:inherit}
+button,a,[role="button"]{touch-action:manipulation}
+button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 ::selection{background:var(--acc);color:var(--on-acc)}
 :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
 
 /* ───────── testata ───────── */
 .prog{position:fixed;inset:0 0 auto 0;height:3px;background:var(--acc);z-index:40;pointer-events:none;
-  transform-origin:0 50%;transform:scaleX(var(--pr,0));opacity:0;transition:opacity .3s var(--out)}
+  transform-origin:0 50%;transform:scaleX(0);will-change:transform;opacity:0;transition:opacity .3s var(--out)}
 .prog.on{opacity:1}
 .testata{position:sticky;top:0;z-index:30;background:var(--paper);border-bottom:1px solid transparent;
   transition:border-color .2s var(--out),background-color .4s var(--out)}
 .testata.scesa{border-bottom-color:var(--line)}
-.bar{max-width:var(--max);margin:0 auto;padding:14px var(--gut);display:flex;align-items:center;justify-content:space-between;gap:20px}
+.bar{max-width:var(--max);margin:0 auto;padding:14px max(var(--gut),env(safe-area-inset-right,0px)) 14px max(var(--gut),env(safe-area-inset-left,0px));display:flex;align-items:center;justify-content:space-between;gap:20px}
 .marchio{display:flex;align-items:center;gap:12px;text-decoration:none;font:600 15px/1.25 var(--display);letter-spacing:-.005em;max-width:25ch}
 .marchio svg{flex:none;width:38px;height:20px;fill:none;stroke:var(--ink);stroke-width:1.6;overflow:visible}
 .marchio .mc{transform-origin:29px 10px;transition:transform .5s var(--out)}
@@ -107,6 +110,7 @@ button{font:inherit;color:inherit}
 .s.r{stroke:var(--acc)}
 .pieno{fill:var(--ink)}
 .punto{fill:var(--acc)}
+.fermo .alone{animation-play-state:paused}
 .alone{fill:none;stroke:var(--acc);stroke-width:1.5;transform-origin:254px 470px;animation:respira 3.2s var(--out) 2.4s infinite backwards}
 @keyframes respira{0%{transform:scale(1);opacity:.75}100%{transform:scale(1.9);opacity:0}}
 .dt{font:500 13px var(--display);fill:var(--ink-2);text-anchor:middle;font-variant-numeric:tabular-nums}
@@ -141,10 +145,10 @@ button{font:inherit;color:inherit}
 @media (hover:hover) and (pointer:fine){.btn-c:hover{background:var(--ink);color:var(--paper)}}
 
 .gen{list-style:none;margin:0;padding:0 0 56px;position:relative;--p:0}
-.gen::before,.gen::after{content:"";position:absolute;left:var(--rx);top:46px;bottom:0;width:2px;margin-left:-1px;
+.gen::before,.filo{content:"";position:absolute;left:var(--rx);top:46px;bottom:0;width:2px;margin-left:-1px;
   -webkit-mask-image:linear-gradient(#000 calc(100% - 64px),transparent);mask-image:linear-gradient(#000 calc(100% - 64px),transparent)}
 .gen::before{background:var(--line)}
-.gen::after{background:var(--acc);transform-origin:50% 0;transform:scaleY(var(--p))}
+.filo{display:block;background:var(--acc);transform-origin:50% 0;transform:scaleY(0);will-change:transform;pointer-events:none}
 .voce{position:relative;scroll-margin-top:72px}
 .js .voce{opacity:0;transform:translateY(28px);transition:opacity .8s var(--out),transform .9s var(--out)}
 .js .voce.visto{opacity:1;transform:none}
@@ -156,10 +160,9 @@ button{font:inherit;color:inherit}
 .voce.aperta .nodo{background:var(--paper);border-color:var(--acc);box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--acc)}
 .voce time{font:500 .9rem var(--display);color:var(--ink-2);font-variant-numeric:tabular-nums;display:block}
 .apri h3{margin:6px 0 12px;font:620 clamp(1.5rem,1.15rem + 1.5vw,2.25rem)/1.1 var(--display);letter-spacing:-.02em;text-wrap:balance;max-width:22ch;
-  transition:font-size .5s var(--out)}
-.voce.aperta .apri h3{font-size:clamp(2rem,1.2rem + 3vw,3.3rem);max-width:18ch}
-.estratto{margin:0;color:var(--ink-2);max-width:56ch;transition:font-size .5s var(--out)}
-.voce.aperta .estratto{font-style:italic;font-size:1.12em}
+  }
+.estratto{margin:0;color:var(--ink-2);max-width:56ch}
+.voce.aperta .estratto{font-style:italic}
 .azioni{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-top:22px}
 .no-js .leggi{display:none}
 .leggi{display:inline-flex;align-items:center;gap:12px;padding:13px 22px;border:0;border-radius:2px;background:var(--ink);color:var(--paper);cursor:pointer;
@@ -190,6 +193,7 @@ button{font:inherit;color:inherit}
 .js .aperta .testo>:nth-child(3){transition-delay:.3s}.js .aperta .testo>:nth-child(4){transition-delay:.36s}
 .js .aperta .testo>:nth-child(5){transition-delay:.42s}
 .testo p{margin:0 0 1.15em}
+.testo>:nth-child(n+10):not(h3){content-visibility:auto;contain-intrinsic-size:auto 180px}
 .testo h3{position:relative;margin:2.5em 0 .7em;font:620 clamp(1.4rem,1.15rem + 1vw,1.85rem)/1.15 var(--display);letter-spacing:-.018em;text-wrap:balance;scroll-margin-top:92px}
 .testo h3::before{content:"";position:absolute;left:calc(var(--rx) - var(--rp) - 8px);top:.32em;width:16px;height:16px;border-radius:50%;
   border:2px solid var(--ink);background:var(--paper);
@@ -224,6 +228,15 @@ button{font:inherit;color:inherit}
 .piede{max-width:var(--max);margin:0 auto;padding:0 var(--gut) clamp(72px,12vh,112px);font:400 .875rem/1.6 var(--display);color:var(--ink-2)}
 .piede p{margin:0 0 8px;max-width:62ch}
 
+@media (max-width:999px),(pointer:coarse){
+  .js .corpo{display:block;transition:none}
+  .js .voce:not(.aperta) .corpo{display:none}
+  .js .testo>*,.js .aperta .testo>*{opacity:1;transform:none;transition:none}
+  .js .aperta .testo>:nth-child(-n+6){animation:entra .7s var(--out) backwards}
+  .js .aperta .testo>:nth-child(2){animation-delay:.07s}.js .aperta .testo>:nth-child(3){animation-delay:.14s}
+  .js .aperta .testo>:nth-child(4){animation-delay:.21s}.js .aperta .testo>:nth-child(5){animation-delay:.28s}
+  .js .aperta .testo>:nth-child(6){animation-delay:.35s}
+}
 @media (max-width:999px){
   .journal{grid-template-columns:minmax(0,1fr)}
   .lato{position:static;max-height:none;overflow:visible}
@@ -307,6 +320,7 @@ button{font:inherit;color:inherit}
     <div class="leggendo" id="leggendo" hidden></div>
   </div>
   <ol class="gen" role="list">
+    <li class="filo" aria-hidden="true"></li>
     <li class="voce" id="quando-il-corpo-dice-no">
       <div class="apri" data-slug="quando-il-corpo-dice-no">
         <span class="nodo" aria-hidden="true"></span>
@@ -756,26 +770,36 @@ button{font:inherit;color:inherit}
   } else voci.forEach(function(v){v.classList.add('visto');});
 
   /* il filo rosso scende con la lettura e accende i nodi che raggiunge */
+  var filo=d.querySelector('.filo'), last={};
+  function setOnce(k,v,fn){if(last[k]!==v){last[k]=v;fn(v);}}
   function update(){
     tick=false;
-    var y=window.scrollY, vh=window.innerHeight;
-    testata.classList.toggle('scesa',y>8);
-    var g=gen.getBoundingClientRect(), L=g.height-46, p=clamp((vh*.62-g.top-46)/L);
-    gen.style.setProperty('--p',p.toFixed(4));
-    var tip=g.top+46+p*L;
-    voci.forEach(function(v){var n=v.querySelector('.nodo').getBoundingClientRect();v.classList.toggle('acceso',n.top+11<tip);});
+    /* letture */
+    var y=window.scrollY, vh=window.innerHeight, g=gen.getBoundingClientRect(),
+        tops=voci.map(function(v){return v.getBoundingClientRect().top;}), c=null, hs=null, hTops=null, apriB=0;
     if(cur){
-      var c=cur.querySelector('.testo').getBoundingClientRect();
-      prog.style.setProperty('--pr',clamp((vh*.25-c.top)/c.height).toFixed(4));
-      var hs=cur.querySelectorAll('.testo h3'), links=leggendo.querySelectorAll('.sez a'), idx=-1;
-      for(var k=0;k<hs.length;k++){var on=hs[k].getBoundingClientRect().top<vh*.35;hs[k].classList.toggle('passato',on);if(on) idx=k;}
-      for(var j=0;j<links.length;j++){
-        links[j].classList.toggle('fatto',j<idx);
-        if(j===idx) links[j].setAttribute('aria-current','true'); else links[j].removeAttribute('aria-current');
-      }
-      var h=cur.querySelector('.apri').getBoundingClientRect();
-      pill.classList.toggle('su',h.bottom<0&&c.bottom>vh*.6);
+      c=cur.querySelector('.testo').getBoundingClientRect();
+      hs=cur.querySelectorAll('.testo h3'); hTops=[].map.call(hs,function(h){return h.getBoundingClientRect().top;});
+      apriB=cur.querySelector('.apri').getBoundingClientRect().bottom;
     }
+    /* scritture */
+    var L=g.height-46, p=clamp((vh*.62-g.top-46)/L), tip=g.top+46+p*L;
+    setOnce('scesa',y>8,function(v){testata.classList.toggle('scesa',v);});
+    setOnce('p',p.toFixed(3),function(v){filo.style.transform='scaleY('+v+')';});
+    voci.forEach(function(v,i){setOnce('n'+i,tops[i]+44<tip,function(on){v.classList.toggle('acceso',on);});});
+    if(cur){
+      setOnce('pr',clamp((vh*.25-c.top)/c.height).toFixed(3),function(v){prog.style.transform='scaleX('+v+')';});
+      var idx=-1; for(var k=0;k<hTops.length;k++){ if(hTops[k]<vh*.35) idx=k; }
+      setOnce('idx',cur.id+idx,function(){
+        for(var k=0;k<hs.length;k++) hs[k].classList.toggle('passato',k<=idx);
+        var links=leggendo.querySelectorAll('.sez a');
+        for(var j=0;j<links.length;j++){
+          links[j].classList.toggle('fatto',j<idx);
+          if(j===idx) links[j].setAttribute('aria-current','true'); else links[j].removeAttribute('aria-current');
+        }
+      });
+      setOnce('pill',apriB<0&&c.bottom>vh*.6,function(v){pill.classList.toggle('su',v);});
+    } else { setOnce('pill',false,function(){pill.classList.remove('su');}); last.idx=null; }
   }
   function onScroll(){if(!tick){tick=true;requestAnimationFrame(update);}}
   addEventListener('scroll',onScroll,{passive:true});
@@ -791,6 +815,12 @@ button{font:inherit;color:inherit}
       tx=(e.clientX/window.innerWidth-.5)*-16; ty=(e.clientY/window.innerHeight-.5)*-12;
       if(!running){running=true;requestAnimationFrame(loop);}
     },{passive:true});
+  }
+
+  if(fig&&'IntersectionObserver' in window){
+    var svg=fig.querySelector('svg');
+    new IntersectionObserver(function(es){var vis=es[0].isIntersecting;fig.classList.toggle('fermo',!vis);
+      if(svg.pauseAnimations){ if(vis) svg.unpauseAnimations(); else svg.pauseAnimations(); }}).observe(fig);
   }
 
   /* link diretto a un articolo: #/titolo */
