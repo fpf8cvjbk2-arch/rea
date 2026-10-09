@@ -148,7 +148,7 @@ button{font:inherit;color:inherit}
 .voce{position:relative;scroll-margin-top:72px}
 .js .voce{opacity:0;transform:translateY(28px);transition:opacity .8s var(--out),transform .9s var(--out)}
 .js .voce.visto{opacity:1;transform:none}
-.apri{display:block;padding:30px 0 34px var(--rp);text-decoration:none;position:relative;cursor:pointer}
+.apri{display:block;padding:30px 0 34px var(--rp);position:relative}
 .nodo{position:absolute;left:calc(var(--rx) - 11px);top:33px;width:22px;height:22px;border-radius:50%;
   border:2px solid var(--ink);background:var(--paper);z-index:1;
   transition:box-shadow .3s var(--out),background-color .3s var(--out),border-color .3s var(--out),transform .45s cubic-bezier(.34,1.56,.64,1)}
@@ -156,22 +156,26 @@ button{font:inherit;color:inherit}
 .voce.aperta .nodo{background:var(--paper);border-color:var(--acc);box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--acc)}
 .voce time{font:500 .9rem var(--display);color:var(--ink-2);font-variant-numeric:tabular-nums;display:block}
 .apri h3{margin:6px 0 12px;font:620 clamp(1.5rem,1.15rem + 1.5vw,2.25rem)/1.1 var(--display);letter-spacing:-.02em;text-wrap:balance;max-width:22ch;
-  text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:.16em;
-  transition:text-decoration-color .16s var(--out),font-size .5s var(--out)}
+  transition:font-size .5s var(--out)}
 .voce.aperta .apri h3{font-size:clamp(2rem,1.2rem + 3vw,3.3rem);max-width:18ch}
 .estratto{margin:0;color:var(--ink-2);max-width:56ch;transition:font-size .5s var(--out)}
 .voce.aperta .estratto{font-style:italic;font-size:1.12em}
-.vai{display:inline-flex;align-items:center;gap:10px;margin-top:18px;font:560 .95rem var(--display)}
-.vai svg{width:18px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6;transition:transform .35s var(--out)}
-.voce.aperta .vai svg{transform:rotate(90deg)}
-.vai .tempo{color:var(--ink-2);font-weight:400}
-.vai .tempo:not(:empty)::before{content:"";display:inline-block;width:5px;height:5px;border:1.2px solid currentColor;border-radius:50%;margin:0 10px 2px 0}
+.azioni{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-top:22px}
+.no-js .leggi{display:none}
+.leggi{display:inline-flex;align-items:center;gap:12px;padding:13px 22px;border:0;border-radius:2px;background:var(--ink);color:var(--paper);cursor:pointer;
+  font:560 .98rem var(--display);transition:background-color .16s var(--out),color .16s var(--out),transform .16s var(--out)}
+.leggi svg{width:18px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6;transition:transform .35s var(--out)}
+.leggi:active{transform:scale(.97)}
+.voce.aperta .leggi{background:none;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.voce.aperta .leggi svg{transform:rotate(-90deg)}
+.azioni .tempo{font:400 .92rem var(--display);color:var(--ink-2)}
+.azioni .tempo:not(:empty)::before{content:"";display:inline-block;width:5px;height:5px;border:1.2px solid currentColor;border-radius:50%;margin:0 10px 2px 0}
 @media (hover:hover) and (pointer:fine){
-  .apri:hover h3{text-decoration-color:var(--acc)}
-  .voce:not(.aperta) .apri:hover .nodo{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--ink)}
-  .voce:not(.aperta) .apri:hover .vai svg{transform:translateX(5px)}
+  .voce:not(.aperta) .leggi:hover{background:var(--acc-ink);color:var(--on-acc)}
+  .voce:not(.aperta) .leggi:hover svg{transform:translateX(5px)}
+  .voce.aperta .leggi:hover{background:var(--ink);color:var(--paper)}
+  .voce:not(.aperta):hover .nodo{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--ink)}
 }
-.apri:active .nodo{transform:scale(.9)}
 
 /* corpo dell'articolo: si apre nel posto in cui si trova */
 .js .corpo{display:grid;grid-template-rows:0fr;transition:grid-template-rows .8s var(--drawer)}
@@ -304,13 +308,13 @@ button{font:inherit;color:inherit}
   </div>
   <ol class="gen" role="list">
     <li class="voce" id="quando-il-corpo-dice-no">
-      <a class="apri" href="#/quando-il-corpo-dice-no" aria-controls="c-quando-il-corpo-dice-no">
+      <div class="apri" data-slug="quando-il-corpo-dice-no">
         <span class="nodo" aria-hidden="true"></span>
         <time datetime="2026-10-05">5 ottobre 2026</time>
         <h3>Quando il corpo dice no</h3>
         <p class="estratto">Una figlia che impara a servire la madre per avere un posto in famiglia. Ruoli invertiti, una ferita che passa tra le generazioni e il peso del dare continuo.</p>
-        <span class="vai"><span class="vai-t">Leggi l&#x27;articolo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span class="tempo"></span></span>
-      </a>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-quando-il-corpo-dice-no"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
       <div class="corpo" id="c-quando-il-corpo-dice-no"><div class="corpo-in"><div class="pad">
        <div class="testo">
       <p>Prendiamo un caso di scuola. Si chiama Alessia, e intorno ai trentacinque anni le viene diagnosticata un&#x27;artrite reumatoide, una malattia autoimmune. Negli anni peggiora, in modo graduale e progressivo, fino a limitarle alcuni movimenti: soprattutto quelli delle mani.</p>
@@ -352,13 +356,13 @@ button{font:inherit;color:inherit}
       </div></div></div>
     </li>
     <li class="voce" id="date-di-nascita-anniversari-e-lealta-invisibili">
-      <a class="apri" href="#/date-di-nascita-anniversari-e-lealta-invisibili" aria-controls="c-date-di-nascita-anniversari-e-lealta-invisibili">
+      <div class="apri" data-slug="date-di-nascita-anniversari-e-lealta-invisibili">
         <span class="nodo" aria-hidden="true"></span>
         <time datetime="2026-09-28">28 settembre 2026</time>
         <h3>Date di nascita, anniversari e lealtà invisibili</h3>
         <p class="estratto">Le famiglie hanno una memoria, e quella memoria sembra avere un calendario. Sindrome da anniversario, lealtà familiari e che cosa farne.</p>
-        <span class="vai"><span class="vai-t">Leggi l&#x27;articolo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span class="tempo"></span></span>
-      </a>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-date-di-nascita-anniversari-e-lealta-invisibili"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
       <div class="corpo" id="c-date-di-nascita-anniversari-e-lealta-invisibili"><div class="corpo-in"><div class="pad">
        <div class="testo">
       <p>Ogni anno, verso la fine di novembre, una donna si sente spenta. Non succede nulla di particolare, eppure il sonno peggiora, l&#x27;umore scende, tutto costa più fatica. Solo dopo molto tempo scopre che in quelle stesse settimane, quando lei aveva due anni, la madre aveva perso un figlio. In casa non se n&#x27;era mai parlato.</p>
@@ -420,13 +424,13 @@ button{font:inherit;color:inherit}
       </div></div></div>
     </li>
     <li class="voce" id="una-lettura-sistemica-del-giudizio-universale">
-      <a class="apri" href="#/una-lettura-sistemica-del-giudizio-universale" aria-controls="c-una-lettura-sistemica-del-giudizio-universale">
+      <div class="apri" data-slug="una-lettura-sistemica-del-giudizio-universale">
         <span class="nodo" aria-hidden="true"></span>
         <time datetime="2026-09-21">21 settembre 2026</time>
         <h3>Una lettura sistemica del Giudizio Universale</h3>
         <p class="estratto">Il centro che riordina, il femminile che accoglie, gli esclusi che restano dipinti sulla stessa parete. Tutti colpevoli, tutti possono essere graziati.</p>
-        <span class="vai"><span class="vai-t">Leggi l&#x27;articolo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span class="tempo"></span></span>
-      </a>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-una-lettura-sistemica-del-giudizio-universale"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
       <div class="corpo" id="c-una-lettura-sistemica-del-giudizio-universale"><div class="corpo-in"><div class="pad">
        <div class="testo">
       <p>Chi entra nella Cappella Sistina alza gli occhi alla volta, ma è la parete dell&#x27;altare a fermarlo. Quasi quattrocento figure salgono, precipitano, si aggrappano, si voltano. Nessuna cornice le contiene e non c&#x27;è una storia da seguire in ordine: c&#x27;è un movimento, e tutto ruota intorno a un punto.</p>
@@ -493,13 +497,13 @@ button{font:inherit;color:inherit}
       </div></div></div>
     </li>
     <li class="voce" id="potere-personale-una-lettura-sistemica">
-      <a class="apri" href="#/potere-personale-una-lettura-sistemica" aria-controls="c-potere-personale-una-lettura-sistemica">
+      <div class="apri" data-slug="potere-personale-una-lettura-sistemica">
         <span class="nodo" aria-hidden="true"></span>
         <time datetime="2026-09-12">12 settembre 2026</time>
         <h3>Potere personale: una lettura sistemica</h3>
         <p class="estratto">Il potere non è un tratto di carattere: è l&#x27;effetto della posizione che una persona occupa nel proprio sistema familiare.</p>
-        <span class="vai"><span class="vai-t">Leggi l&#x27;articolo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span class="tempo"></span></span>
-      </a>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-potere-personale-una-lettura-sistemica"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
       <div class="corpo" id="c-potere-personale-una-lettura-sistemica"><div class="corpo-in"><div class="pad">
        <div class="testo">
       <p>Nel linguaggio comune il potere personale viene descritto come una qualità individuale: c&#x27;è chi ce l&#x27;ha e chi deve conquistarlo. In una prospettiva sistemica il discorso cambia. Il potere non è un tratto di carattere: è l&#x27;effetto della posizione che una persona occupa nel proprio sistema familiare.</p>
@@ -552,13 +556,13 @@ button{font:inherit;color:inherit}
       </div></div></div>
     </li>
     <li class="voce" id="il-potere-che-attribuiamo-allaltro">
-      <a class="apri" href="#/il-potere-che-attribuiamo-allaltro" aria-controls="c-il-potere-che-attribuiamo-allaltro">
+      <div class="apri" data-slug="il-potere-che-attribuiamo-allaltro">
         <span class="nodo" aria-hidden="true"></span>
         <time datetime="2026-08-28">28 agosto 2026</time>
         <h3>Il potere che attribuiamo all&#x27;altro</h3>
         <p class="estratto">Ci sono incontri che ci accendono e insieme ci mettono a nudo. Una lettura sistemica delle relazioni.</p>
-        <span class="vai"><span class="vai-t">Leggi l&#x27;articolo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg><span class="tempo"></span></span>
-      </a>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-il-potere-che-attribuiamo-allaltro"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
       <div class="corpo" id="c-il-potere-che-attribuiamo-allaltro"><div class="corpo-in"><div class="pad">
        <div class="testo">
       <p class="nota"><em>Una lettura sistemica delle relazioni</em></p>
@@ -688,16 +692,15 @@ button{font:inherit;color:inherit}
 
   /* tempo di lettura e preparazione delle voci */
   voci.forEach(function(v){
-    var a=v.querySelector('.apri'), t=v.querySelector('.testo'),
+    var t=v.querySelector('.testo'),
         min=Math.max(1,Math.round(t.textContent.trim().split(/\s+/).length/200));
-    v.querySelector('.tempo').textContent=min+' min';
-    a.setAttribute('role','button'); a.setAttribute('aria-expanded','false');
+    v.querySelector('.tempo').textContent=min+' min di lettura';
     [].forEach.call(t.querySelectorAll('h3'),function(h,k){h.id=v.id+'-s'+(k+1);});
   });
 
   function setLabel(v,open){
-    v.querySelector('.vai-t').textContent=open?'Chiudi l’articolo':'Leggi l’articolo';
-    v.querySelector('.apri').setAttribute('aria-expanded',open?'true':'false');
+    v.querySelector('.vai-t').textContent=open?'Chiudi l’articolo':'Leggi l’articolo completo';
+    v.querySelector('.leggi').setAttribute('aria-expanded',open?'true':'false');
   }
   function shut(v){ /* chiusura istantanea, senza spostare la vista */
     var c=v.querySelector('.corpo'); c.classList.add('subito'); v.classList.remove('aperta'); setLabel(v,false);
@@ -739,7 +742,7 @@ button{font:inherit;color:inherit}
 
   d.addEventListener('click',function(e){
     var t=e.target.closest?e.target:null; if(!t) return;
-    var a=t.closest('.apri');
+    var a=t.closest('.leggi');
     if(a){ e.preventDefault(); var v=a.closest('.voce'); if(v.classList.contains('aperta')) chiudi(v); else apri(v,false); return; }
     if(t.closest('[data-chiudi]')||t.closest('#pill')){ e.preventDefault(); chiudi(cur); return; }
     var s=t.closest('.sez a');

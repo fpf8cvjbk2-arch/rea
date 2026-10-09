@@ -36,7 +36,7 @@ Il rosso è l'unico colore: indica ciò che passa da una generazione all'altra (
 
 - Bottone primario: ink pieno, raggio 2px, `:active` scala .97. Bottone secondario: contorno 1.5px.
 - Elenco: voce intera cliccabile, nodo a sinistra su una linea verticale, linea che sfuma oltre l'ultimo articolo (il journal continua).
-- Articolo: si espande dentro l'elenco, indirizzabile con `#/slug`; senza JavaScript tutti gli articoli sono già aperti.
+- Articolo: data, titolo, riassunto e pulsante "Leggi l'articolo completo"; il pulsante (e solo lui) espande il testo dentro l'elenco, indirizzabile con `#/slug`; senza JavaScript tutti gli articoli sono già aperti.
 
 ## Palette alternative
 
