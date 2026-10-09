@@ -48,7 +48,7 @@
 @media (max-width:759px){
   :root{--rx:17px;--rp:46px}
   .gen::before,.filo{width:3px;margin-left:-1.5px}
-  .testo h3::before{width:18px;height:18px;left:calc(var(--rx) - var(--rp) - 9px)}
+  .testo h3::before{width:22px;height:22px;left:calc(var(--rx) - var(--rp) - 11px)}
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -108,7 +108,7 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 
 .gen-fig{margin:0;justify-self:end;width:100%;max-width:470px}
 .gen-fig svg{display:block;width:100%;height:auto;overflow:visible;transform:translate3d(var(--fx,0),var(--fy,0),0)}
-.gen-fig figcaption{margin-top:22px;font:400 .875rem/1.5 var(--display);color:var(--ink-2);max-width:40ch}
+.gen-fig figcaption{margin:22px auto 0;font:400 .875rem/1.5 var(--display);color:var(--ink-2);max-width:40ch;text-align:center;text-wrap:balance}
 .js .gen-fig figcaption{animation:entra .9s var(--out) 2.2s backwards}
 .s{fill:none;stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
 .s.r{stroke:var(--acc)}
@@ -134,9 +134,9 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .leggendo .lt,.foglio .lt{margin:0;font:500 .82rem var(--display);color:var(--ink-2)}
 .leggendo .lt-t,.foglio .lt-t{margin:4px 0 16px;font:620 1.05rem/1.25 var(--display);text-wrap:balance}
 .sez{list-style:none;margin:0;padding:0 0 4px;position:relative}
-.sez::before{content:"";position:absolute;left:5px;top:12px;bottom:12px;width:1px;background:var(--line)}
+.sez::before{content:"";position:absolute;left:6.5px;top:12px;bottom:12px;width:1px;background:var(--line)}
 .sez a{display:block;position:relative;padding:5px 0 5px 26px;text-decoration:none;font:450 .88rem/1.35 var(--display);color:var(--ink-2);transition:color .16s var(--out)}
-.sez a::before{content:"";position:absolute;left:0;top:.6em;width:11px;height:11px;border-radius:50%;border:1.5px solid var(--ink-2);background:var(--paper);
+.sez a::before{content:"";box-sizing:border-box;position:absolute;left:0;top:.6em;width:14px;height:14px;border-radius:50%;border:1.5px solid var(--ink-2);background:var(--paper);
   transition:background-color .25s var(--out),border-color .25s var(--out),box-shadow .25s var(--out)}
 @media (hover:hover) and (pointer:fine){.sez a:hover{color:var(--ink)}}
 .sez a.fatto::before{background:var(--ink-2)}
@@ -199,7 +199,7 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .testo p{margin:0 0 1.15em}
 .testo>:nth-child(n+10):not(h3){content-visibility:auto;contain-intrinsic-size:auto 180px}
 .testo h3{position:relative;margin:2.5em 0 .7em;font:620 clamp(1.4rem,1.15rem + 1vw,1.85rem)/1.15 var(--display);letter-spacing:-.018em;text-wrap:balance;scroll-margin-top:92px}
-.testo h3::before{content:"";position:absolute;left:calc(var(--rx) - var(--rp) - 8px);top:.32em;width:16px;height:16px;border-radius:50%;
+.testo h3::before{content:"";box-sizing:border-box;position:absolute;left:calc(var(--rx) - var(--rp) - 10px);top:.32em;width:20px;height:20px;border-radius:50%;
   border:2px solid var(--ink);background:var(--paper);
   transition:background-color .35s var(--out),border-color .35s var(--out),transform .5s cubic-bezier(.34,1.56,.64,1)}
 .testo h3.passato::before{background:var(--acc);border-color:var(--acc);transform:scale(1.12)}
@@ -232,8 +232,8 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .foglio.su{transform:none}
 .foglio .maniglia{display:block;width:40px;height:4px;border-radius:4px;background:var(--line);margin:0 auto 16px}
 .foglio .sez a{font-size:1rem;padding:9px 0 9px 30px}
-.foglio .sez a::before{top:.85em;width:13px;height:13px}
-.foglio .sez::before{left:6px}
+.foglio .sez a::before{top:.85em;width:16px;height:16px}
+.foglio .sez::before{left:7.5px}
 @media (max-width:759px){.js .pill{display:flex}}
 
 /* ───────── coda e piede ───────── */
@@ -300,14 +300,14 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 
   <figure class="gen-fig" id="fig">
     <svg viewBox="0 0 480 540" aria-hidden="true">
-      <path class="s dr" pathLength="1" style="--d:.05s" d="M62 48H106V92H62Z"/>
-      <path class="s dr" pathLength="1" style="--d:.15s" d="M174 70a22 22 0 1 0 44 0a22 22 0 1 0-44 0"/>
+      <path class="s dr" pathLength="1" style="--d:.05s" d="M62 70a22 22 0 1 0 44 0a22 22 0 1 0-44 0"/>
+      <path class="s dr" pathLength="1" style="--d:.15s" d="M174 48H218V92H174Z"/>
       <path class="s dr" pathLength="1" style="--d:.3s" d="M106 70H174"/>
-      <path class="s dr r" pathLength="1" style="--d:.2s" d="M290 48H334V92H290Z"/>
-      <path class="s dr r" pathLength="1" style="--d:.45s" d="M290 48L334 92M334 48L290 92"/>
-      <path class="s dr" pathLength="1" style="--d:.3s" d="M402 70a22 22 0 1 0 44 0a22 22 0 1 0-44 0"/>
-      <path class="s dr r" pathLength="1" style="--d:.6s" d="M334 70H368"/>
-      <path class="s dr" pathLength="1" style="--d:.7s" d="M368 70H402"/>
+      <path class="s dr r" pathLength="1" style="--d:.2s" d="M402 48H446V92H402Z"/>
+      <path class="s dr r" pathLength="1" style="--d:.45s" d="M402 48L446 92M446 48L402 92"/>
+      <path class="s dr" pathLength="1" style="--d:.3s" d="M290 70a22 22 0 1 0 44 0a22 22 0 1 0-44 0"/>
+      <path class="s dr r" pathLength="1" style="--d:.6s" d="M402 70H368"/>
+      <path class="s dr" pathLength="1" style="--d:.7s" d="M334 70H368"/>
       <path class="s dr" pathLength="1" style="--d:.85s" d="M348 60L356 80M354 60L362 80"/>
       <path class="s dr" pathLength="1" style="--d:.5s" d="M140 70V248"/>
       <path class="s dr r" pathLength="1" style="--d:.95s" d="M368 70V248"/>
@@ -322,13 +322,13 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
       <path class="s dr" pathLength="1" style="--d:1.9s" d="M254 380H340V463"/>
       <circle class="pieno" style="--d:2.1s" cx="340" cy="470" r="7"/>
       <circle class="punto" id="punto" r="5" opacity="0">
-        <animateMotion id="viaggio" dur="4.6s" begin="2.4s;viaggio.end+1.6s" path="M312 70H368V270H254V444" calcMode="spline" keyPoints="0;1" keyTimes="0;1" keySplines=".45 0 .25 1"/>
+        <animateMotion id="viaggio" dur="4.6s" begin="2.4s;viaggio.end+1.6s" path="M424 70H368V270H254V444" calcMode="spline" keyPoints="0;1" keyTimes="0;1" keySplines=".45 0 .25 1"/>
         <animate attributeName="opacity" dur="4.6s" begin="2.4s;viaggio.end+1.6s" values="0;1;1;0" keyTimes="0;.08;.85;1"/>
       </circle>
-      <text class="dt" style="--d:.5s" x="84" y="114">1927–2009</text>
-      <text class="dt" style="--d:.55s" x="196" y="114">1931</text>
-      <text class="dt" style="--d:.6s" x="312" y="114">1934–1966</text>
-      <text class="dt" style="--d:.65s" x="424" y="114">1938</text>
+      <text class="dt" style="--d:.5s" x="84" y="114">1931</text>
+      <text class="dt" style="--d:.55s" x="196" y="114">1927–2009</text>
+      <text class="dt" style="--d:.6s" x="312" y="114">1938</text>
+      <text class="dt" style="--d:.65s" x="424" y="114">1934–1966</text>
       <text class="dt" style="--d:1.2s" x="140" y="316">1958</text>
       <text class="dt" style="--d:1.25s" x="368" y="316">1955</text>
       <text class="dt" style="--d:2.1s" x="254" y="520">1984</text>
@@ -677,7 +677,7 @@ button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 <footer class="piede">
   <p>Costellazioni quantiche retrocausali — costellazioni familiari.</p>
   <p>Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</p>
-  <p class="versione">Versione 9 ottobre 2026 · v8</p>
+  <p class="versione">Versione 9 ottobre 2026 · v9</p>
 </footer>
 
 <button class="pill" id="pill" type="button" aria-haspopup="dialog" aria-controls="foglio" hidden>
