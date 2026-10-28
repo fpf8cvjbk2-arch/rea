@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Final Table Hold'em</title>
+    <meta name="claude:viewport-fit-sides" content="cover" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Big+Shoulders+Text:wght@500;600;700&family=Figtree:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="clock">
+      <div class="brand">
+        <h1>Final Table Hold'em</h1>
+        <small>No-Limit Texas Hold'em · 9 giocatori · stack 30.000</small>
+      </div>
+      <div class="cell level">
+        <span class="k">Livello</span><span class="v" id="lv-num">1</span>
+      </div>
+      <div class="cell">
+        <span class="k">Bui</span
+        ><span class="v" id="lv-blinds">100 / 200</span>
+      </div>
+      <div class="cell">
+        <span class="k">Ante BB</span><span class="v" id="lv-ante">—</span>
+      </div>
+      <div class="cell">
+        <span class="k">Prossimo livello</span>
+        <span class="v"
+          ><span id="lv-next">9 mani</span><small id="lv-after"></small
+        ></span>
+      </div>
+      <div class="cell">
+        <span class="k">Giocatori</span
+        ><span class="v" id="t-players">9 / 9</span>
+      </div>
+      <div class="cell">
+        <span class="k">Stack medio</span
+        ><span class="v" id="t-avg">30.000</span>
+      </div>
+      <div class="cell">
+        <span class="k">Mano</span><span class="v" id="t-hand">—</span>
+      </div>
+      <div class="tools">
+        <label for="opt-speed"
+          >Velocità
+          <select id="opt-speed">
+            <option value="slow">Lenta</option>
+            <option value="normal">Normale</option>
+            <option value="fast">Veloce</option>
+          </select>
+        </label>
+        <label for="opt-hud"><input type="checkbox" id="opt-hud" /> HUD</label>
+        <label for="opt-4c"
+          ><input type="checkbox" id="opt-4c" /> Mazzo 4 colori</label
+        >
+        <button type="button" class="btn-ghost" id="btn-new">
+          Nuovo torneo
+        </button>
+      </div>
+    </header>
+
+    <main class="room">
+      <section class="stage">
+        <div class="table-wrap">
+          <div class="table" id="table">
+            <div id="seats"></div>
+          </div>
+        </div>
+
+        <div class="actions" id="actions">
+          <div class="hero-line">
+            <span>La tua mano: <b id="hero-hand">—</b></span>
+            <span>Tasti: F fold · C check/call · R punta/rilancia</span>
+          </div>
+          <div class="sizing" id="sizing">
+            <div class="presets" id="presets"></div>
+            <input
+              type="range"
+              id="raise-slider"
+              aria-label="Importo del rilancio"
+            />
+            <input type="number" id="raise-input" aria-label="Rilancia a" />
+          </div>
+          <div class="buttons">
+            <button type="button" class="act act-fold" id="btn-fold">
+              Fold<kbd>F</kbd>
+            </button>
+            <button type="button" class="act act-call" id="btn-call">
+              Check
+            </button>
+            <button type="button" class="act act-raise" id="btn-raise">
+              Rilancia
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side">
+        <section class="panel">
+          <h2>Premi e classifica</h2>
+          <div class="payouts" id="payouts"></div>
+          <ol class="standings" id="standings"></ol>
+        </section>
+        <section class="panel">
+          <h2>Storico della mano</h2>
+          <ul class="log" id="log"></ul>
+        </section>
+      </aside>
+    </main>
+
+    <div class="flash" id="flash" hidden></div>
+
+    <div class="overlay" id="overlay" hidden>
+      <form class="dialog" id="start" autocomplete="off">
+        <h2>Torneo Sit &amp; Go</h2>
+        <p>
+          Otto avversari di livello pro: range per posizione, 3-bet e 4-bet
+          bilanciati, push/fold da stack corto, letture sulle tue statistiche e
+          pressione ICM vicino ai premi.
+        </p>
+        <dl class="facts">
+          <div>
+            <dt>Giocatori</dt>
+            <dd>9</dd>
+          </div>
+          <div>
+            <dt>Stack</dt>
+            <dd>30.000</dd>
+          </div>
+          <div>
+            <dt>Premi</dt>
+            <dd>Top 3</dd>
+          </div>
+        </dl>
+        <div>
+          <label class="field" for="hero-name"
+            >Il tuo nome
+            <input type="text" id="hero-name" maxlength="18" />
+          </label>
+          <label class="field" for="hands-level"
+            >Durata dei livelli
+            <select id="hands-level">
+              <option value="6">Turbo · 6 mani per livello</option>
+              <option value="9">Standard · 9 mani per livello</option>
+              <option value="12">Deep · 12 mani per livello</option>
+            </select>
+          </label>
+        </div>
+        <div class="row-buttons" id="start-buttons">
+          <button type="button" class="btn-ghost" id="btn-resume" hidden>
+            Torna al tavolo
+          </button>
+          <button type="submit" class="btn-primary">Siediti al tavolo</button>
+        </div>
+      </form>
+
+      <div class="dialog" id="bust" hidden>
+        <h2 id="bust-title">Eliminato</h2>
+        <p id="bust-text"></p>
+        <div class="row-buttons">
+          <button type="button" class="btn-ghost" id="btn-watch">
+            Guarda la fine
+          </button>
+          <button type="button" class="btn-primary" id="btn-again">
+            Nuovo torneo
+          </button>
+        </div>
+      </div>
+
+      <div class="dialog" id="end" hidden>
+        <h2 id="end-title">Torneo concluso</h2>
+        <ol class="end-list" id="end-list"></ol>
+        <button type="button" class="btn-primary" id="btn-again-end">
+          Gioca ancora
+        </button>
+      </div>
+    </div>
+
+    <script src="src/cards.js"></script>
+    <script src="src/ranges.js"></script>
+    <script src="src/ai.js"></script>
+    <script src="src/engine.js"></script>
+    <script src="src/ui.js"></script>
+  </body>
+</html>
