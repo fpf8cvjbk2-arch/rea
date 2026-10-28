@@ -1,12 +1,13 @@
-// Tournament bots. Preflop: position-based opening ranges, polarized
-// 3-bets/4-bets and EV-driven push/fold for short stacks. Postflop: Monte
-// Carlo equity against each opponent's range, narrowed by what they did this
-// hand and weighted by the tendencies observed so far (VPIP, PFR, AF, fold to
-// bet), plus an ICM risk premium near the money.
+// Tournament bots, preflop half and shared helpers. Preflop: position-based
+// opening ranges widened against tight blinds, polarized 3-bets/4-bets with
+// blocker bluffs and squeezes, occasional limp-traps, and EV-driven push/fold
+// for short stacks. Every multiplier comes from the bot's personality and
+// current mood (see mind.js). Postflop play lives in postflop.js.
 (() => {
   "use strict";
   const P = (globalThis.Poker ??= {});
-  const { percentile, equity, drawInfo, classify } = P.Ranges;
+  const { percentile, equity } = P.Ranges;
+  const { Mind } = P;
 
   // Raise-first-in width by number of players still to act (incl. blinds).
   const RFI = [1, 0.44, 0.46, 0.3, 0.24, 0.2, 0.17, 0.15, 0.13];
@@ -46,6 +47,7 @@
       pfr: rate(p, "pfr", "hands"),
       af: (s.aggr + PRIOR.aggr) / (s.passive + PRIOR.passive),
       foldToBet: rate(p, "foldedToBet", "facedBet"),
+      bluffsShown: s.bluffsShown,
     };
   }
 
@@ -59,14 +61,16 @@
         passive: 0,
         facedBet: 0,
         foldedToBet: 0,
+        bluffsShown: 0,
       };
-      p.style = { aggr: 1, loose: 1, ...p.style };
+      Mind.init(p);
     }
   }
 
   function newHand(g) {
     for (const p of g.alive()) {
       p.stats.hands++;
+      p.finalBucket = undefined;
       p.hi = {
         range: { lo: 0, hi: 1, trap: 0 },
         postAggr: 0,
@@ -74,6 +78,11 @@
         vpip: false,
         pfr: false,
         lastBetFrac: 0,
+        streetActs: [],
+        bluffing: false,
+        hadDraw: false,
+        planCR: false,
+        float: false,
       };
     }
   }
@@ -144,9 +153,11 @@
   const passive = (legal) =>
     legal.canCheck ? { type: "check" } : { type: "fold" };
 
+  /** Bucket acceptance odds for an opponent, from this hand and their history. */
   function weightsFor(o) {
     const pf = profile(o);
-    const bluff = clamp(pf.af / 1.5, 0.5, 2);
+    const shown = 1 + 0.2 * Math.min(pf.bluffsShown, 4);
+    const bluff = clamp((pf.af / 1.5) * shown, 0.5, 2.4);
     const press = o.hi.postAggr + (o.hi.lastBetFrac > 1 ? 1 : 0);
     let base;
     if (press === 0) base = o.hi.postCalls > 0 ? W_CALL : W_CHECK;
@@ -155,19 +166,6 @@
     w[0] = Math.min(1, w[0] * bluff);
     w[1] = Math.min(1, w[1] * bluff);
     return w;
-  }
-
-  function equityVs(g, p, opps, trials, postflop) {
-    return equity({
-      hole: p.hole,
-      board: g.board,
-      opponents: opps.map((o) => ({
-        range: o.hi.range,
-        weights: postflop ? weightsFor(o) : null,
-      })),
-      trials,
-      rng: g.rng,
-    });
   }
 
   // ---------------------------------------------------------------- preflop
@@ -213,15 +211,17 @@
     return { ev: pFold * legal.pot + (1 - pFold) * called, caller, seff };
   }
 
-  function shoveOrNot(g, p, legal, fallback) {
+  function shoveOrNot(g, p, legal, fallback, style) {
     const { ev, caller, seff } = shoveEV(g, p, legal);
     const premium = caller ? icmPremium(g, p, caller) * seff : 0;
-    if (ev > premium) return jam(legal);
+    // Aggressive or tilted players gamble a little more.
+    const lean = (style.aggr - 1) * 0.08 * (seff ?? 0);
+    if (ev + lean > premium) return jam(legal);
     return fallback;
   }
 
   /** Call/jam decision when the price commits most of the stack. */
-  function allInDecision(g, p, legal, width) {
+  function allInDecision(g, p, legal, width, style) {
     const aggressor = g.players[g.pf.lastRaiser] ?? null;
     const opps = opponents(g, p);
     const specs = opps.map((o) => ({
@@ -234,44 +234,72 @@
       trials: 500,
       rng: g.rng,
     });
-    const need = legal.callAmount / (legal.pot + legal.callAmount);
+    const need =
+      legal.callAmount / (legal.pot + legal.callAmount) -
+      (style.sticky - 1) * 0.05;
+    const meta = { close: Math.abs(eq - need) < 0.05, strong: eq > 0.7 };
     if (eq >= need + icmPremium(g, p, aggressor)) {
-      return eq > 0.55 || p.stack - legal.callAmount < g.bb * 3
-        ? jam(legal)
-        : { type: "call" };
+      const a =
+        eq > 0.55 || p.stack - legal.callAmount < g.bb * 3
+          ? jam(legal)
+          : { type: "call" };
+      return { ...a, meta };
     }
-    return passive(legal);
+    return { ...passive(legal), meta };
   }
 
-  function openSize(g, p, eff, limpers) {
+  function openSize(g, p, ctx, limpers) {
+    const { eff, pct, style } = ctx;
+    const key = p.personaKey;
     let bbs = 2.2;
     if (eff < 25) bbs = 2;
     else if (p.seat === g.sbSeat) bbs = 3;
+    else if (key === "lag" || key === "maniac")
+      bbs = [2, 2.2, 2.5][Math.floor(g.rng() * 3)];
+    else if (key === "rock") bbs = 2.5;
     else if (behindCount(g, p) >= 6) bbs = 2.4;
+    if (style.tell && pct <= 0.04) bbs += 0.8; // raises bigger with premiums
     return (bbs + limpers) * g.bb;
+  }
+
+  /** Widening factor for steals when the players left to act fold a lot. */
+  function stealFactor(g, p, behind, style) {
+    if (behind > 3) return 1;
+    const left = g.preflopOrder.slice(-behind).map((s) => g.players[s]);
+    const vpip =
+      left.reduce((acc, o) => acc + profile(o).vpip, 0) /
+      Math.max(1, left.length);
+    return clamp(1 + (0.24 - vpip) * 2 * style.adapt, 0.8, 1.35);
   }
 
   function unopened(g, p, legal, ctx) {
     const { pct, eff, behind, style } = ctx;
     if (legal.canCheck) {
       // Big blind in a limped pot.
-      if (pct <= 0.1 * style.aggr) {
-        return raiseTo(g, p, legal, (3 + g.pf.limpers) * g.bb);
+      if (
+        pct <= 0.1 * style.aggr ||
+        (pct > 0.5 && g.rng() < 0.06 * style.bluff)
+      ) {
+        return raiseTo(g, p, legal, (3.5 + g.pf.limpers) * g.bb);
       }
       return { type: "check" };
     }
     const short = eff <= (g.level.ante > 0 ? 14 : 12);
-    if (short) return shoveOrNot(g, p, legal, passive(legal));
-    const open = rfiWidth(g, behind) * style.loose;
+    if (short) return shoveOrNot(g, p, legal, passive(legal), style);
+    if (pct <= 0.012 && behind >= 5 && g.rng() < style.trap * 0.25) {
+      return { type: "call", meta: { strong: true } }; // limp-trap
+    }
+    const open =
+      rfiWidth(g, behind) * style.loose * stealFactor(g, p, behind, style);
     if (g.pf.limpers > 0) {
       if (pct <= open * 0.6) {
-        return raiseTo(g, p, legal, openSize(g, p, eff, g.pf.limpers + 1));
+        return raiseTo(g, p, legal, openSize(g, p, ctx, g.pf.limpers + 1));
       }
       if (pct <= open * 0.9 && legal.callAmount <= g.bb)
         return { type: "call" };
       return passive(legal);
     }
-    if (pct <= open) return raiseTo(g, p, legal, openSize(g, p, eff, 0));
+    if (pct <= open) return raiseTo(g, p, legal, openSize(g, p, ctx, 0));
     if (p.seat === g.sbSeat && behind === 1 && pct <= 0.7 && g.rng() < 0.35) {
       return { type: "call" };
     }
@@ -284,7 +312,18 @@
     const suited = (hole[0] & 3) === (hole[1] & 3);
     return (
       (Math.max(r0, r1) === 12 && suited) ||
-      (suited && Math.abs(r0 - r1) === 1 && Math.min(r0, r1) >= 3)
+      (suited && Math.abs(r0 - r1) <= 2 && Math.min(r0, r1) >= 3) ||
+      (Math.max(r0, r1) >= 11 && Math.min(r0, r1) >= 8)
+    );
+  }
+
+  function threeBetSize(g, p, legal, ip, callers) {
+    const mult = ip ? 3 : 3.8;
+    return raiseTo(
+      g,
+      p,
+      legal,
+      legal.currentBet * mult + callers * legal.currentBet * 1.1,
     );
   }
 
@@ -296,18 +335,15 @@
     const isBB = p.seat === g.bbSeat;
     const isSB = p.seat === g.sbSeat;
     if (legal.callAmount >= p.stack * 0.45 || raiser.allIn) {
-      return allInDecision(g, p, legal, R);
+      return allInDecision(g, p, legal, R, style);
     }
     const price = legal.callAmount / (legal.pot + legal.callAmount);
     if (eff <= 22) {
       const jamW = Math.max(0.04, R * 0.45) * (callers ? 0.7 : 1) * style.aggr;
-      if (pct <= jamW)
-        return shoveOrNot(
-          g,
-          p,
-          legal,
-          pct <= jamW * 0.5 ? jam(legal) : passive(legal),
-        );
+      if (pct <= jamW) {
+        const fallback = pct <= jamW * 0.5 ? jam(legal) : passive(legal);
+        return shoveOrNot(g, p, legal, fallback, style);
+      }
       if (isBB && pct <= Math.min(0.45, R * (1 + (0.33 - price) * 3)))
         return { type: "call" };
       return passive(legal);
@@ -320,22 +356,22 @@
     else if (ip) callW = R * 0.7;
     else callW = R * (isSB ? 0.35 : 0.45);
     if (callers) callW *= 0.85;
+    callW *= Math.sqrt(style.sticky);
+    const band = pct > callW && pct <= callW + R * 0.3;
+    const blocker = isBlockerHand(p.hole);
     const bluff3 =
-      callers === 0 &&
-      pct > callW &&
-      pct <= callW + R * 0.25 &&
-      isBlockerHand(p.hole) &&
-      g.rng() < 0.5 * style.aggr;
+      band &&
+      blocker &&
+      g.rng() < (callers ? 0.22 : 0.45) * style.bluff * (R / 0.2) ** 0.5;
     if (pct <= v3 || bluff3) {
-      const mult = ip ? 3 : 3.8;
-      return raiseTo(
-        g,
-        p,
-        legal,
-        legal.currentBet * mult + callers * legal.currentBet,
-      );
+      if (bluff3) p.hi.preBluff = true;
+      return {
+        ...threeBetSize(g, p, legal, ip, callers),
+        meta: { strong: pct <= 0.02, close: bluff3 },
+      };
     }
-    if (pct <= callW) return { type: "call" };
+    if (pct <= callW)
+      return { type: "call", meta: { close: pct > callW * 0.85 } };
     return passive(legal);
   }
 
@@ -344,24 +380,32 @@
     const three = g.players[g.pf.lastRaiser];
     const W3 = three.hi.range.hi;
     if (legal.callAmount >= p.stack * 0.4 || three.allIn) {
-      return allInDecision(g, p, legal, W3);
+      return allInDecision(g, p, legal, W3, style);
     }
     const invested = p.bet > 0 && p.hi.pfr;
     const ip =
       g.positionIndex(p.seat) > g.positionIndex(three.seat) &&
       p.seat !== g.bbSeat;
     const v4 = Math.max(0.02, W3 * 0.33);
-    const callW = invested ? W3 * (ip ? 0.85 : 0.65) : W3 * 0.3;
+    const callW =
+      (invested ? W3 * (ip ? 0.85 : 0.65) : W3 * 0.3) * Math.sqrt(style.sticky);
+    const threeBetter = clamp(profile(three).pfr / 0.18, 0.6, 2);
     const bluff4 =
       invested &&
       pct > callW &&
-      pct <= callW + 0.05 &&
+      pct <= callW + 0.06 &&
       (p.hole[0] >> 2 === 12 || p.hole[1] >> 2 === 12) &&
-      g.rng() < 0.3 * style.aggr;
-    if (pct <= v4 || bluff4)
-      return raiseTo(g, p, legal, legal.currentBet * 2.25);
+      g.rng() < 0.25 * style.bluff * threeBetter;
+    if (pct <= v4 || bluff4) {
+      return {
+        ...raiseTo(g, p, legal, legal.currentBet * 2.25),
+        meta: { close: bluff4, strong: pct <= 0.012 },
+      };
+    }
     if (pct <= callW) {
-      return legal.callAmount <= p.stack * 0.25 ? { type: "call" } : jam(legal);
+      return legal.callAmount <= p.stack * 0.25
+        ? { type: "call", meta: { close: true } }
+        : jam(legal);
     }
     return passive(legal);
   }
@@ -369,16 +413,19 @@
   function facingFourBetPlus(g, p, legal, ctx) {
     const last = g.players[g.pf.lastRaiser];
     const W = Math.max(0.02, last.hi.range.hi);
-    if (ctx.pct <= Math.max(0.015, W * 0.45)) return jam(legal);
-    return allInDecision(g, p, legal, W);
+    if (ctx.pct <= Math.max(0.015, W * 0.45))
+      return { ...jam(legal), meta: { snap: true, strong: true } };
+    return allInDecision(g, p, legal, W, ctx.style);
   }
 
   function preflop(g, p, legal) {
+    const villain =
+      g.pf.lastRaiser !== null ? g.players[g.pf.lastRaiser] : null;
     const ctx = {
       pct: percentile(p.hole[0], p.hole[1]),
       eff: effBB(g, p),
       behind: behindCount(g, p),
-      style: p.style,
+      style: Mind.effective(g, p, villain),
     };
     const raises = g.pf.raises;
     if (raises === 0) return unopened(g, p, legal, ctx);
@@ -387,133 +434,15 @@
     return facingFourBetPlus(g, p, legal, ctx);
   }
 
-  // --------------------------------------------------------------- postflop
-
-  function boardWet(board) {
-    const suits = [0, 0, 0, 0];
-    for (const c of board) suits[c & 3]++;
-    const ranks = board.map((c) => c >> 2).sort((a, b) => a - b);
-    let connected = false;
-    for (let i = 0; i + 2 < ranks.length; i++) {
-      if (ranks[i + 2] - ranks[i] <= 4) connected = true;
-    }
-    return Math.max(...suits) >= 2 || connected;
-  }
-
-  function lastToAct(g, p) {
-    return opponents(g, p).every(
-      (o) => g.positionIndex(o.seat) < g.positionIndex(p.seat),
-    );
-  }
-
-  function betFrac(g, p, legal, frac) {
-    return raiseTo(g, p, legal, legal.pot * frac);
-  }
-
-  function chooseBet(g, p, legal, c) {
-    const { eq, n, street, draw, bucket, style, fold, wet } = c;
-    const valueThr =
-      street === 3 && n === 1
-        ? 0.56
-        : [0.6, 0.5, 0.4, 0.34][Math.min(n, 4) - 1];
-    const aggressor =
-      g.lastStreetAggressor === p.id ||
-      (street === 1 && g.pfAggressor === p.id);
-    const r = g.rng();
-    if (eq >= valueThr) {
-      if (street < 3 && eq > 0.88 && r < 0.2 && !lastToAct(g, p))
-        return { type: "check" };
-      if (street === 3 && eq > 0.82 && r < 0.3)
-        return betFrac(g, p, legal, 1.25);
-      if (street === 1) return betFrac(g, p, legal, wet ? 0.66 : 0.4);
-      return betFrac(g, p, legal, 0.7);
-    }
-    if (draw.strong && street < 3 && n <= 2 && r < 0.6 * style.aggr) {
-      return betFrac(g, p, legal, 0.6);
-    }
-    if (n === 1 && aggressor) {
-      if (
-        street === 1 &&
-        r < (wet ? 0.45 : 0.72) * style.aggr * clamp(fold / 0.45, 0.6, 1.3)
-      ) {
-        return betFrac(g, p, legal, wet ? 0.5 : 0.33);
-      }
-      if (street === 2 && eq < 0.4 && r < (0.38 * style.aggr * fold) / 0.45) {
-        return betFrac(g, p, legal, 0.66);
-      }
-      if (
-        street === 3 &&
-        bucket === 0 &&
-        r < (0.33 * style.aggr * fold) / 0.45
-      ) {
-        return betFrac(g, p, legal, 0.7);
-      }
-    }
-    if (
-      n === 1 &&
-      lastToAct(g, p) &&
-      bucket <= 1 &&
-      r < (0.3 * style.aggr * fold) / 0.45
-    ) {
-      return betFrac(g, p, legal, 0.5);
-    }
-    return { type: "check" };
-  }
-
-  function chooseResponse(g, p, legal, c) {
-    const { eq, n, street, draw, style, premium } = c;
-    const potOdds = legal.callAmount / (legal.pot + legal.callAmount);
-    const deep = p.stack - legal.callAmount > legal.pot * 3;
-    const implied =
-      draw.any && street < 3 && deep ? (draw.strong ? 0.07 : 0.03) : 0;
-    const need = potOdds - implied + premium + (n > 1 ? 0.03 * (n - 1) : 0);
-    const raiseThr = n === 1 ? (street === 3 ? 0.82 : 0.74) : 0.85;
-    const r = g.rng();
-    if (eq >= raiseThr && legal.canRaise) {
-      if (street === 1 && n === 1 && r < 0.25) return { type: "call" };
-      return raiseTo(g, p, legal, legal.currentBet * 3);
-    }
-    if (
-      draw.strong &&
-      street === 1 &&
-      n === 1 &&
-      legal.canRaise &&
-      eq >= need * 0.7 &&
-      r < 0.2 * style.aggr
-    ) {
-      return raiseTo(g, p, legal, legal.currentBet * 3);
-    }
-    if (eq >= need) return { type: "call" };
-    return { type: "fold" };
-  }
-
-  function postflop(g, p, legal) {
-    const opps = opponents(g, p);
-    const n = opps.length;
-    const eq = equityVs(g, p, opps, n === 1 ? 700 : 500, true);
-    const mainVillain = opps.reduce((a, b) =>
-      b.stack + b.bet > a.stack + a.bet ? b : a,
-    );
-    const fold =
-      opps.reduce((acc, o) => acc + profile(o).foldToBet, 0) / Math.max(1, n);
-    const ctx = {
-      eq,
-      n,
-      street: g.street,
-      draw: drawInfo(p.hole[0], p.hole[1], g.board),
-      bucket: classify(p.hole[0], p.hole[1], g.board),
-      style: p.style,
-      fold,
-      wet: boardWet(g.board),
-      premium: icmPremium(g, p, mainVillain),
-    };
-    if (legal.canCheck) return chooseBet(g, p, legal, ctx);
-    return chooseResponse(g, p, legal, ctx);
-  }
-
-  /** Chooses an action for a bot. */
+  /** Chooses an action for a bot (may carry `meta` and `say` for the UI). */
   function decide(g, p, legal) {
-    return g.street === 0 ? preflop(g, p, legal) : postflop(g, p, legal);
+    const a =
+      g.street === 0 ? preflop(g, p, legal) : P.Postflop.decide(g, p, legal);
+    if (a.type === "raise") {
+      const line = Mind.tiltLine(g, p);
+      if (line) a.say = line;
+    }
+    return a;
   }
 
   // ------------------------------------------------------ opponent modeling
@@ -535,7 +464,7 @@
       w = Math.max(0.03, pf.lastWidth * 0.25 * aggr);
       if (allIn && stackBB <= 25) w = Math.max(w, pf.lastWidth * 0.5);
     } else {
-      w = Math.max(0.02, pf.lastWidth * 0.4);
+      w = Math.max(0.02, pf.lastWidth * 0.4 * Math.sqrt(aggr));
     }
     return clamp(w, 0.015, 1);
   }
@@ -572,9 +501,16 @@
     }
   }
 
+  function actName(action, legal) {
+    if (action.type === "raise")
+      return legal.currentBet === 0 ? "bet" : "raise";
+    return action.type;
+  }
+
   /** Records an action before the engine applies it. */
   function observe(g, p, action, legal) {
     if (!p.hi) return;
+    p.hi.streetActs[g.street] = actName(action, legal);
     if (g.street === 0) {
       observePreflop(g, p, action, legal);
       return;
@@ -594,5 +530,24 @@
     }
   }
 
-  P.AI = { decide, observe, initPlayers, newHand, profile };
+  P.AICore = {
+    clamp,
+    profile,
+    opponents,
+    icmPremium,
+    raiseTo,
+    jam,
+    passive,
+    weightsFor,
+    roundChips,
+  };
+  P.AI = {
+    decide,
+    observe,
+    initPlayers,
+    newHand,
+    profile,
+    wantsToShow: (g, p) => Mind.wantsToShow(g, p),
+    endHand: (g, showdown, shown) => Mind.endHand(g, showdown, shown),
+  };
 })();

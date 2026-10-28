@@ -62,6 +62,9 @@
         <label for="opt-4c"
           ><input type="checkbox" id="opt-4c" /> Mazzo 4 colori</label
         >
+        <label for="opt-chat"
+          ><input type="checkbox" id="opt-chat" /> Chat</label
+        >
         <button type="button" class="btn-ghost" id="btn-new">
           Nuovo torneo
         </button>
@@ -111,6 +114,10 @@
           <ol class="standings" id="standings"></ol>
         </section>
         <section class="panel">
+          <h2>Le tue carte</h2>
+          <dl class="deal-stats" id="deal-stats"></dl>
+        </section>
+        <section class="panel">
           <h2>Storico della mano</h2>
           <ul class="log" id="log"></ul>
         </section>
@@ -123,9 +130,10 @@
       <form class="dialog" id="start" autocomplete="off">
         <h2>Torneo Sit &amp; Go</h2>
         <p>
-          Otto avversari di livello pro: range per posizione, 3-bet e 4-bet
-          bilanciati, push/fold da stack corto, letture sulle tue statistiche e
-          pressione ICM vicino ai premi.
+          Otto avversari di livello pro, ognuno con il suo stile e il suo umore:
+          bluffano quando la storia è credibile, ti leggono, vanno in tilt dopo
+          una bad beat e ogni tanto mostrano un bluff. Il loro stile si scopre a
+          fine torneo.
         </p>
         <dl class="facts">
           <div>
@@ -187,7 +195,9 @@
 
     <script src="src/cards.js"></script>
     <script src="src/ranges.js"></script>
+    <script src="src/mind.js"></script>
     <script src="src/ai.js"></script>
+    <script src="src/postflop.js"></script>
     <script src="src/engine.js"></script>
     <script src="src/ui.js"></script>
   </body>

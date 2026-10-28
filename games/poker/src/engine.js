@@ -49,6 +49,7 @@
      * @param {number} [opts.handsPerLevel]
      * @param {number} [opts.buyIn]
      * @param {number} [opts.seed]
+     * @param {() => number} [opts.deckRng] random source for shuffling
      * @param {(type: string, data?: object) => void} [opts.onEvent]
      * @param {(game: Tournament, player: object, legal: object) => Promise<object>|object} opts.getAction
      * @param {(moment: string) => Promise<void>|void} [opts.wait] pacing hook for the UI
@@ -58,6 +59,8 @@
       this.handsPerLevel = opts.handsPerLevel ?? 9;
       this.buyIn = opts.buyIn ?? 1000;
       this.rng = makeRng(opts.seed ?? (Math.random() * 2 ** 32) >>> 0);
+      // The deck can use its own source (the UI passes a cryptographic one).
+      this.deckRng = opts.deckRng ?? this.rng;
       this.onEvent = opts.onEvent ?? (() => {});
       this.getAction = opts.getAction;
       this.wait = opts.wait ?? (() => {});
@@ -192,7 +195,7 @@
       this.board = [];
       this.street = 0;
       this.history = [];
-      this.deck = shuffle(freshDeck(), this.rng);
+      this.deck = shuffle(freshDeck(), this.deckRng);
       const alive = this.alive();
       const headsUp = alive.length === 2;
       this.sbSeat = headsUp ? this.button : this.nextAlive(this.button).seat;
@@ -478,15 +481,22 @@
         results.push({ index: i, amount: pot.amount, winners });
       }
       for (const p of this.players) p.totalBet = 0;
+      // A player who wins without showdown may choose to show the cards.
+      const shown =
+        !showdown && P.AI?.wantsToShow?.(this, contenders[0])
+          ? contenders[0]
+          : null;
       this.emit("showdown", {
         game: this,
         showdown,
         contenders,
+        shown,
         pots: results,
         board: this.board,
       });
       this.handleBusts();
-      P.AI?.endHand?.(this, showdown);
+      const lines = P.AI?.endHand?.(this, showdown, shown) ?? [];
+      if (lines.length) this.emit("chat", { lines });
     }
 
     potWinners(eligible, showdown) {

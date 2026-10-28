@@ -46,6 +46,26 @@
     };
   }
 
+  /**
+   * Cryptographically strong floats in [0, 1) with 53 bits of precision, so
+   * every one of the 52! deck orders is reachable. Falls back to Math.random.
+   */
+  function cryptoRng() {
+    const c = globalThis.crypto;
+    if (!c?.getRandomValues) return Math.random;
+    const buf = new Uint32Array(256);
+    let i = buf.length;
+    return () => {
+      if (i + 2 > buf.length) {
+        c.getRandomValues(buf);
+        i = 0;
+      }
+      const hi = buf[i++] >>> 5;
+      const lo = buf[i++] >>> 6;
+      return (hi * 67108864 + lo) / 9007199254740992;
+    };
+  }
+
   function freshDeck() {
     return Array.from({ length: 52 }, (_, i) => i);
   }
@@ -231,6 +251,7 @@
     SUIT_SYMBOLS,
     CATEGORY_NAMES,
     makeRng,
+    cryptoRng,
     freshDeck,
     shuffle,
     straightHigh,

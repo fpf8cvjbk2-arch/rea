@@ -8,6 +8,7 @@ const Poker = loadPoker();
 const runs = Number(process.argv[2] ?? 5);
 const seed0 = Number(process.argv[3] ?? 1);
 const STACK = 30000;
+const PERSONAS = Object.keys(Poker.Mind.PERSONAS);
 
 async function playOne(seed) {
   let hands = 0;
@@ -20,7 +21,7 @@ async function playOne(seed) {
     handsPerLevel: 9,
     players: Array.from({ length: 9 }, (_, i) => ({
       name: `Bot${i}`,
-      style: { aggr: 0.9 + (i % 4) * 0.1, loose: 0.92 + (i % 3) * 0.08 },
+      style: { persona: PERSONAS[i % PERSONAS.length] },
     })),
     getAction(g, p, legal) {
       const t = performance.now();

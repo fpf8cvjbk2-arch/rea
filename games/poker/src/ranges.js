@@ -204,12 +204,30 @@
 
   const usedBuf = new Uint8Array(52);
 
+  function sampleOpponent(spec, board, rng) {
+    let pick = null;
+    let bucket = -1;
+    for (let tries = 0; tries < 10; tries++) {
+      pick = sampleCombo(spec.range, usedBuf, rng);
+      if (board.length < 3) break;
+      bucket = classify(pick[0], pick[1], board);
+      if (!spec.weights || rng() < spec.weights[bucket]) break;
+    }
+    usedBuf[pick[0]] = 1;
+    usedBuf[pick[1]] = 1;
+    return { pick, bucket };
+  }
+
   /**
    * Monte Carlo equity of `hole` against opponents, each described by a
    * preflop range and optional postflop bucket weights (acceptance odds).
+   * Also reports, per opponent, the share of sampled hands that are air or
+   * weak (bucket <= 1) and draws (bucket 2): the part of a range that folds.
    */
-  function equity({ hole, board, opponents, trials, rng }) {
-    if (opponents.length === 0) return 1;
+  function equityDetail({ hole, board, opponents, trials, rng }) {
+    const weak = opponents.map(() => 0);
+    const draws = opponents.map(() => 0);
+    if (opponents.length === 0) return { eq: 1, weak, draws };
     const base = new Uint8Array(52);
     for (const c of hole) base[c] = 1;
     for (const c of board) base[c] = 1;
@@ -221,17 +239,10 @@
     for (let t = 0; t < trials; t++) {
       usedBuf.set(base);
       for (let o = 0; o < opponents.length; o++) {
-        const spec = opponents[o];
-        let pick = null;
-        for (let tries = 0; tries < 10; tries++) {
-          pick = sampleCombo(spec.range, usedBuf, rng);
-          if (!spec.weights || board.length < 3) break;
-          const w = spec.weights[classify(pick[0], pick[1], board)];
-          if (rng() < w) break;
-        }
-        usedBuf[pick[0]] = 1;
-        usedBuf[pick[1]] = 1;
+        const { pick, bucket } = sampleOpponent(opponents[o], board, rng);
         oppHands[o] = pick;
+        if (bucket >= 0 && bucket <= 1) weak[o]++;
+        else if (bucket === 2) draws[o]++;
       }
       full.length = board.length;
       while (full.length < 5) {
@@ -261,7 +272,16 @@
       }
       if (!lost) total += 1 / (ties + 1);
     }
-    return total / trials;
+    return {
+      eq: total / trials,
+      weak: weak.map((v) => v / trials),
+      draws: draws.map((v) => v / trials),
+    };
+  }
+
+  /** Monte Carlo equity only; see equityDetail. */
+  function equity(spec) {
+    return equityDetail(spec).eq;
   }
 
   P.Ranges = {
@@ -272,5 +292,6 @@
     drawInfo,
     classify,
     equity,
+    equityDetail,
   };
 })();

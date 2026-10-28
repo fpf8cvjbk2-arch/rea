@@ -15,24 +15,42 @@ browser. Nessuna dipendenza e nessun build: apri `index.html`.
 
 ## Come giocano i bot
 
-- **Preflop**: range di apertura per posizione (più larghi con l'ante),
-  3-bet e 4-bet polarizzati con bluff a blocker, difesa del big blind in base
-  al prezzo, push/fold sotto i 12-14 BB scelto calcolando l'EV del shove
-  contro i range di chiamata di chi deve ancora parlare.
-- **Postflop**: equity Monte Carlo contro il range di ogni avversario. Il
-  range parte dall'azione preflop e si restringe secondo quello che
-  l'avversario fa nella mano (check, call, bet, raise e dimensione della
-  puntata). Ne derivano c-bet in base alla texture del board, semi-bluff con
-  i progetti, barrel e bluff al river, value bet sottili, check-raise e
-  slowplay occasionali.
-- **Lettura degli avversari**: ogni bot registra VPIP, PFR, fattore di
-  aggressività e fold-to-bet di tutti, compreso te, e si adatta: paga di più
-  chi bluffa spesso e bluffa meno chi non folda mai. Le stesse statistiche
+Ogni avversario ha una personalità, che scopri solo a fine torneo:
+LAG, Squalo TAG, Maniaco controllato, Teorico GTO, Roccia, Trappolone,
+Hero caller e Sfruttatore. Tutti partono dalle stesse basi da pro:
+
+- **Preflop**: range di apertura per posizione (più larghi con l'ante e
+  contro bui che foldano tanto), 3-bet e 4-bet polarizzati con bluff a
+  blocker e squeeze, limp-trap occasionali con AA/KK, difesa del big blind in
+  base al prezzo, push/fold sotto i 12-14 BB scelto calcolando l'EV del shove.
+- **Postflop**: equity Monte Carlo contro il range di ogni avversario,
+  ristretto da quello che ha fatto nella mano. Lo stesso calcolo stima quanta
+  parte del suo range è aria o mano debole, cioè la fold equity. Puntate e
+  rilanci confrontano l'EV della pressione con quello del check o del call.
+  Così i bot bluffano quando la storia regge: avversario che ha mostrato
+  debolezza, carta spaventosa (colore o scala che entra, overcard), progetto
+  mancato al river, blocker, giocatori che foldano troppo. In più: float in
+  posizione, check-raise, slowplay, overbet polarizzati, hero call.
+- **Umore e memoria**: dopo una bad beat un bot può andare in tilt e giocare
+  più largo e aggressivo per qualche mano; se viene beccato a bluffare
+  rallenta, se i bluff passano insiste. Tutti ricordano i bluff visti allo
+  showdown e chi li ha battuti in un piatto grosso.
+- **Lettura degli avversari**: VPIP, PFR, fattore di aggressività e
+  fold-to-bet di tutti, compreso te. Chi punta troppo viene pagato di più,
+  chi non folda mai viene bluffato meno e valorizzato di più. Le statistiche
   sono visibili nell'HUD sopra ogni avversario.
-- **ICM**: vicino alla bolla e a premio i bot chiedono più equity per
-  rischiare lo stack, soprattutto contro chi li copre.
-- Ogni bot ha un proprio stile (aggressività e ampiezza dei range
-  leggermente diverse), quindi non giocano tutti allo stesso modo.
+- **ICM**: vicino alla bolla e a premio servono più equity per rischiare lo
+  stack; i chip leader invece fanno pressione sugli stack medi.
+- **Comportamento al tavolo**: tempi di pensiero realistici (fold veloci,
+  lunghe riflessioni sulle decisioni difficili, qualche "tank" con il
+  punto), chat in italiano e bluff mostrati dopo aver vinto il piatto.
+
+## Mazzo e statistiche
+
+Il mazzo è mescolato con il generatore crittografico del browser
+(`crypto.getRandomValues`, Fisher-Yates), quindi ogni ordine del mazzo è
+possibile e nessun giocatore è favorito. Il riquadro "Le tue carte" mostra
+coppie servite, JJ+/AK e flop accoppiati accanto ai valori attesi.
 
 ## Comandi
 
@@ -44,8 +62,11 @@ Tastiera: `F` fold, `C` check/call, `R` punta/rilancia.
 
 ```sh
 node games/poker/test/simulate.mjs 50
+node games/poker/test/deal.mjs
 ```
 
-Il simulatore gioca tornei completi tra 9 bot e controlla a ogni mano che le
-fiches si conservino, che gli stack non vadano mai sotto zero, che ci sia un
-solo vincitore e che piazzamenti e premi siano coerenti.
+Il simulatore gioca tornei completi tra 9 bot (uno per personalità) e
+controlla a ogni mano che le fiches si conservino, che gli stack non vadano
+mai sotto zero, che ci sia un solo vincitore e che piazzamenti e premi siano
+coerenti. `deal.mjs` mescola 300.000 mazzi e verifica che coppie servite,
+JJ+/AK e flop accoppiati rispettino le probabilità esatte.

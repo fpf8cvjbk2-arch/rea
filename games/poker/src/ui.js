@@ -1,20 +1,21 @@
-// Browser UI: renders the table, drives bot pacing and collects the
-// human player's actions. Depends on cards.js, ranges.js, ai.js, engine.js.
+// Browser UI: renders the table, drives bot pacing and table talk, and
+// collects the human player's actions. Loads after every other script.
 (() => {
   "use strict";
   const P = globalThis.Poker;
   const { RANK_NAMES, SUIT_SYMBOLS, evaluate, describe } = P.Cards;
   const { Tournament, LEVELS } = P.Engine;
 
+  // Personalities are not shown during play; they are revealed at the end.
   const BOTS = [
-    { name: "Viktor Lindqvist", style: { aggr: 1.15, loose: 1.05 } },
-    { name: "Mara Okafor", style: { aggr: 1.0, loose: 0.95 } },
-    { name: "Kenji Arai", style: { aggr: 1.2, loose: 1.1 } },
-    { name: "Lucía Ferrer", style: { aggr: 0.95, loose: 1.0 } },
-    { name: "Tomasz Wilk", style: { aggr: 1.05, loose: 0.92 } },
-    { name: "Amélie Roux", style: { aggr: 1.1, loose: 1.08 } },
-    { name: "Dario Esposito", style: { aggr: 0.92, loose: 0.98 } },
-    { name: "Hana Novák", style: { aggr: 1.0, loose: 1.04 } },
+    { name: "Viktor Lindqvist", style: { persona: "lag" } },
+    { name: "Mara Okafor", style: { persona: "shark" } },
+    { name: "Kenji Arai", style: { persona: "maniac" } },
+    { name: "Lucía Ferrer", style: { persona: "solver" } },
+    { name: "Tomasz Wilk", style: { persona: "rock" } },
+    { name: "Amélie Roux", style: { persona: "tricky" } },
+    { name: "Dario Esposito", style: { persona: "caller" } },
+    { name: "Hana Novák", style: { persona: "exploiter" } },
   ];
   const SPEED = { slow: 1.6, normal: 1, fast: 0.45 };
   const STORE_KEY = "final-table-holdem";
@@ -34,6 +35,7 @@
       speed: "normal",
       hud: true,
       fourColor: true,
+      chat: true,
     },
     human: null,
     showdown: null,
@@ -42,7 +44,14 @@
     active: null,
     humanOut: false,
     watching: false,
+    thinking: null,
+    bubbles: {},
+    deal: newDealStats(),
   };
+
+  function newDealStats() {
+    return { hands: 0, pairs: 0, premium: 0, flops: 0, hits: 0 };
+  }
 
   function loadPrefs() {
     try {
@@ -61,12 +70,14 @@
     }
   }
 
-  function sleep(ms) {
-    const g = ui.game;
-    const me = g?.players[0];
+  function paceFactor() {
+    const me = ui.game?.players[0];
     const fastForward = !me || me.folded || me.out;
-    const factor = SPEED[ui.prefs.speed] * (fastForward ? 0.5 : 1);
-    return new Promise((resolve) => setTimeout(resolve, ms * factor));
+    return SPEED[ui.prefs.speed] * (fastForward ? 0.5 : 1);
+  }
+
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms * paceFactor()));
   }
 
   // ---------------------------------------------------------------- layout
@@ -89,8 +100,11 @@
 
   function seatCards(g, p) {
     if (p.out || p.hole.length === 0 || (p.folded && !p.isHuman)) return "";
+    const shownBluff = ui.showdown?.shownId === p.id;
     const show =
-      p.isHuman || (ui.showdown && !p.folded && ui.showdown.showdown);
+      p.isHuman ||
+      shownBluff ||
+      (ui.showdown && !p.folded && ui.showdown.showdown);
     const best = ui.showdown?.showdown ? new Set(p.best ?? []) : null;
     return p.hole
       .map((c) => {
@@ -98,6 +112,7 @@
         const cls = [
           p.folded ? "mucked" : "",
           best && best.has(c) ? "win" : "",
+          shownBluff ? "shown" : "",
         ];
         return cardHTML(c, cls.join(" "));
       })
@@ -124,11 +139,14 @@
     if (ui.active === p.id) cls.push("active");
     if (p.isHuman) cls.push("hero");
     if (ui.showdown && p.won > 0) cls.push("winner");
+    const thinking = ui.thinking === p.id;
     const tag = p.out
       ? `${p.place}°`
-      : p.lastAction
-        ? `${p.lastAction.label}${p.lastAction.type === "raise" || (p.lastAction.type === "call" && p.lastAction.amount) ? " " + fmt(p.lastAction.amount) : ""}`
-        : "";
+      : thinking
+        ? "Sta pensando…"
+        : p.lastAction
+          ? `${p.lastAction.label}${p.lastAction.type === "raise" || (p.lastAction.type === "call" && p.lastAction.amount) ? " " + fmt(p.lastAction.amount) : ""}`
+          : "";
     const blind = p.seat === g.sbSeat ? "SB" : p.seat === g.bbSeat ? "BB" : "";
     const stack = p.out
       ? p.prize
@@ -142,10 +160,25 @@
       (blind && !p.out ? `<span class="blind">${blind}</span>` : "") +
       `</div><div class="stack">${stack}</div>${hudHTML(p)}` +
       (tag
-        ? `<div class="tag tag-${p.lastAction?.type ?? "out"}">${esc(tag)}</div>`
+        ? `<div class="tag tag-${thinking ? "think" : (p.lastAction?.type ?? "out")}">${esc(tag)}</div>`
         : "") +
-      `</div><div class="timer"></div></div>`
+      `</div><div class="timer"></div>${bubbleHTML(p)}</div>`
     );
+  }
+
+  function bubbleHTML(p) {
+    const b = ui.bubbles[p.id];
+    if (!b || !ui.prefs.chat || b.until < Date.now()) return "";
+    return `<div class="bubble" role="status">${esc(b.text)}</div>`;
+  }
+
+  function speak(id, text) {
+    const g = ui.game;
+    if (!g) return;
+    const p = g.players[id];
+    log(`<i>${esc(p.name)}: “${esc(text)}”</i>`, "chat");
+    ui.bubbles[id] = { text, until: Date.now() + 3600 };
+    setTimeout(() => renderTable(), 3700);
   }
 
   function betHTML(g, p) {
@@ -238,6 +271,19 @@
       .join("");
   }
 
+  function renderDealStats() {
+    const d = ui.deal;
+    const pct = (a, b) =>
+      b
+        ? `${((100 * a) / b).toLocaleString("it-IT", { maximumFractionDigits: 1 })}%`
+        : "—";
+    $("#deal-stats").innerHTML =
+      `<div><dt>Mani ricevute</dt><dd>${d.hands}</dd><small>&nbsp;</small></div>` +
+      `<div><dt>Coppie servite</dt><dd>${pct(d.pairs, d.hands)}</dd><small>attese 5,9%</small></div>` +
+      `<div><dt>JJ+ e AK</dt><dd>${pct(d.premium, d.hands)}</dd><small>attese 3,0%</small></div>` +
+      `<div><dt>Flop accoppiati</dt><dd>${pct(d.hits, d.flops)}</dd><small>attesi 32,4%</small></div>`;
+  }
+
   function renderLog() {
     const el = $("#log");
     el.innerHTML = ui.log
@@ -250,6 +296,7 @@
     renderTable();
     renderClock();
     renderStandings();
+    renderDealStats();
   }
 
   function log(html, cls = "") {
@@ -280,8 +327,10 @@
           `Mano #${g.handNo} · bui ${fmt(g.level.sb)}/${fmt(g.level.bb)}${g.level.ante ? ` · ante ${fmt(g.level.ante)}` : ""}`,
           "head",
         );
-        if (!g.players[0].out)
+        if (!g.players[0].out) {
           log(`Le tue carte: ${cardsText(g.players[0].hole)}`);
+          countDeal(g.players[0].hole);
+        }
         break;
       case "level":
         log(
@@ -294,6 +343,10 @@
         break;
       case "street":
         log(`${d.name}: ${cardsText(d.board)}`, "street");
+        if (d.street === 1) countFlop(g.players[0], d.board);
+        break;
+      case "chat":
+        if (ui.prefs.chat) for (const l of d.lines) speak(l.id, l.text);
         break;
       case "action":
         ui.active = null;
@@ -328,6 +381,25 @@
     render();
   }
 
+  function countDeal(hole) {
+    const d = ui.deal;
+    const [a, b] = hole;
+    d.hands++;
+    if (a >> 2 === b >> 2) d.pairs++;
+    const hi = Math.max(a >> 2, b >> 2);
+    const lo = Math.min(a >> 2, b >> 2);
+    if ((hi === lo && hi >= 9) || (hi === 12 && lo === 11)) d.premium++;
+  }
+
+  function countFlop(me, board) {
+    if (me.out || me.folded) return;
+    const [a, b] = me.hole;
+    if (a >> 2 === b >> 2) return;
+    ui.deal.flops++;
+    const ranks = board.map((c) => c >> 2);
+    if (ranks.includes(a >> 2) || ranks.includes(b >> 2)) ui.deal.hits++;
+  }
+
   function actionText(d) {
     const { action, label, amount, player } = d;
     const you = player.isHuman;
@@ -354,7 +426,15 @@
       for (const pot of d.pots)
         for (const w of pot.winners) for (const c of w.best) best.add(c);
     }
-    ui.showdown = { showdown: d.showdown, total, bestCards: [...best] };
+    ui.showdown = {
+      showdown: d.showdown,
+      total,
+      bestCards: [...best],
+      shownId: d.shown ? d.shown.id : null,
+    };
+    if (d.shown) {
+      log(`${esc(d.shown.name)} mostra ${cardsText(d.shown.hole)}`, "shown");
+    }
     const parts = [];
     d.pots.forEach((pot, i) => {
       const names = pot.winners.map((w) => w.name).join(" e ");
@@ -374,7 +454,7 @@
       );
       log(esc(parts[parts.length - 1]), "win");
     });
-    ui.message = parts[0] ?? "";
+    ui.message = parts.join(" · ");
   }
 
   function flash(text) {
@@ -391,26 +471,23 @@
 
   // ------------------------------------------------------------ bot pacing
 
-  function thinkTime(g, decision, legal) {
-    const r = g.rng();
-    if (decision.type === "fold" && legal.toCall <= g.bb) return 300 + r * 350;
-    let t = 550 + r * 800;
-    if (decision.type === "raise") t += 350;
-    if (legal.callAmount > g.potTotal() * 0.5) t += 500;
-    return t;
-  }
-
   async function getAction(g, p, legal) {
     if (g !== ui.game) return { type: "fold" };
     ui.active = p.id;
-    render();
-    if (p.isHuman) return humanAction(g, p, legal);
+    if (p.isHuman) {
+      render();
+      return humanAction(g, p, legal);
+    }
     const decision = P.AI.decide(g, p, legal);
-    const ms = thinkTime(g, decision, legal);
+    const ms = P.Mind.thinkTime(g, p, decision, legal);
+    ui.thinking = ms > 2200 ? p.id : null;
+    render();
     const timer = document.querySelector(".seat.active .timer");
-    if (timer)
-      timer.style.setProperty("--think", `${ms * SPEED[ui.prefs.speed]}ms`);
+    if (timer) timer.style.setProperty("--think", `${ms * paceFactor()}ms`);
     await sleep(ms);
+    ui.thinking = null;
+    if (decision.say && ui.prefs.chat && g === ui.game)
+      speak(p.id, decision.say);
     return decision;
   }
 
@@ -528,9 +605,11 @@
 
   function heroHandText(g, p) {
     if (g.board.length < 3) {
-      const label = P.Ranges.handLabel(p.hole[0], p.hole[1]);
-      const pct = P.Ranges.percentile(p.hole[0], p.hole[1]);
-      return `${label} · top ${Math.max(1, Math.round(pct * 100))}% delle mani`;
+      const [a, b] = p.hole;
+      if (a >> 2 === b >> 2) return `Coppia di ${RANK_NAMES[a >> 2]}`;
+      return P.Ranges.handLabel(a, b)
+        .replace(/s$/, " suited")
+        .replace(/o$/, " offsuit");
     }
     return describe(evaluate([...p.hole, ...g.board]));
   }
@@ -563,6 +642,7 @@
     for (const [id, key] of [
       ["#opt-hud", "hud"],
       ["#opt-4c", "fourColor"],
+      ["#opt-chat", "chat"],
     ]) {
       const el = $(id);
       el.checked = ui.prefs[key];
@@ -640,7 +720,9 @@
       .sort((a, b) => a.place - b.place)
       .map(
         (p) =>
-          `<li class="${p.isHuman ? "me" : ""}"><span>${p.place}°</span><span>${esc(p.name)}</span><span>${p.prize ? `${fmt(p.prize)} €` : "—"}</span></li>`,
+          `<li class="${p.isHuman ? "me" : ""}"><span>${p.place}°</span>` +
+          `<span>${esc(p.name)}${p.isHuman ? "" : `<small>${esc(p.persona.label)}</small>`}</span>` +
+          `<span>${p.prize ? `${fmt(p.prize)} €` : "—"}</span></li>`,
       )
       .join("");
     showPanel("end");
@@ -655,6 +737,7 @@
       handsPerLevel: ui.prefs.handsPerLevel,
       buyIn: 1000,
       players: [{ name: ui.prefs.name, isHuman: true }, ...bots],
+      deckRng: P.Cards.cryptoRng(),
       onEvent: (type, data) => {
         if (running && g === ui.game) onEvent(type, data);
       },
@@ -672,6 +755,9 @@
     ui.message = "";
     ui.humanOut = false;
     ui.watching = false;
+    ui.thinking = null;
+    ui.bubbles = {};
+    ui.deal = newDealStats();
     const g = makeGame(true);
     ui.game = g;
     renderLog();
