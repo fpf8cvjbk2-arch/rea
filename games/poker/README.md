@@ -56,7 +56,18 @@ coppie servite, JJ+/AK e flop accoppiati accanto ai valori attesi.
 
 Fold, Check/Chiama, Punta/Rilancia con slider, importo libero e preset
 (2,2-3 BB e 2,5-4× preflop; 33 %, 50 %, 75 % e piatto postflop; all-in).
-Tastiera: `F` fold, `C` check/call, `R` punta/rilancia.
+Tastiera: `F` fold, `C` check/call, `R` punta/rilancia, `T` time bank.
+
+## Tempo di azione e time bank
+
+Hai un tempo limitato per ogni decisione: 15, 20 (predefinito) o 30
+secondi, oppure nessun limite, da scegliere all'inizio del torneo. Parti con
+3 time bank card da 30 secondi e ne ricevi una nuova ogni 3 livelli (livelli
+4, 7, 10…), fino a un massimo di 6. Puoi usarne una quando vuoi durante il
+tuo turno con il pulsante "Usa +30 s" o il tasto `T`; se il tempo scade e
+hai ancora carte, una si usa da sola. Senza carte, allo scadere fai check
+se puoi, altrimenti passi. Il cronometro si ferma mentre è aperto un
+dialogo.
 
 ## Verifica
 

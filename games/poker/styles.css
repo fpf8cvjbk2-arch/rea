@@ -1066,7 +1066,9 @@ input {
     padding: 12px 6px;
   }
 
-  .act kbd {
+  .act kbd,
+  .btn-bank kbd,
+  .hero-line span + span {
     display: none;
   }
 }
@@ -1162,4 +1164,122 @@ input {
   display: block;
   font-size: 0.72rem;
   color: var(--muted);
+}
+
+/* ------------------------------------------------------------ shot clock */
+
+.clockline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 18px;
+}
+
+.shot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.shot-secs {
+  font: 700 1.6rem/1 var(--f-display);
+  font-variant-numeric: tabular-nums;
+  min-width: 2ch;
+  text-align: right;
+  color: var(--ink);
+}
+
+.shot-bar {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--room);
+  overflow: hidden;
+}
+
+.shot-bar i {
+  display: block;
+  height: 100%;
+  background: var(--brass);
+  transform-origin: left;
+  transition: transform 0.1s linear;
+}
+
+.shot.bank-on .shot-bar i {
+  background: var(--diamond);
+}
+
+.shot.urgent .shot-secs {
+  color: var(--danger);
+}
+
+.shot.urgent .shot-bar i {
+  background: var(--danger);
+}
+
+.bank {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.bank-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.bank-cards {
+  display: flex;
+  gap: 4px;
+  font-size: 0.85rem;
+}
+
+/* A time bank card looks like a small playing card printed with its seconds. */
+.bank-card {
+  width: 24px;
+  height: 34px;
+  border-radius: 3px;
+  background: var(--card);
+  color: var(--spade);
+  font: 700 0.72rem/34px var(--f-display);
+  font-style: normal;
+  text-align: center;
+  box-shadow: inset 0 -3px 0 var(--diamond);
+}
+
+.btn-bank {
+  border: 0;
+  border-radius: 5px;
+  padding: 7px 12px;
+  background: var(--diamond);
+  color: var(--card);
+  font: 700 0.95rem var(--f-data);
+  cursor: pointer;
+}
+
+.btn-bank:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.btn-bank kbd {
+  font: 500 0.65rem var(--f-body);
+  opacity: 0.7;
+  margin-left: 6px;
+}
+
+/* The hero's own countdown, mirrored under the seat plate. */
+.seat.hero.active .timer {
+  background: var(--brass);
+  transform-origin: left;
+  transform: scaleX(var(--hero-left, 1));
+}
+
+.field small {
+  font-size: 0.78rem;
+  line-height: 1.4;
 }

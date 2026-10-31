@@ -82,7 +82,23 @@
         <div class="actions" id="actions">
           <div class="hero-line">
             <span>La tua mano: <b id="hero-hand">—</b></span>
-            <span>Tasti: F fold · C check/call · R punta/rilancia</span>
+            <span
+              >Tasti: F fold · C check/call · R punta/rilancia · T time
+              bank</span
+            >
+          </div>
+          <div class="clockline">
+            <div class="shot" id="shot" hidden>
+              <span class="shot-secs" id="shot-secs">20</span>
+              <span class="shot-bar"><i id="shot-fill"></i></span>
+            </div>
+            <div class="bank">
+              <span class="bank-label">Time bank</span>
+              <span class="bank-cards" id="bank-cards"></span>
+              <button type="button" class="btn-bank" id="btn-bank" disabled>
+                Usa +30 s<kbd>T</kbd>
+              </button>
+            </div>
           </div>
           <div class="sizing" id="sizing">
             <div class="presets" id="presets"></div>
@@ -161,6 +177,20 @@
               <option value="9">Standard · 9 mani per livello</option>
               <option value="12">Deep · 12 mani per livello</option>
             </select>
+          </label>
+          <label class="field" for="action-time"
+            >Tempo per decidere
+            <select id="action-time" aria-describedby="action-time-note">
+              <option value="15">15 secondi</option>
+              <option value="20">20 secondi</option>
+              <option value="30">30 secondi</option>
+              <option value="0">Senza limite</option>
+            </select>
+            <small id="action-time-note"
+              >Parti con 3 time bank card da 30 secondi e ne ricevi una ogni 3
+              livelli (massimo 6). Se il tempo scade, una carta si usa da sola;
+              senza carte fai check o fold.</small
+            >
           </label>
         </div>
         <div class="row-buttons" id="start-buttons">

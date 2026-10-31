@@ -18,6 +18,12 @@
     { name: "Hana Novák", style: { persona: "exploiter" } },
   ];
   const SPEED = { slow: 1.6, normal: 1, fast: 0.45 };
+  // Time bank cards: how many you start with, the cap, the seconds each adds
+  // and how often (in levels) a new one is handed out.
+  const BANK_START = 3;
+  const BANK_MAX = 6;
+  const BANK_SECONDS = 30;
+  const BANK_EVERY = 3;
   const STORE_KEY = "final-table-holdem";
 
   const $ = (sel) => document.querySelector(sel);
@@ -36,6 +42,7 @@
       hud: true,
       fourColor: true,
       chat: true,
+      actionTime: 20,
     },
     human: null,
     showdown: null,
@@ -47,6 +54,7 @@
     thinking: null,
     bubbles: {},
     deal: newDealStats(),
+    bank: BANK_START,
   };
 
   function newDealStats() {
@@ -203,9 +211,11 @@
       ? `${p.place}°`
       : thinking
         ? "Sta pensando…"
-        : p.lastAction
-          ? `${p.lastAction.label}${p.lastAction.type === "raise" || (p.lastAction.type === "call" && p.lastAction.amount) ? " " + fmt(p.lastAction.amount) : ""}`
-          : "";
+        : p.isHuman && clock.inBank
+          ? "Time bank"
+          : p.lastAction
+            ? `${p.lastAction.label}${p.lastAction.type === "raise" || (p.lastAction.type === "call" && p.lastAction.amount) ? " " + fmt(p.lastAction.amount) : ""}`
+            : "";
     const blind = p.seat === g.sbSeat ? "SB" : p.seat === g.bbSeat ? "BB" : "";
     const stack = p.out
       ? p.prize
@@ -407,6 +417,7 @@
         flash(
           `Livello ${d.level.number} · ${fmt(d.level.sb)}/${fmt(d.level.bb)}`,
         );
+        if (!g.players[0].out) grantTimeBank(d.level.number);
         break;
       case "street":
         log(`${d.name}: ${cardsText(d.board)}`, "street");
@@ -652,6 +663,7 @@
       }
       $("#hero-hand").textContent = heroHandText(g, p);
       const finish = (action) => {
+        stopClock();
         bar.classList.remove("live");
         ui.pending = null;
         resolve(action);
@@ -667,7 +679,111 @@
         preset: (v) => setRaise(Number(v)),
         cancel: () => finish({ type: legal.canCheck ? "check" : "fold" }),
       };
+      startClock(() => {
+        log(`Tempo scaduto: ${legal.canCheck ? "fai check" : "passi"}`, "bust");
+        finish({ type: legal.canCheck ? "check" : "fold" });
+      });
     });
+  }
+
+  // ------------------------------------------------------------ shot clock
+
+  const clock = {
+    timer: 0,
+    deadline: 0,
+    span: 1,
+    last: 0,
+    inBank: false,
+    onTimeout: null,
+  };
+
+  function startClock(onTimeout) {
+    stopClock();
+    const secs = ui.prefs.actionTime;
+    renderBank();
+    if (!secs) return;
+    const now = performance.now();
+    clock.span = secs * 1000;
+    clock.deadline = now + clock.span;
+    clock.last = now;
+    clock.inBank = false;
+    clock.onTimeout = onTimeout;
+    clock.timer = setInterval(tickClock, 100);
+    $("#shot").hidden = false;
+    renderBank();
+    tickClock();
+  }
+
+  function stopClock() {
+    clearInterval(clock.timer);
+    clock.timer = 0;
+    clock.inBank = false;
+    $("#shot").hidden = true;
+    $("#shot").classList.remove("urgent", "bank-on");
+    $("#seats").style.setProperty("--hero-left", "1");
+    renderBank();
+  }
+
+  function tickClock() {
+    const now = performance.now();
+    // The clock stops while a dialog covers the table.
+    if (!$("#overlay").hidden) clock.deadline += now - clock.last;
+    clock.last = now;
+    const left = clock.deadline - now;
+    if (left <= 0) {
+      if (ui.bank > 0) useTimeBank(true);
+      else {
+        const done = clock.onTimeout;
+        stopClock();
+        done?.();
+      }
+      return;
+    }
+    const share = Math.min(1, left / clock.span);
+    $("#shot-secs").textContent = `${Math.ceil(left / 1000)}`;
+    $("#shot-fill").style.transform = `scaleX(${share})`;
+    $("#shot").classList.toggle("urgent", left < 5000);
+    $("#seats").style.setProperty("--hero-left", String(share));
+  }
+
+  /** Adds one time bank card's seconds to the running clock. */
+  function useTimeBank(auto) {
+    if (!clock.timer || ui.bank <= 0) return;
+    const now = performance.now();
+    ui.bank--;
+    clock.deadline = Math.max(clock.deadline, now) + BANK_SECONDS * 1000;
+    clock.span = clock.deadline - now;
+    clock.inBank = true;
+    $("#shot").classList.add("bank-on");
+    log(
+      `${auto ? "Tempo finito: usi" : "Usi"} una time bank card (+${BANK_SECONDS} s, ne restano ${ui.bank})`,
+      "level",
+    );
+    renderBank();
+    renderTable();
+    tickClock();
+  }
+
+  function renderBank() {
+    const cards = Array.from(
+      { length: ui.bank },
+      () => `<i class="bank-card">+${BANK_SECONDS}</i>`,
+    ).join("");
+    $("#bank-cards").innerHTML =
+      cards || `<span class="muted">nessuna carta</span>`;
+    $("#bank-cards").setAttribute(
+      "aria-label",
+      `${ui.bank} time bank card da ${BANK_SECONDS} secondi`,
+    );
+    $("#btn-bank").disabled = !clock.timer || ui.bank === 0;
+  }
+
+  function grantTimeBank(level) {
+    if (level < 2 || (level - 1) % BANK_EVERY !== 0) return;
+    if (ui.bank >= BANK_MAX) return;
+    ui.bank++;
+    log(`Ricevi una time bank card (ne hai ${ui.bank})`, "level");
+    renderBank();
   }
 
   function heroHandText(g, p) {
@@ -685,6 +801,7 @@
     $("#btn-fold").addEventListener("click", () => ui.pending?.fold());
     $("#btn-call").addEventListener("click", () => ui.pending?.call());
     $("#btn-raise").addEventListener("click", () => ui.pending?.raise());
+    $("#btn-bank").addEventListener("click", () => useTimeBank(false));
     $("#raise-slider").addEventListener("input", (e) =>
       ui.pending?.slide(e.target.value),
     );
@@ -705,6 +822,7 @@
       if (k === "f") ui.pending.fold();
       else if (k === "c" || k === "k") ui.pending.call();
       else if (k === "r" || k === "b") ui.pending.raise();
+      else if (k === "t") useTimeBank(false);
     });
     for (const [id, key] of [
       ["#opt-hud", "hud"],
@@ -735,6 +853,7 @@
       e.preventDefault();
       ui.prefs.name = $("#hero-name").value.trim().slice(0, 18) || "Tu";
       ui.prefs.handsPerLevel = Number($("#hands-level").value) || 9;
+      ui.prefs.actionTime = Number($("#action-time").value);
       savePrefs();
       $("#overlay").hidden = true;
       startTournament();
@@ -746,6 +865,7 @@
   function openStart() {
     $("#hero-name").value = ui.prefs.name;
     $("#hands-level").value = String(ui.prefs.handsPerLevel);
+    $("#action-time").value = String(ui.prefs.actionTime);
     const running =
       ui.game &&
       ui.game.handNo > 0 &&
@@ -825,6 +945,7 @@
     ui.thinking = null;
     ui.bubbles = {};
     ui.deal = newDealStats();
+    ui.bank = BANK_START;
     const g = makeGame(true);
     ui.game = g;
     renderLog();
@@ -842,6 +963,7 @@
     ui.game = makeGame(false);
     ui.message = "30.000 fiches a testa · 9 giocatori";
     render();
+    renderBank();
     openStart();
   }
 
