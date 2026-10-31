@@ -1,14 +1,21 @@
 /* Layout: tournament clock strip on top, oval felt table as the stage,
    action rail under the table, standings + hand history in a side column
-   (stacked below on phones). Single committed look: a dim card room. */
+   (stacked below on phones). Single committed look: a dim card room, drawn
+   flat. Surfaces step in tone instead of using lines, glows or blur; the
+   only printed marks are the ones a real felt carries. */
 :root {
   --room: #0d1311;
   --room-2: #141c19;
   --line: #26332e;
-  --felt: #145244;
-  --felt-deep: #0c3a30;
+  --felt: #13513f;
+  --felt-print: #186049;
+  --felt-shade: #0f4434;
+  --felt-slot: #114a3a;
   --rail: #2b1d14;
-  --rail-hi: #4a3322;
+  --rail-lip: #5b3e29;
+  --plate: #0f1614;
+  --plate-active: #2a2314;
+  --plate-win: #163324;
   --brass: #d2a54c;
   --brass-dim: #8f7134;
   --ink: #ede7d8;
@@ -42,9 +49,7 @@ body {
 
 body {
   margin: 0;
-  background:
-    radial-gradient(ellipse at 50% 30%, #18241f 0%, var(--room) 70%) fixed,
-    var(--room);
+  background: var(--room);
   color: var(--ink);
   font: 15px/1.45 var(--f-body);
   padding-left: max(16px, env(safe-area-inset-left, 0px));
@@ -71,8 +76,7 @@ input {
   flex-wrap: wrap;
   align-items: stretch;
   gap: 8px 22px;
-  padding: 10px 14px;
-  border: 1px solid var(--line);
+  padding: 12px 16px;
   border-radius: 6px;
   background: var(--room-2);
   max-width: 1320px;
@@ -107,9 +111,7 @@ input {
 }
 
 .cell .k {
-  font-size: 0.68rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  font-size: 0.78rem;
   color: var(--muted);
 }
 
@@ -185,32 +187,39 @@ input {
   padding: 46px 70px 60px;
 }
 
+/* Leather rail: a dark ring with a lighter inner lip, both solid. */
 .table {
   position: relative;
   aspect-ratio: 2.05 / 1;
   max-width: 100%;
   border-radius: 50% / 50%;
-  background: radial-gradient(
-    ellipse at 50% 42%,
-    var(--felt) 0%,
-    var(--felt-deep) 78%
-  );
+  background: var(--felt);
   box-shadow:
-    0 0 0 14px var(--rail),
-    0 0 0 16px var(--rail-hi),
-    0 24px 60px rgba(0, 0, 0, 0.55),
-    inset 0 0 60px rgba(0, 0, 0, 0.45);
+    0 0 0 5px var(--rail-lip),
+    0 0 0 20px var(--rail);
 }
 
+/* The event name printed into the felt, one tone up from the cloth. */
 .table::before {
-  content: "FINAL TABLE";
+  content: "Final Table";
   position: absolute;
   left: 50%;
-  top: 70%;
+  top: 77%;
   transform: translate(-50%, -50%);
-  font: 700 clamp(0.9rem, 2.2vw, 1.5rem) var(--f-display);
-  letter-spacing: 0.5em;
-  color: rgba(237, 231, 216, 0.07);
+  font: 800 clamp(1.3rem, 3.6vw, 2.8rem) / 1 var(--f-display);
+  letter-spacing: -0.02em;
+  color: var(--felt-print);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* The betting line: chips pushed past it are in the pot. */
+.table::after {
+  content: "";
+  position: absolute;
+  inset: 14% 10%;
+  border-radius: 50%;
+  border: 3px solid var(--felt-print);
   pointer-events: none;
 }
 
@@ -222,18 +231,24 @@ input {
 .center {
   position: absolute;
   left: 50%;
-  top: 46%;
+  top: 44%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   width: 62%;
+  z-index: 1;
+}
+
+.pot-chips {
+  height: 84px;
+  display: flex;
+  align-items: flex-end;
 }
 
 .pot {
   font: 500 1.05rem var(--f-data);
-  letter-spacing: 0.04em;
   color: var(--muted);
 }
 
@@ -258,19 +273,17 @@ input {
 
 /* ------------------------------------------------------------ cards */
 
+/* Jumbo-index faces: rank and suit large in the corner, a big pip below. */
 .card {
-  --w: clamp(30px, 4.4vw, 54px);
+  --w: clamp(34px, 4.6vw, 58px);
+  position: relative;
+  flex: none;
   width: var(--w);
   height: calc(var(--w) * 1.4);
-  border-radius: 5px;
+  border-radius: calc(var(--w) * 0.1);
   background: var(--card);
-  border: 1px solid var(--card-edge);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+  overflow: hidden;
   color: var(--spade);
   user-select: none;
   transition:
@@ -278,12 +291,32 @@ input {
     transform 0.25s;
 }
 
-.card .rank {
-  font: 700 calc(var(--w) * 0.5) / 1 var(--f-data);
+.card .idx {
+  position: absolute;
+  left: calc(var(--w) * 0.09);
+  top: calc(var(--w) * 0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card .idx b {
+  font: 700 calc(var(--w) * 0.54) / 0.9 var(--f-display);
+  letter-spacing: -0.03em;
+}
+
+.card .idx i {
+  font-style: normal;
+  font-size: calc(var(--w) * 0.3);
+  line-height: 1;
 }
 
 .card .pip {
-  font-size: calc(var(--w) * 0.42);
+  position: absolute;
+  right: calc(var(--w) * 0.05);
+  bottom: calc(var(--w) * -0.06);
+  font-size: calc(var(--w) * 0.66);
+  line-height: 1;
 }
 
 .card.suit-1,
@@ -300,13 +333,14 @@ input {
 }
 
 .card.back {
-  background: repeating-linear-gradient(45deg, #7d2b2b 0 4px, #6a2222 4px 8px);
-  border: 2px solid var(--card);
+  border: calc(var(--w) * 0.07) solid var(--card);
+  background: #6c1f25
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M4 0L8 4L4 8L0 4Z' fill='none' stroke='%23893038' stroke-width='1.1'/%3E%3C/svg%3E")
+    center / 8px 8px;
 }
 
 .card.slot {
-  background: transparent;
-  border: 1px dashed rgba(237, 231, 216, 0.14);
+  background: var(--felt-slot);
   box-shadow: none;
 }
 
@@ -315,15 +349,13 @@ input {
 }
 
 .card.win {
-  box-shadow:
-    0 0 0 2px var(--brass),
-    0 4px 14px rgba(210, 165, 76, 0.45);
-  transform: translateY(-3px);
+  box-shadow: 0 0 0 3px var(--brass);
+  transform: translateY(-6px);
 }
 
 .card.dim,
 .card.mucked {
-  opacity: 0.38;
+  opacity: 0.45;
 }
 
 @keyframes deal {
@@ -354,7 +386,7 @@ input {
 }
 
 .seat .hole .card {
-  --w: clamp(26px, 3.4vw, 42px);
+  --w: clamp(28px, 3.5vw, 44px);
 }
 
 .seat.hero .hole {
@@ -362,30 +394,33 @@ input {
 }
 
 .seat.hero .hole .card {
-  --w: clamp(34px, 4.8vw, 58px);
+  --w: clamp(38px, 5vw, 62px);
 }
 
 .plate {
   position: relative;
   z-index: 2;
   width: 100%;
-  padding: 5px 8px 6px;
+  padding: 6px 8px 7px;
   border-radius: 6px;
-  background: rgba(13, 19, 17, 0.92);
-  border: 1px solid var(--line);
+  background: var(--plate);
   text-align: center;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 .seat.active .plate {
-  border-color: var(--brass);
-  box-shadow:
-    0 0 0 1px var(--brass),
-    0 0 18px rgba(210, 165, 76, 0.35);
+  background: var(--plate-active);
+}
+
+.seat.active .name {
+  color: var(--brass);
 }
 
 .seat.winner .plate {
-  border-color: var(--good);
+  background: var(--plate-win);
+}
+
+.seat.winner .stack {
+  color: var(--good);
 }
 
 .seat.folded .plate > * {
@@ -413,8 +448,7 @@ input {
 }
 
 .blind {
-  font: 700 0.62rem var(--f-data);
-  letter-spacing: 0.06em;
+  font: 700 0.66rem var(--f-data);
   padding: 0 4px;
   border-radius: 3px;
   background: var(--brass-dim);
@@ -430,8 +464,7 @@ input {
   display: flex;
   justify-content: center;
   gap: 6px;
-  font: 500 0.66rem var(--f-data);
-  letter-spacing: 0.04em;
+  font: 500 0.7rem var(--f-data);
   color: var(--muted);
   font-variant-numeric: tabular-nums;
 }
@@ -442,12 +475,10 @@ input {
   bottom: -11px;
   transform: translateX(-50%);
   white-space: nowrap;
-  font: 700 0.68rem/1 var(--f-data);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 3px 7px;
+  font: 700 0.78rem/1 var(--f-data);
+  padding: 3px 8px;
   border-radius: 10px;
-  background: var(--rail-hi);
+  background: var(--rail-lip);
   color: var(--ink);
 }
 
@@ -457,7 +488,7 @@ input {
 }
 
 .tag-fold {
-  background: #3a3a3a;
+  background: #2c302e;
   color: var(--muted);
 }
 
@@ -488,40 +519,44 @@ input {
   }
 }
 
+/* A bet is the actual chips that make it up, with the amount under them. */
 .bet {
   position: absolute;
   transform: translate(-50%, -50%);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 5px;
-  font: 700 0.9rem var(--f-data);
-  font-variant-numeric: tabular-nums;
-  padding: 2px 8px 2px 3px;
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.35);
+  gap: 3px;
   z-index: 1;
 }
 
-.chip {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--brass);
-  border: 3px dashed var(--card);
-  display: inline-block;
+.bet .amount {
+  font: 700 0.86rem/1 var(--f-data);
+  font-variant-numeric: tabular-nums;
+  padding: 3px 7px;
+  border-radius: 9px;
+  background: var(--felt-shade);
 }
 
+.chips {
+  display: block;
+  overflow: visible;
+}
+
+/* Dealer puck: cream with a darker ring, printed like the real one. */
 .dealer {
   position: absolute;
   transform: translate(-50%, -50%);
-  width: 24px;
-  height: 24px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: var(--card);
+  box-shadow:
+    inset 0 0 0 3px #d8cfba,
+    0 2px 0 rgba(0, 0, 0, 0.3);
   color: var(--spade);
-  font: 800 0.8rem/24px var(--f-data);
+  font: 800 0.6rem/34px var(--f-display);
   text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
 
@@ -530,8 +565,7 @@ input {
 .actions {
   display: grid;
   gap: 10px;
-  padding: 12px 14px;
-  border: 1px solid var(--line);
+  padding: 14px 16px;
   border-radius: 6px;
   background: var(--room-2);
   opacity: 0.55;
@@ -540,7 +574,7 @@ input {
 
 .actions.live {
   opacity: 1;
-  border-color: var(--brass-dim);
+  background: #1b2521;
 }
 
 .actions:not(.live) button {
@@ -578,8 +612,7 @@ input {
   border: 1px solid var(--line);
   border-radius: 4px;
   padding: 4px 9px;
-  font: 600 0.85rem var(--f-data);
-  letter-spacing: 0.03em;
+  font: 600 0.9rem var(--f-data);
   cursor: pointer;
 }
 
@@ -612,9 +645,7 @@ input {
   border: 0;
   border-radius: 5px;
   padding: 12px 10px;
-  font: 700 1.05rem var(--f-data);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font: 700 1.15rem var(--f-data);
   cursor: pointer;
   font-variant-numeric: tabular-nums;
 }
@@ -655,7 +686,6 @@ input {
 }
 
 .panel {
-  border: 1px solid var(--line);
   border-radius: 6px;
   background: var(--room-2);
   padding: 12px 14px;
@@ -663,11 +693,9 @@ input {
 }
 
 .panel h2 {
-  margin: 0 0 8px;
-  font: 700 0.78rem var(--f-body);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
+  margin: 0 0 10px;
+  font: 600 1rem var(--f-body);
+  color: var(--ink);
 }
 
 .payouts {
@@ -737,8 +765,7 @@ input {
 .log li.head {
   color: var(--brass);
   font-weight: 600;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 3px;
+  padding-bottom: 2px;
 }
 
 .log li.street {
@@ -811,8 +838,7 @@ input {
 .dialog h2 {
   margin: 0 0 4px;
   font: 700 2rem/1.05 var(--f-display);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: -0.01em;
   color: var(--brass);
   text-wrap: balance;
 }
@@ -830,15 +856,13 @@ input {
 }
 
 .facts div {
-  border: 1px solid var(--line);
+  background: var(--room);
   border-radius: 5px;
   padding: 8px;
 }
 
 .facts dt {
-  font-size: 0.66rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  font-size: 0.78rem;
   color: var(--muted);
 }
 
@@ -871,9 +895,7 @@ input {
   padding: 12px;
   background: var(--brass);
   color: var(--room);
-  font: 700 1.15rem var(--f-data);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font: 700 1.25rem var(--f-data);
   cursor: pointer;
 }
 
@@ -919,8 +941,6 @@ input {
   background: var(--brass);
   color: var(--room);
   font: 700 1.2rem var(--f-display);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
@@ -953,6 +973,12 @@ input {
   .side {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .table::before {
+    content: none;
   }
 }
 
@@ -995,7 +1021,28 @@ input {
   }
 
   .seat {
-    width: 84px;
+    width: 88px;
+  }
+
+  .seat .hole .card {
+    --w: 30px;
+  }
+
+  .seat.hero .hole .card {
+    --w: 40px;
+  }
+
+  .pot-chips {
+    height: 52px;
+  }
+
+  .pot-chips .chips,
+  .bet .chips {
+    zoom: 0.62;
+  }
+
+  .table::after {
+    inset: 10% 12%;
   }
 
   .hud {
@@ -1074,15 +1121,10 @@ input {
 .tag-think {
   background: var(--room);
   color: var(--brass);
-  border: 1px solid var(--brass-dim);
-  text-transform: none;
-  letter-spacing: 0.02em;
 }
 
 .card.shown {
-  box-shadow:
-    0 0 0 2px var(--danger),
-    0 4px 14px rgba(196, 82, 59, 0.45);
+  box-shadow: 0 0 0 3px var(--danger);
 }
 
 .log li.chat {
@@ -1101,9 +1143,7 @@ input {
 }
 
 .deal-stats dt {
-  font-size: 0.66rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  font-size: 0.78rem;
   color: var(--muted);
 }
 

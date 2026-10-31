@@ -87,14 +87,73 @@
     return { x: 50 + 50 * f * Math.cos(a), y: 50 + 50 * f * Math.sin(a) };
   }
 
+  // Jumbo-index faces: big rank and suit in the corner, large pip below.
   function cardHTML(c, extra = "") {
     if (c === null || c === undefined)
       return `<div class="card back ${extra}"></div>`;
     const r = RANK_NAMES[c >> 2];
     const s = c & 3;
     return (
-      `<div class="card suit-${s} ${extra}" aria-label="${r}${SUIT_SYMBOLS[s]}">` +
-      `<span class="rank">${r}</span><span class="pip">${SUIT_SYMBOLS[s]}</span></div>`
+      `<div class="card suit-${s} ${extra}" role="img" aria-label="${r}${SUIT_SYMBOLS[s]}">` +
+      `<span class="idx"><b>${r}</b><i>${SUIT_SYMBOLS[s]}</i></span>` +
+      `<span class="pip" aria-hidden="true">${SUIT_SYMBOLS[s]}</span></div>`
+    );
+  }
+
+  // Tournament chip set: value, body colour, edge-insert colour.
+  const CHIPS = [
+    [100000, "#d4849f", "#3b1526"],
+    [25000, "#2f6db0", "#f3efe6"],
+    [5000, "#b8392f", "#f3efe6"],
+    [1000, "#e1b43c", "#2a2116"],
+    [500, "#6b3d9b", "#f3efe6"],
+    [100, "#1f1f22", "#f3efe6"],
+    [25, "#2f8a55", "#f3efe6"],
+  ];
+  const CHIP_W = 30;
+  const CHIP_H = 7;
+  const CHIP_GAP = 1.5;
+  const INSERTS = [3, 13, 23]; // x of the three edge inserts, 4px wide
+
+  /** Splits an amount into chip columns, largest value first. */
+  function chipColumns(amount, maxCols, maxPerCol) {
+    const cols = [];
+    let rest = Math.round(amount);
+    for (const [value, body, insert] of CHIPS) {
+      const n = Math.floor(rest / value);
+      if (n === 0) continue;
+      rest -= n * value;
+      cols.push({ value, n, shown: Math.min(n, maxPerCol), body, insert });
+    }
+    return cols.slice(0, maxCols);
+  }
+
+  /** Flat side-view chip stacks: one column per value, edge inserts drawn. */
+  function chipStackSVG(amount, maxCols, maxPerCol) {
+    const cols = chipColumns(amount, maxCols, maxPerCol);
+    if (cols.length === 0) return "";
+    const step = CHIP_H + CHIP_GAP;
+    const height = Math.max(...cols.map((c) => c.shown)) * step;
+    const width = cols.length * (CHIP_W + 4) - 4;
+    const parts = [];
+    cols.forEach((col, ci) => {
+      const x = ci * (CHIP_W + 4);
+      for (let i = 0; i < col.shown; i++) {
+        const y = height - (i + 1) * step + CHIP_GAP;
+        parts.push(
+          `<rect x="${x}" y="${y}" width="${CHIP_W}" height="${CHIP_H}" rx="2" fill="${col.body}"/>`,
+        );
+        for (const ix of INSERTS) {
+          parts.push(
+            `<rect x="${x + ix}" y="${y}" width="4" height="${CHIP_H}" fill="${col.insert}"/>`,
+          );
+        }
+      }
+    });
+    const label = cols.map((c) => `${c.n} da ${fmt(c.value)}`).join(", ");
+    return (
+      `<svg class="chips" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img" aria-label="Fiches: ${label}">` +
+      `${parts.join("")}</svg>`
     );
   }
 
@@ -184,12 +243,15 @@
   function betHTML(g, p) {
     if (p.out || p.bet <= 0 || ui.showdown) return "";
     const pt = seatPoint(p.seat, g.players.length, 0.6);
-    return `<div class="bet" style="left:${pt.x}%;top:${pt.y}%"><i class="chip"></i>${fmt(p.bet)}</div>`;
+    return (
+      `<div class="bet" style="left:${pt.x}%;top:${pt.y}%">` +
+      `${chipStackSVG(p.bet, 3, 6)}<span class="amount">${fmt(p.bet)}</span></div>`
+    );
   }
 
   function dealerHTML(g) {
-    const pt = seatPoint(g.button, g.players.length, 0.74, 16);
-    return `<div class="dealer" style="left:${pt.x}%;top:${pt.y}%">D</div>`;
+    const pt = seatPoint(g.button, g.players.length, 0.7, 17);
+    return `<div class="dealer" style="left:${pt.x}%;top:${pt.y}%" aria-label="Bottone del dealer">Dealer</div>`;
   }
 
   function centerHTML(g) {
@@ -202,8 +264,13 @@
         board.push(cardHTML(c, best ? (best.has(c) ? "win" : "dim") : "deal"));
     }
     const pot = ui.showdown ? ui.showdown.total : g.potTotal();
+    // Chips in the middle are what earlier streets collected; current bets
+    // still sit in front of each player.
+    const street = g.players.reduce((s, p) => s + (p.out ? 0 : p.bet), 0);
+    const collected = ui.showdown ? pot : pot - street;
     return (
-      `<div class="center"><div class="pot">${pot > 0 ? `Piatto <b>${fmt(pot)}</b>` : "&nbsp;"}</div>` +
+      `<div class="center"><div class="pot-chips">${chipStackSVG(collected, 5, 9)}</div>` +
+      `<div class="pot">${pot > 0 ? `Piatto <b>${fmt(pot)}</b>` : "&nbsp;"}</div>` +
       `<div class="board">${board.join("")}</div>` +
       `<div class="message" aria-live="polite">${esc(ui.message)}</div></div>`
     );
