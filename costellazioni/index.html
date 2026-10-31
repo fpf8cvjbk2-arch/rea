@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="it" class="no-js" data-palette="originale">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Costellazioni quantiche retrocausali</title>
+<meta name="description" content="Journal sulle costellazioni familiari: dinamiche, letture, appunti di lavoro.">
+<meta property="og:title" content="Costellazioni quantiche retrocausali">
+<meta property="og:description" content="Journal sulle costellazioni familiari.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#F6F7F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121417" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2315171B'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23F6F7F5' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23D4351C'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,96,400..660&family=Literata:ital,opsz,wght@0,7..72,400..660;1,7..72,400..500&display=swap" rel="stylesheet">
+<style>
+/* ───────── palette: cambia data-palette su <html>, oppure apri la pagina con ?palette=nome ───────── */
+:root,[data-palette="originale"]{
+  --paper:#F6F7F5; --wash:#ECEEEA; --ink:#15171B; --ink-2:#4B5058; --line:#C5C9C4;
+  --acc:#D4351C; --acc-ink:#B22812; --on-acc:#FFFFFF;
+}
+@media (prefers-color-scheme:dark){
+  [data-palette="originale"]{--paper:#121417; --wash:#1A1D21; --ink:#ECEDEA; --ink-2:#A5ABB3; --line:#2F3439;
+    --acc:#FF5A3C; --acc-ink:#FF7A5F; --on-acc:#121417}
+}
+[data-palette="indaco"]{--paper:#F3F4F8; --wash:#E7E9F1; --ink:#10142B; --ink-2:#474D66; --line:#C7CADB;
+  --acc:#2F3FD0; --acc-ink:#2A37B8; --on-acc:#FFFFFF}
+[data-palette="archivio"]{--paper:#ECE8E0; --wash:#E2DDD2; --ink:#23201C; --ink-2:#5A544B; --line:#CFC8BB;
+  --acc:#8C2F39; --acc-ink:#7E2731; --on-acc:#FFFFFF}
+[data-palette="notturno"]{--paper:#0F1A1F; --wash:#152329; --ink:#E8EEEA; --ink-2:#9FB0AE; --line:#2A3A40;
+  --acc:#F2B33D; --acc-ink:#F6C462; --on-acc:#0F1A1F}
+[data-palette="rame"]{--paper:#EEF2EE; --wash:#E2E9E3; --ink:#142420; --ink-2:#4A5D57; --line:#C3CFC9;
+  --acc:#0F8A6B; --acc-ink:#0B6E55; --on-acc:#FFFFFF}
+[data-palette="vinaccia"]{--paper:#F4F1F6; --wash:#EAE4EE; --ink:#1E1626; --ink-2:#5A4E63; --line:#D3CAD9;
+  --acc:#B0306A; --acc-ink:#962657; --on-acc:#FFFFFF}
+
+:root{
+  --display:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --text:"Literata",Georgia,"Times New Roman",serif;
+  --out:cubic-bezier(.23,1,.32,1);
+  --drawer:cubic-bezier(.32,.72,0,1);
+  --gut:clamp(20px,5vw,56px); --max:1240px;
+  --rx:20px; --rp:64px;
+  color-scheme:light dark;
+}
+[data-palette="notturno"]{color-scheme:dark}
+@media (max-width:759px){
+  :root{--rx:17px;--rp:46px}
+  .gen::before,.filo{width:3px;margin-left:-1.5px}
+  .testo h3::before{width:22px;height:22px;left:calc(var(--rx) - var(--rp) - 11px)}
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;scrollbar-color:var(--ink-2) var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--text);
+  font-size:clamp(1.0625rem,1rem + .3vw,1.1875rem);line-height:1.7;font-optical-sizing:auto;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;-webkit-tap-highlight-color:transparent;
+  transition:background-color .4s var(--out),color .4s var(--out)}
+a{color:inherit}
+button{font:inherit;color:inherit}
+button,a,[role="button"]{touch-action:manipulation}
+button{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+::selection{background:var(--acc);color:var(--on-acc)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+
+/* ───────── testata ───────── */
+.prog{position:fixed;inset:0 0 auto 0;height:3px;background:var(--acc);z-index:40;pointer-events:none;
+  transform-origin:0 50%;transform:scaleX(0);will-change:transform;opacity:0;transition:opacity .3s var(--out)}
+.prog.on{opacity:1}
+.testata{position:sticky;top:0;z-index:30;background:var(--paper);border-bottom:1px solid transparent;
+  transition:border-color .2s var(--out),background-color .4s var(--out)}
+.testata.scesa{border-bottom-color:var(--line)}
+.bar{max-width:var(--max);margin:0 auto;padding:14px max(var(--gut),env(safe-area-inset-right,0px)) 14px max(var(--gut),env(safe-area-inset-left,0px));display:flex;align-items:center;justify-content:space-between;gap:20px}
+.marchio{display:flex;align-items:center;gap:12px;text-decoration:none;font:600 15px/1.25 var(--display);letter-spacing:-.005em;max-width:25ch}
+.marchio svg{flex:none;width:38px;height:20px;fill:none;stroke:var(--ink);stroke-width:1.6;overflow:visible}
+.marchio .mc{transform-origin:29px 10px;transition:transform .5s var(--out)}
+@media (hover:hover) and (pointer:fine){.marchio:hover .mc{transform:rotate(180deg) scale(1.15)}}
+.menu{display:flex;gap:clamp(16px,3vw,30px);font:500 14px var(--display)}
+.menu a{color:var(--ink-2);padding:6px 0;text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;
+  text-underline-offset:.35em;transition:color .16s var(--out),text-decoration-color .16s var(--out)}
+@media (hover:hover) and (pointer:fine){.menu a:hover{color:var(--ink);text-decoration-color:var(--acc)}}
+@media (max-width:520px){.marchio{font-size:13.5px;gap:9px;max-width:none}.marchio svg{width:30px;height:16px}.menu{font-size:13px;gap:14px}.bar{gap:12px}}
+
+/* ───────── prima schermata ───────── */
+.hero{max-width:var(--max);margin:0 auto;padding:clamp(36px,7vh,88px) var(--gut) clamp(56px,10vh,112px);
+  display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:clamp(32px,6vw,88px);align-items:center;min-height:min(86svh,800px)}
+.hero h1{margin:0;font:620 clamp(2.1rem,1.25rem + 3.6vw,4rem)/1.06 var(--display);font-stretch:96%;letter-spacing:-.018em;text-wrap:balance}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .02em .14em;margin:0 -.02em -.14em}
+.w>span{display:inline-block}
+.js .w>span{animation:sale .95s var(--out) calc(.08s + var(--i)*42ms) backwards}
+@keyframes sale{from{transform:translateY(112%)}}
+.seg{background:linear-gradient(var(--acc),var(--acc)) 0 88%/0% .09em no-repeat;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.js .seg{animation:sotto 1.1s var(--out) 1.25s forwards}
+.no-js .seg{background-size:100% .09em}
+@keyframes sotto{to{background-size:100% .09em}}
+.hero .sotto{margin:clamp(20px,3vh,30px) 0 0;max-width:34ch;font-size:clamp(1.1rem,1rem + .5vw,1.3rem);line-height:1.55;color:var(--ink-2)}
+.js .hero .sotto,.js .hero .btn{animation:entra .9s var(--out) backwards}
+.js .hero .sotto{animation-delay:.55s}.js .hero .btn{animation-delay:.7s}
+@keyframes entra{from{opacity:0;transform:translateY(14px)}}
+.btn{display:inline-flex;align-items:center;gap:12px;margin-top:clamp(28px,5vh,44px);background:var(--ink);color:var(--paper);
+  padding:15px 26px;border-radius:2px;text-decoration:none;font:560 1rem var(--display);
+  transition:background-color .16s var(--out),transform .16s var(--out)}
+.btn svg{width:18px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6;transform:rotate(90deg);animation:bob 2.4s var(--out) 2s infinite}
+@keyframes bob{0%,60%,100%{transform:rotate(90deg) translateX(0)}30%{transform:rotate(90deg) translateX(4px)}}
+.btn:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.btn:hover{background:var(--acc-ink);color:var(--on-acc)}}
+
+.gen-fig{margin:0;justify-self:end;width:100%;max-width:470px}
+.gen-fig svg{display:block;width:100%;height:auto;overflow:visible;transform:translate3d(var(--fx,0),var(--fy,0),0)}
+.gen-fig figcaption{margin:22px auto 0;font:400 .875rem/1.5 var(--display);color:var(--ink-2);max-width:40ch;text-align:center;text-wrap:balance}
+.js .gen-fig figcaption{animation:entra .9s var(--out) 2.2s backwards}
+.s{fill:none;stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
+.s.r{stroke:var(--acc)}
+.pieno{fill:var(--ink)}
+.punto{fill:var(--acc)}
+.fermo .alone{animation-play-state:paused}
+.alone{fill:none;stroke:var(--acc);stroke-width:1.5;transform-origin:254px 470px;animation:respira 3.2s var(--out) 2.4s infinite backwards}
+@keyframes respira{0%{transform:scale(1);opacity:.75}100%{transform:scale(1.9);opacity:0}}
+.dt{font:500 13px var(--display);fill:var(--ink-2);text-anchor:middle;font-variant-numeric:tabular-nums}
+.dr{animation:disegna .9s var(--out) var(--d,0s) backwards}
+.dt,.pieno{animation:appare .6s var(--out) var(--d,0s) backwards}
+@keyframes disegna{from{stroke-dasharray:1;stroke-dashoffset:1}to{stroke-dasharray:1;stroke-dashoffset:0}}
+@keyframes appare{from{opacity:0}}
+@media (max-width:520px){.dt{display:none}}
+
+/* ───────── il journal: elenco come discendenza ───────── */
+.journal{max-width:var(--max);margin:0 auto;padding:clamp(36px,7vh,88px) var(--gut) clamp(40px,8vh,96px);
+  display:grid;grid-template-columns:minmax(0,.34fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);scroll-margin-top:56px}
+.lato{position:sticky;top:92px;align-self:start;max-height:calc(100svh - 112px);overflow:auto;scrollbar-width:thin}
+.lato h2{margin:0;font:620 clamp(1.9rem,1.4rem + 2vw,3rem)/1.05 var(--display);letter-spacing:-.02em}
+.leggendo{margin-top:34px;padding-top:22px;border-top:3px double var(--ink)}
+.js .leggendo{animation:entra .5s var(--out) backwards}
+.leggendo .lt,.foglio .lt{margin:0;font:500 .82rem var(--display);color:var(--ink-2)}
+.leggendo .lt-t,.foglio .lt-t{margin:4px 0 16px;font:620 1.05rem/1.25 var(--display);text-wrap:balance}
+.sez{list-style:none;margin:0;padding:0 0 4px;position:relative}
+.sez::before{content:"";position:absolute;left:6.5px;top:12px;bottom:12px;width:1px;background:var(--line)}
+.sez a{display:block;position:relative;padding:5px 0 5px 26px;text-decoration:none;font:450 .88rem/1.35 var(--display);color:var(--ink-2);transition:color .16s var(--out)}
+.sez a::before{content:"";box-sizing:border-box;position:absolute;left:0;top:.6em;width:14px;height:14px;border-radius:50%;border:1.5px solid var(--ink-2);background:var(--paper);
+  transition:background-color .25s var(--out),border-color .25s var(--out),box-shadow .25s var(--out)}
+@media (hover:hover) and (pointer:fine){.sez a:hover{color:var(--ink)}}
+.sez a.fatto::before{background:var(--ink-2)}
+.sez a[aria-current]{color:var(--ink);font-weight:600}
+.sez a[aria-current]::before{background:var(--acc);border-color:var(--acc);box-shadow:0 0 0 3px var(--paper),0 0 0 4.5px var(--acc)}
+.btn-c{display:inline-flex;align-items:center;gap:10px;margin-top:18px;padding:10px 16px;border:1.5px solid var(--ink);border-radius:2px;background:none;cursor:pointer;
+  font:560 .9rem var(--display);transition:background-color .16s var(--out),color .16s var(--out),transform .16s var(--out)}
+.btn-c svg{width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6}
+.btn-c:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.btn-c:hover{background:var(--ink);color:var(--paper)}}
+
+.gen{list-style:none;margin:0;padding:0 0 56px;position:relative;--p:0}
+.gen::before,.filo{content:"";position:absolute;left:var(--rx);top:46px;bottom:0;width:2px;margin-left:-1px;
+  -webkit-mask-image:linear-gradient(#000 calc(100% - 64px),transparent);mask-image:linear-gradient(#000 calc(100% - 64px),transparent)}
+.gen::before{background:var(--line)}
+.filo{display:block;background:var(--acc);transform-origin:50% 0;transform:scaleY(0);will-change:transform;pointer-events:none}
+.voce{position:relative;scroll-margin-top:72px}
+.js .voce{opacity:0;transform:translateY(28px);transition:opacity .8s var(--out),transform .9s var(--out)}
+.js .voce.visto{opacity:1;transform:none}
+.apri{display:block;padding:30px 0 34px var(--rp);position:relative}
+.nodo{position:absolute;left:calc(var(--rx) - 11px);top:33px;width:22px;height:22px;border-radius:50%;
+  border:2px solid var(--ink);background:var(--paper);z-index:1;
+  transition:box-shadow .3s var(--out),background-color .3s var(--out),border-color .3s var(--out),transform .45s cubic-bezier(.34,1.56,.64,1)}
+.voce.acceso .nodo{border-color:var(--acc);background:var(--acc);transform:scale(1.08)}
+.voce.aperta .nodo{background:var(--paper);border-color:var(--acc);box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--acc)}
+.voce time{font:500 .9rem var(--display);color:var(--ink-2);font-variant-numeric:tabular-nums;display:block}
+.apri h3{margin:6px 0 12px;font:620 clamp(1.5rem,1.15rem + 1.5vw,2.25rem)/1.1 var(--display);letter-spacing:-.02em;text-wrap:balance;max-width:22ch;
+  }
+.estratto{margin:0;color:var(--ink-2);max-width:56ch}
+.voce.aperta .estratto{font-style:italic}
+.azioni{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-top:22px}
+.no-js .leggi{display:none}
+.leggi{display:inline-flex;align-items:center;gap:12px;padding:13px 22px;border:0;border-radius:2px;background:var(--ink);color:var(--paper);cursor:pointer;
+  font:560 .98rem var(--display);transition:background-color .16s var(--out),color .16s var(--out),transform .16s var(--out)}
+.leggi svg{width:18px;height:10px;fill:none;stroke:currentColor;stroke-width:1.6;transition:transform .35s var(--out)}
+.leggi:active{transform:scale(.97)}
+.voce.aperta .leggi{background:none;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.voce.aperta .leggi svg{transform:rotate(-90deg)}
+.azioni .tempo{font:400 .92rem var(--display);color:var(--ink-2)}
+.azioni .tempo:not(:empty)::before{content:"";display:inline-block;width:5px;height:5px;border:1.2px solid currentColor;border-radius:50%;margin:0 10px 2px 0}
+@media (hover:hover) and (pointer:fine){
+  .voce:not(.aperta) .leggi:hover{background:var(--acc-ink);color:var(--on-acc)}
+  .voce:not(.aperta) .leggi:hover svg{transform:translateX(5px)}
+  .voce.aperta .leggi:hover{background:var(--ink);color:var(--paper)}
+  .voce:not(.aperta):hover .nodo{box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--ink)}
+}
+
+/* corpo dell'articolo: si apre nel posto in cui si trova */
+.js .corpo{display:grid;grid-template-rows:0fr;transition:grid-template-rows .8s var(--drawer)}
+.js .voce.aperta .corpo{grid-template-rows:1fr}
+.corpo.subito{transition:none!important}
+.corpo-in{min-height:0;overflow:hidden}
+.pad{padding:0 0 clamp(36px,7vh,72px) var(--rp)}
+.testo{max-width:66ch}
+.js .testo>*{opacity:0;transform:translateY(16px);transition:opacity .25s var(--out),transform .25s var(--out)}
+.js .aperta .testo>*{opacity:1;transform:none;transition:opacity .7s var(--out),transform .8s var(--out);transition-delay:.5s}
+.js .aperta .testo>:nth-child(1){transition-delay:.18s}.js .aperta .testo>:nth-child(2){transition-delay:.24s}
+.js .aperta .testo>:nth-child(3){transition-delay:.3s}.js .aperta .testo>:nth-child(4){transition-delay:.36s}
+.js .aperta .testo>:nth-child(5){transition-delay:.42s}
+.testo p{margin:0 0 1.15em}
+.testo>:nth-child(n+10):not(h3){content-visibility:auto;contain-intrinsic-size:auto 180px}
+.testo h3{position:relative;margin:2.5em 0 .7em;font:620 clamp(1.4rem,1.15rem + 1vw,1.85rem)/1.15 var(--display);letter-spacing:-.018em;text-wrap:balance;scroll-margin-top:92px}
+.testo h3::before{content:"";box-sizing:border-box;position:absolute;left:calc(var(--rx) - var(--rp) - 10px);top:.32em;width:20px;height:20px;border-radius:50%;
+  border:2px solid var(--ink);background:var(--paper);
+  transition:background-color .35s var(--out),border-color .35s var(--out),transform .5s cubic-bezier(.34,1.56,.64,1)}
+.testo h3.passato::before{background:var(--acc);border-color:var(--acc);transform:scale(1.12)}
+.testo strong{font-weight:660}
+.testo ul{list-style:none;margin:0 0 1.4em;padding:0}
+.testo li{position:relative;padding-left:1.8em;margin:0 0 .6em}
+.testo li::before{content:"";position:absolute;left:.15em;top:.66em;width:.6em;height:.6em;border:1.5px solid var(--ink);border-radius:50%}
+.testo .citazione{margin:1.6em 0;padding-left:1.1em;border-left:1px solid var(--ink);font-style:italic;font-size:1.14em;line-height:1.55}
+.testo .nota{font-size:.92em;line-height:1.6;color:var(--ink-2);margin-top:1.2em}
+.testo .nota:last-child,.testo .nota.fine{margin-top:3em;padding-top:1.4em;border-top:3px double var(--ink)}
+.testo .fonti li{font-size:.86em;line-height:1.55;color:var(--ink-2);margin-bottom:.7em}
+.fine-art{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;margin-top:28px}
+
+/* telefono: barra della sezione corrente e pannello delle sezioni */
+.pill{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:35;display:none;
+  align-items:center;gap:12px;padding:12px 16px 14px;border:0;border-radius:14px;background:var(--ink);color:var(--paper);cursor:pointer;text-align:left;
+  box-shadow:0 10px 30px rgba(0,0,0,.22);transform:translateY(160%);transition:transform .45s var(--drawer)}
+.pill.su{transform:none}
+.pill:active{transform:scale(.98)}
+.pill-t{flex:1;min-width:0}
+.pill-l{display:block;font:500 .75rem var(--display);opacity:.7}
+.pill-s{display:block;font:600 .95rem/1.25 var(--display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill-pr{position:absolute;left:16px;right:16px;bottom:7px;height:2px;border-radius:2px;background:rgba(127,127,127,.35);overflow:hidden}
+.pill-pr i{display:block;height:100%;background:var(--acc);transform-origin:0 50%;transform:scaleX(0)}
+.pill svg{flex:none;width:14px;height:9px;fill:none;stroke:currentColor;stroke-width:1.6}
+.velo-f{position:fixed;inset:0;z-index:44;background:rgba(0,0,0,.38);opacity:0;transition:opacity .3s var(--out)}
+.velo-f.su{opacity:1}
+.foglio{position:fixed;left:0;right:0;bottom:0;z-index:45;max-height:78svh;overflow:auto;overscroll-behavior:contain;
+  background:var(--paper);border-radius:18px 18px 0 0;padding:10px 22px calc(24px + env(safe-area-inset-bottom,0px));
+  box-shadow:0 -12px 40px rgba(0,0,0,.2);transform:translateY(100%);transition:transform .45s var(--drawer)}
+.foglio.su{transform:none}
+.foglio .maniglia{display:block;width:40px;height:4px;border-radius:4px;background:var(--line);margin:0 auto 16px}
+.foglio .sez a{font-size:1rem;padding:9px 0 9px 30px}
+.foglio .sez a::before{top:.85em;width:16px;height:16px}
+.foglio .sez::before{left:7.5px}
+@media (max-width:759px){.js .pill{display:flex}}
+
+/* ───────── coda e piede ───────── */
+.coda{max-width:var(--max);margin:0 auto;padding:0 var(--gut);scroll-margin-top:56px}
+.coda-in{border-top:3px double var(--ink);padding:36px 0 56px;display:flex;justify-content:space-between;align-items:center;gap:20px 32px;flex-wrap:wrap}
+.coda h2{margin:0;font:620 clamp(1.4rem,1.2rem + 1vw,1.9rem)/1.15 var(--display);letter-spacing:-.015em}
+.btn-o{display:inline-block;padding:13px 24px;border:1.5px solid var(--ink);border-radius:2px;text-decoration:none;font:560 .95rem var(--display);
+  transition:background-color .16s var(--out),color .16s var(--out),transform .16s var(--out)}
+.btn-o:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.btn-o:hover{background:var(--ink);color:var(--paper)}}
+.piede{max-width:var(--max);margin:0 auto;padding:0 var(--gut) clamp(72px,12vh,112px);font:400 .875rem/1.6 var(--display);color:var(--ink-2)}
+.piede p{margin:0 0 8px;max-width:62ch}
+
+@media (max-width:999px),(pointer:coarse){
+  .js .corpo{display:block;transition:none}
+  .js .voce:not(.aperta) .corpo{display:none}
+  .js .testo>*,.js .aperta .testo>*{opacity:1;transform:none;transition:none}
+  .js .aperta .testo>:nth-child(-n+6){animation:entra .7s var(--out) backwards}
+  .js .aperta .testo>:nth-child(2){animation-delay:.07s}.js .aperta .testo>:nth-child(3){animation-delay:.14s}
+  .js .aperta .testo>:nth-child(4){animation-delay:.21s}.js .aperta .testo>:nth-child(5){animation-delay:.28s}
+  .js .aperta .testo>:nth-child(6){animation-delay:.35s}
+}
+@media (min-width:760px) and (max-width:999px){
+  .journal{grid-template-columns:minmax(200px,.36fr) minmax(0,1fr);gap:32px}
+  .lato h2{font-size:2rem}
+}
+@media (max-width:759px){
+  .journal{grid-template-columns:minmax(0,1fr)}
+  .lato{position:static;max-height:none;overflow:visible}
+  .leggendo{display:none}
+}
+@media (max-width:899px){
+  .hero{grid-template-columns:minmax(0,1fr);min-height:0}
+  .gen-fig{justify-self:start;max-width:420px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important;transition-delay:0s!important}
+  .js .voce{opacity:1;transform:none}
+  .seg{background-size:100% .09em}
+}
+</style>
+</head>
+<body>
+<div class="prog" id="prog" aria-hidden="true"></div>
+
+<header class="testata" id="testata">
+  <div class="bar">
+    <a class="marchio" href="#">
+      <svg viewBox="0 0 38 20" aria-hidden="true"><path d="M2 3h14v14H2zM16 10h6"/><path class="mc" d="M22 10a7 7 0 1 0 14 0a7 7 0 1 0-14 0"/></svg>
+      <span>Costellazioni quantiche retrocausali</span>
+    </a>
+    <nav class="menu" aria-label="Principale"><a href="#journal">Journal</a><a href="#instagram">Instagram</a></nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div>
+    <h1 id="titolo">Quello che non è stato detto non tace: <span class="seg">prende la parola</span> nelle generazioni successive.</h1>
+    <p class="sotto">Un journal sulle costellazioni familiari: dinamiche, letture, appunti di lavoro.</p>
+    <a class="btn" href="#journal"><span>Leggi il journal</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></a>
+  </div>
+
+  <figure class="gen-fig" id="fig">
+    <svg viewBox="0 0 480 540" aria-hidden="true">
+      <path class="s dr" pathLength="1" style="--d:.05s" d="M62 48H106V92H62Z"/>
+      <path class="s dr" pathLength="1" style="--d:.15s" d="M174 70a22 22 0 1 0 44 0a22 22 0 1 0-44 0"/>
+      <path class="s dr" pathLength="1" style="--d:.3s" d="M106 70H174"/>
+      <path class="s dr r" pathLength="1" style="--d:.2s" d="M290 48H334V92H290Z"/>
+      <path class="s dr r" pathLength="1" style="--d:.45s" d="M290 48L334 92M334 48L290 92"/>
+      <path class="s dr" pathLength="1" style="--d:.3s" d="M402 70a22 22 0 1 0 44 0a22 22 0 1 0-44 0"/>
+      <path class="s dr r" pathLength="1" style="--d:.6s" d="M334 70H368"/>
+      <path class="s dr" pathLength="1" style="--d:.7s" d="M368 70H402"/>
+      <path class="s dr" pathLength="1" style="--d:.85s" d="M348 60L356 80M354 60L362 80"/>
+      <path class="s dr" pathLength="1" style="--d:.5s" d="M140 70V248"/>
+      <path class="s dr r" pathLength="1" style="--d:.95s" d="M368 70V248"/>
+      <path class="s dr" pathLength="1" style="--d:.9s" d="M118 270a22 22 0 1 0 44 0a22 22 0 1 0-44 0"/>
+      <path class="s dr" pathLength="1" style="--d:1.1s" d="M346 248H390V292H346Z"/>
+      <path class="s dr" pathLength="1" style="--d:1.1s" d="M162 270H254"/>
+      <path class="s dr r" pathLength="1" style="--d:1.3s" d="M346 270H254"/>
+      <path class="s dr r" pathLength="1" style="--d:1.55s" d="M254 270V444"/>
+      <circle class="alone" cx="254" cy="470" r="26"/>
+      <path class="s dr" pathLength="1" style="--d:1.8s" d="M234 470a20 20 0 1 0 40 0a20 20 0 1 0-40 0"/>
+      <path class="s dr" pathLength="1" style="--d:1.9s" d="M228 470a26 26 0 1 0 52 0a26 26 0 1 0-52 0"/>
+      <path class="s dr" pathLength="1" style="--d:1.9s" d="M254 380H340V463"/>
+      <circle class="pieno" style="--d:2.1s" cx="340" cy="470" r="7"/>
+      <circle class="punto" id="punto" r="5" opacity="0">
+        <animateMotion id="viaggio" dur="4.6s" begin="2.4s;viaggio.end+1.6s" path="M312 70H368V270H254V444" calcMode="spline" keyPoints="0;1" keyTimes="0;1" keySplines=".45 0 .25 1"/>
+        <animate attributeName="opacity" dur="4.6s" begin="2.4s;viaggio.end+1.6s" values="0;1;1;0" keyTimes="0;.08;.85;1"/>
+      </circle>
+      <text class="dt" style="--d:.5s" x="84" y="114">1927–2009</text>
+      <text class="dt" style="--d:.55s" x="196" y="114">1931</text>
+      <text class="dt" style="--d:.6s" x="312" y="114">1934–1966</text>
+      <text class="dt" style="--d:.65s" x="424" y="114">1938</text>
+      <text class="dt" style="--d:1.2s" x="140" y="316">1958</text>
+      <text class="dt" style="--d:1.25s" x="368" y="316">1955</text>
+      <text class="dt" style="--d:2.1s" x="254" y="520">1984</text>
+      <text class="dt" style="--d:2.2s" x="340" y="500">1986</text>
+    </svg>
+    <figcaption>Schema illustrativo di un albero familiare su tre generazioni. In evidenza, ciò che passa da una generazione all&#x27;altra.</figcaption>
+  </figure>
+</section>
+
+<section class="journal" id="journal">
+  <div class="lato">
+    <h2>Il journal</h2>
+    <div class="leggendo" id="leggendo" hidden></div>
+  </div>
+  <ol class="gen" role="list">
+    <li class="filo" aria-hidden="true"></li>
+    <li class="voce" id="chi-parte-chi-resta">
+      <div class="apri" data-slug="chi-parte-chi-resta">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-10-26">26 ottobre 2026</time>
+        <h3>Chi parte, chi resta</h3>
+        <p class="estratto">Migrazioni e deportazioni: una lettura sistemica</p>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-chi-parte-chi-resta"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
+      <div class="corpo" id="c-chi-parte-chi-resta"><div class="corpo-in"><div class="pad">
+       <div class="testo">
+      <p>Immaginiamo un villaggio della Moldavia, una domenica sera. Un bambino di nove anni aspetta davanti al telefono la videochiamata della madre. La madre vive in Italia da sei anni e si prende cura di un'anziana signora che non può più stare da sola. Il bambino vive con la nonna, va bene a scuola, non si lamenta. Quando la chiamata finisce, appoggia il telefono sul tavolo e va a dormire senza dire niente.</p>
+      <p>Anche l'anziana signora di cui la madre si prende cura ha una storia simile, solo più vecchia. Suo padre partì negli anni Cinquanta per le miniere del Belgio. Lei lo vedeva un mese all'anno, d'estate. Lui tornò dopo dodici anni, con i polmoni rovinati e una casa costruita al paese mattone su mattone, e si sedette a tavola come un ospite.</p>
+      <p>Due famiglie, due Paesi, settant'anni di distanza. E la stessa domanda: che cosa succede a chi parte, a chi resta, e a chi viene dopo?</p>
+      <p>Nell'articolo <em>Dopo la guerra</em> abbiamo visto come un evento storico possa continuare a parlare nelle generazioni successive. Le migrazioni, e ancora di più le deportazioni, sono eventi di questo tipo: grandi movimenti della storia che passano attraverso le cucine, le tavole apparecchiate, i letti dei bambini.</p>
+      <h3>Due parole da distinguere</h3>
+      <p><strong>Migrazione</strong> indica in generale lo spostamento di persone da un luogo a un altro. <strong>Deportazione</strong> indica un allontanamento forzato, spesso con violenza o costrizione.</p>
+      <p>Usarle come sinonimi rischia di cancellare una differenza importante: quella tra chi sceglie di partire, anche quando la scelta è stretta, e chi viene espulso. Tra i due estremi c'è tutta una gamma di situazioni: chi parte per lavoro, chi per raggiungere la famiglia, chi fugge da una guerra o da una persecuzione, chi lascia una terra resa invivibile dalla siccità. Più ci si avvicina alla costrizione, meno la partenza appartiene a chi la vive.</p>
+      <p>In italiano la parola <em>deportazione</em> evoca subito i treni diretti ai campi di sterminio. In questo articolo la uso in un senso più ampio, che comprende le deportazioni della storia e le espulsioni forzate di oggi: ogni volta che una persona viene allontanata contro la sua volontà dal luogo in cui viveva.</p>
+      <h3>Il principio sistemico</h3>
+      <p>La terapeuta familiare Virginia Satir paragonava la famiglia a una di quelle giostrine che si appendono sopra le culle: basta toccare un elemento perché tutti gli altri si muovano, e per ritrovare l'equilibrio serve tempo.</p>
+      <p>Una lettura sistemica guarda le migrazioni allo stesso modo. Non come "flussi" da contare, ma come movimenti che riequilibrano, o squilibrano, interi sistemi di relazioni: famiglie, comunità, economie, Stati, generazioni. Quello che accade a una persona cambia la posizione di tutte le altre. Chi parte lascia un posto vuoto. Chi arriva occupa uno spazio che prima non c'era. Chi resta deve riorganizzarsi intorno a un'assenza.</p>
+      <p>Gli effetti non dipendono soltanto da quante persone si spostano, ma da chi sono: l'età, il genere, il mestiere, il motivo della partenza, il modo in cui vengono accolte. Partire a vent'anni con un contratto in tasca non è come partire a quaranta lasciando a casa tre figli.</p>
+      <p>La deportazione, in particolare, non "chiude" un problema. Lo sposta. Sposta il dolore, la responsabilità e la mancanza in un altro punto del sistema, dove continuano ad agire.</p>
+      <h3>Le tappe di una migrazione</h3>
+      <p>Uno dei primi a guardare le migrazioni con gli occhi della terapia familiare è stato lo psichiatra argentino Carlos Sluzki. In un articolo del 1979, diventato un classico, descrisse il percorso di una famiglia che emigra come una sequenza di fasi.</p>
+      <p>C'è la <strong>preparazione</strong>, il tempo delle decisioni, delle speranze e dei timori. C'è l'<strong>atto migratorio</strong>, il viaggio vero e proprio. Poi viene una fase che Sluzki chiamò di <strong>sovracompensazione</strong>: nei primi mesi la famiglia è tutta concentrata sulla sopravvivenza. Si lavora, ci si arrangia, si stringono i denti. I conflitti vengono messi da parte, le emozioni rimandate. Funziona, ma è un equilibrio provvisorio.</p>
+      <p>Prima o poi, spesso dopo mesi o anni, arriva la <strong>decompensazione</strong>: quello che era stato messo da parte torna a galla. Crisi di coppia, sintomi, scontri tra genitori e figli. È il momento in cui molte famiglie chiedono aiuto, senza capire perché stiano male proprio adesso, quando il peggio sembrava passato.</p>
+      <p>L'ultima fase riguarda le <strong>generazioni successive</strong>: ciò che la prima generazione non ha potuto elaborare passa ai figli, sotto forma di conflitti tra i valori di casa e quelli di fuori, di silenzi, di aspettative.</p>
+      <p>È un'osservazione preziosa, perché spiega una cosa che sorprende molti: il prezzo di una migrazione non si paga solo alla partenza. Spesso si paga dopo.</p>
+      <h3>Chi resta</h3>
+      <p>Quando qualcuno parte, la famiglia non perde soltanto una persona. Perde una <strong>funzione</strong>: la cura dei figli o dei genitori anziani, la protezione, il sostegno economico, la mediazione negli affetti. Quella funzione non resta vuota a lungo. Qualcuno la prende: la nonna diventa madre, il figlio maggiore diventa padre, una figlia diventa la confidente del genitore rimasto. È la <strong>parentificazione</strong> di cui abbiamo parlato in altri articoli: bambini che occupano posti più grandi di loro, per amore e per necessità.</p>
+      <p>La storia italiana conosce bene queste famiglie. Dal 1876, anno in cui lo Stato cominciò a contarli, in un secolo sono partiti dall'Italia circa ventisei milioni di emigranti, in gran parte uomini in età da lavoro. Nei paesi del Sud e delle montagne restavano le <strong>vedove bianche</strong>: mogli che per anni non erano né sposate né vedove, che crescevano i figli da sole, mandavano avanti la terra, aspettavano lettere e rimesse. Alcuni mariti tornavano. Altri si rifacevano una famiglia oltreoceano e non tornavano più.</p>
+      <p>Oggi la stessa storia si ripete in direzione opposta. In Romania, in Moldavia, in Ucraina sono stati chiamati <strong>orfani bianchi</strong> i bambini cresciuti dai nonni o dai parenti mentre la madre lavorava all'estero, molto spesso in Italia, come assistente familiare. Nel 2005 due psichiatri ucraini, Andriy Kiselyov e Anatoliy Faifrych, coniarono l'espressione <strong>sindrome Italia</strong> per descrivere il malessere delle donne che rientravano a casa dopo anni di lavoro nelle nostre famiglie: la lontananza dai figli, la perdita del proprio ruolo, il senso di estraneità al ritorno. Col tempo l'espressione è stata usata anche per i figli rimasti a casa.</p>
+      <p>La sociologa americana Arlie Hochschild ha descritto questo fenomeno come una <strong>catena globale della cura</strong>. Una donna lascia i propri figli per occuparsi dei figli o dei genitori di un'altra famiglia, in un Paese più ricco. A casa sua, un'altra donna (una nonna, una sorella, una figlia più grande) si occupa dei bambini che lei ha lasciato. La cura scorre lungo la catena, e in fondo alla catena c'è sempre qualcuno che ne riceve di meno.</p>
+      <p>In termini sistemici è un'immagine molto chiara: l'amore e la cura non spariscono, si spostano. E ogni spostamento lascia un vuoto da qualche parte.</p>
+      <p>Per i figli, la lontananza di un genitore può portare sentimenti difficili da tenere insieme: l'abbandono, la vergogna, la gratitudine per un sacrificio fatto per loro, e una rabbia che non si può esprimere proprio perché quel sacrificio è stato fatto per loro.</p>
+      <h3>Un lutto senza funerale</h3>
+      <p>Chi resta vive spesso una forma particolare di lutto. La persona amata non è morta: è altrove. Si può telefonare, aspettare, sperare in un ritorno. Ma la sua presenza quotidiana è perduta.</p>
+      <p>La psicologa e terapeuta familiare americana Pauline Boss ha chiamato questa esperienza <strong>perdita ambigua</strong>: la situazione in cui una persona è fisicamente assente ma psicologicamente presente. È la condizione delle famiglie dei dispersi, dei rapiti, degli emigrati. La perdita ambigua non ha un rito: non c'è un funerale, non c'è un momento in cui il dolore viene riconosciuto da tutti, non c'è una fine. Il lutto resta sospeso. La famiglia non sa se aspettare o andare avanti, e spesso resta ferma a metà.</p>
+      <p>Nella deportazione il lutto è doppio. La persona espulsa perde la vita che aveva costruito: la casa, il lavoro, gli amici, a volte i figli. Chi resta perde la sua presenza quotidiana, senza una morte simbolica con cui elaborare la perdita.</p>
+      <p>Anche chi parte per scelta vive un lutto. Lo psichiatra spagnolo Joseba Achotegui ha parlato di <strong>lutto migratorio</strong> e ne ha individuato sette dimensioni: la famiglia e le persone care, la lingua, la cultura, la terra, lo status sociale, il contatto con il proprio gruppo, i rischi per l'incolumità fisica. Secondo Achotegui è un lutto parziale e ricorrente: il Paese d'origine continua a esistere, ci si può tornare, e proprio per questo la ferita si riapre a ogni partenza, a ogni telefonata, a ogni notizia da casa. Può accompagnare una persona per tutta la vita.</p>
+      <p>Quando le condizioni sono estreme (solitudine forzata, paura, fallimento del progetto migratorio, lotta quotidiana per sopravvivere) Achotegui parla di <strong>sindrome di Ulisse</strong>, dal nome dell'eroe che vagò per anni lontano da casa. E precisa un punto importante: non è una malattia mentale, ma la reazione di una persona sana a una situazione che sana non è.</p>
+      <h3>I figli tra due mondi</h3>
+      <p>I figli dei migranti crescono spesso con un piede in due mondi: il Paese in cui sono nati, o in cui sono arrivati da piccoli, e quello da cui vengono i genitori.</p>
+      <p>Ivan Böszörményi-Nagy, uno dei padri della terapia familiare, ha parlato di <strong>lealtà scissa</strong>: la condizione di chi sente che essere fedele a una parte significa tradire l'altra. È quello che vive un figlio a cui i genitori chiedono, senza dirlo, di non diventare troppo diverso da loro, mentre la scuola e gli amici gli chiedono di non restare troppo diverso da loro. Ogni passo verso un mondo può sembrare un passo lontano dall'altro.</p>
+      <p>C'è poi un fenomeno molto concreto: i figli che fanno da <strong>interpreti</strong> per i genitori. Traducono dal medico, in banca, ai colloqui con gli insegnanti, negli uffici. Gli studiosi lo chiamano <em>language brokering</em>, mediazione linguistica. Le ricerche mostrano effetti diversi. In molti casi i ragazzi ne ricavano competenze e un senso di orgoglio. In altri, soprattutto quando le situazioni sono troppo pesanti per la loro età (una diagnosi, uno sfratto, un problema con i documenti), si trovano a reggere responsabilità da adulti. In termini sistemici è una forma di parentificazione: per qualche ora il bambino diventa il genitore dei propri genitori.</p>
+      <p>E poi ci sono i silenzi. Molte famiglie emigrate hanno scelto di non insegnare ai figli la lingua d'origine, di non raccontare, di rendersi il più possibile invisibili. A volte per proteggere i figli dalla discriminazione, a volte per vergogna. Lo storico americano Marcus Lee Hansen, figlio di immigrati scandinavi, descrisse già negli anni Trenta un fenomeno che da lui prese il nome: <em>ciò che il figlio vuole dimenticare, il nipote vuole ricordare</em>. La seconda generazione cerca spesso di lasciarsi alle spalle le origini; la terza torna a cercarle. Molti nipoti di emigrati italiani in America, in Argentina, in Belgio oggi ricostruiscono l'albero genealogico, imparano qualche parola di dialetto, vengono a vedere il paese dei bisnonni.</p>
+      <p>Paura, instabilità, case cambiate di continuo, stigma: tutto questo può diventare un'<strong>eredità relazionale</strong>, e influenzare il senso di appartenenza dei figli molto tempo dopo che le condizioni materiali sono migliorate.</p>
+      <h3>Le comunità di partenza</h3>
+      <p>Anche i luoghi da cui si parte cambiano.</p>
+      <p><strong>Lo svuotamento.</strong> Le partenze modificano la composizione delle comunità per età, per genere, per competenze. Spesso partono i giovani, gli uomini in età da lavoro, le persone più qualificate. Chi conosce i paesi dell'Appennino o dell'entroterra del Sud sa che cosa resta: case chiuse, scuole che non riaprono, anziani soli.</p>
+      <p><strong>Le rimesse.</strong> I soldi mandati a casa dagli emigrati possono sostenere famiglie e interi territori: case costruite, figli fatti studiare, attività avviate. Ma possono anche creare dipendenza, e nuove disuguaglianze tra chi ha parenti all'estero e chi non li ha. La sociologa Peggy Levitt ha mostrato che gli emigrati mandano a casa anche altro: idee, abitudini, modi di intendere la famiglia, il lavoro, il rapporto tra uomini e donne. Le ha chiamate <strong>rimesse sociali</strong>.</p>
+      <p><strong>L'autorità familiare.</strong> Quando i giovani partono, gli anziani possono perdere il loro ruolo di guida. Quando i giovani tornano, portano con sé modelli che mettono in discussione le gerarchie tradizionali. La famiglia deve ridefinire chi decide, chi consiglia, chi ha l'ultima parola.</p>
+      <p><strong>L'effetto valvola.</strong> L'economista Albert Hirschman distingueva due modi di reagire a una situazione che non funziona: andarsene oppure protestare per cambiarla. Quando andarsene è possibile, la pressione per cambiare le cose si abbassa. In contesti molto poveri o autoritari l'emigrazione può funzionare come una valvola: riduce la tensione sociale interna, ma non risolve le cause che l'hanno prodotta. E chi avrebbe potuto cambiare le cose, spesso, è proprio chi se n'è andato.</p>
+      <h3>Le comunità di arrivo</h3>
+      <p>Anche il sistema che accoglie si trasforma.</p>
+      <p><strong>Arricchimento e tensione, insieme.</strong> L'arrivo di nuove persone può sostenere il lavoro, i servizi, la demografia di territori che invecchiano. Ma può anche attivare paure, una competizione percepita per le risorse, processi di esclusione. Le due cose accadono contemporaneamente, e un discorso che ne veda solo una non descrive la realtà.</p>
+      <p><strong>Lo spostamento del conflitto.</strong> Nelle famiglie si osserva spesso un meccanismo che lo psichiatra Murray Bowen chiamava <strong>triangolazione</strong>: quando la tensione tra due persone diventa insostenibile, viene deviata su una terza, di solito la più fragile. È così che un figlio può diventare "il problema" di una coppia che non riesce a parlarsi. Qualcosa di simile può accadere su scala più grande. Una comunità può attribuire ai nuovi arrivati difficoltà che nascono anche altrove: disuguaglianze, mancanza di case, lavoro precario, scelte politiche. Il gruppo più vulnerabile diventa il <strong>capro espiatorio</strong>, e il conflitto, per così dire, viene "deportato" su di lui. Questo non significa che le difficoltà della convivenza non esistano: esistono, e vanno nominate. Significa che quando un gruppo diventa la spiegazione di tutto, il sistema smette di guardare le proprie altre fratture.</p>
+      <p><strong>Chi c'era prima e chi arriva.</strong> Il lavoro sistemico ha qualcosa da dire anche qui. Ogni sistema ha una sua storia, e chi c'era prima ha un posto che chiede di essere riconosciuto. Chi arriva trova più facilmente il proprio posto quando rispetta quello di chi lo ha preceduto; e il sistema che accoglie si allarga davvero quando riconosce a chi arriva un posto pieno, non provvisorio. Perché funzioni, il riconoscimento deve andare in entrambe le direzioni.</p>
+      <p><strong>Nuove appartenenze.</strong> Nascono famiglie miste, comunità nuove, identità che tengono insieme più origini. Il sistema si allarga. Ma perché l'integrazione sia reale servono tempo, riconoscimento e condizioni materiali concrete: una casa, un lavoro, una scuola che funzioni.</p>
+      <h3>Quando la partenza è imposta</h3>
+      <p>La deportazione ha effetti particolarmente sistemici per una ragione semplice: non limita soltanto un movimento, ma interrompe relazioni già costruite. Una persona viene tolta da una rete di legami (un coniuge, dei figli, un datore di lavoro, dei vicini) e quella rete deve riorganizzarsi di colpo.</p>
+      <p>Non è compito di questo articolo stabilire quali politiche migratorie siano giuste: è una scelta che spetta alla politica e ai cittadini. Lo sguardo sistemico chiede un'altra cosa: vedere tutte le conseguenze, anche quelle che non compaiono nelle statistiche.</p>
+      <p><strong>La paura che arriva nel corpo.</strong> Chi viene espulso, e chi teme di esserlo, vive in uno stato di minaccia che può alterare la fiducia, il sonno, le relazioni, la capacità di progettare il futuro. Uno studio dell'Università del Michigan lo ha mostrato in modo impressionante. Nel 2008, a Postville, in Iowa, una retata in uno stabilimento di lavorazione della carne portò all'arresto di 389 lavoratori, quasi tutti latinoamericani. Nelle 37 settimane successive, il tempo di una gravidanza, i bambini nati in Iowa da madri latinoamericane avevano un rischio di basso peso alla nascita più alto del 24% rispetto allo stesso periodo dell'anno precedente. L'effetto riguardava anche le madri nate negli Stati Uniti, che l'espulsione non poteva toccare. La paura aveva raggiunto persone che non erano coinvolte direttamente, e attraverso di loro bambini non ancora nati.</p>
+      <p><strong>I figli.</strong> La sociologa Joanna Dreby, che ha studiato a lungo le famiglie messicane negli Stati Uniti, ha descritto gli effetti delle espulsioni con l'immagine di una piramide. In cima ci sono i bambini che vedono un genitore espulso e la famiglia spezzata per sempre: sono relativamente pochi. Alla base ci sono moltissimi altri bambini, anche cittadini americani, che crescono con la paura costante che possa succedere. Temono per la stabilità della famiglia, associano l'essere immigrati all'essere fuori legge, e tendono a nascondere le proprie origini. È lo stesso movimento che Hansen aveva osservato nella seconda generazione, ma imposto dalla paura.</p>
+      <p><strong>Quando una parte diventa il tutto.</strong> Chi vive senza documenti in regola rischia di essere visto prima di tutto come "irregolare", prima ancora che come lavoratore, genitore, vicino di casa, cittadino in costruzione. In termini sistemici è un fenomeno noto: una sola caratteristica finisce per definire l'intera persona, e le altre appartenenze (familiari, lavorative, di quartiere) diventano invisibili.</p>
+      <p><strong>Un effetto deterrente ambivalente.</strong> Le politiche più restrittive possono scoraggiare alcune partenze, ma producono anche effetti inattesi. Il sociologo Douglas Massey e i suoi colleghi, che studiano da decenni la migrazione tra Messico e Stati Uniti, hanno osservato che il rafforzamento dei controlli alla frontiera ha reso gli attraversamenti più costosi e più pericolosi. Il risultato è stato che molti migranti hanno smesso di tornare a casa: una migrazione fatta di andate e ritorni stagionali si è trasformata in una presenza stabile. Il controllo, in altre parole, ha spostato il movimento invece di fermarlo, e lo ha reso più rischioso.</p>
+      <p><strong>Il ritorno che non risolve.</strong> Chi viene rimandato indietro torna spesso in una comunità che non è più la stessa. Ci possono essere debiti contratti per il viaggio, la vergogna del fallimento, la perdita dello status che la partenza aveva promesso, una famiglia che nel frattempo si è riorganizzata senza di lui. Il sociologo algerino Abdelmalek Sayad ha descritto la condizione del migrante come una <strong>doppia assenza</strong>: assente dal Paese che ha lasciato, mai del tutto presente in quello in cui vive. Chi torna, per scelta o per forza, scopre spesso di non appartenere più pienamente a nessuno dei due.</p>
+      <h3>Una lettura sistemica</h3>
+      <p>Che cosa aggiungono le costellazioni familiari a tutto questo? Ancora una volta, alcune domande.</p>
+      <p><strong>Chi è rimasto indietro?</strong> Nelle famiglie emigrate c'è quasi sempre qualcuno che è rimasto: i genitori anziani, un fratello, una prima moglie, un figlio affidato ai nonni. Con il tempo queste persone rischiano di uscire dal racconto familiare. Nel lavoro sistemico si osserva che chi viene escluso dalla memoria di una famiglia non scompare: tende a essere rappresentato, senza saperlo, da qualcuno che arriva dopo.</p>
+      <p><strong>La terra d'origine ha un posto?</strong> Nelle costellazioni capita spesso di dare un rappresentante non solo alle persone, ma anche al Paese da cui si viene e a quello in cui si vive. Quando la terra d'origine è disprezzata, rimossa o idealizzata, i discendenti possono sentirsi senza radici. Quando le si riconosce il suo posto, con ciò che ha dato e ciò che non ha potuto dare, diventa una risorsa.</p>
+      <p><strong>Chi ha pagato il prezzo, e chi sente di doverlo restituire?</strong> Molte migrazioni sono raccontate come un sacrificio fatto per i figli: <em>l'ho fatto per voi</em>. Böszörményi-Nagy parlava di un <strong>libro dei conti</strong> familiare, in cui si registra, senza che nessuno lo dica, ciò che si è dato e ciò che si è ricevuto. Un figlio che sente di avere un debito enorme può vivere come se non avesse il diritto di sbagliare, di scegliere una strada diversa, o di essere più felice di chi si è sacrificato per lui.</p>
+      <p><strong>Quale lealtà è ancora attiva?</strong> Non sentirsi mai a casa da nessuna parte. Tenere la valigia pronta. Non comprare casa, perché prima o poi si tornerà. Non imparare bene la lingua del posto. Coltivare la nostalgia come una forma di fedeltà.</p>
+      <p><strong>Chi è stato mandato via?</strong> Anche nelle famiglie italiane ci sono storie di partenze forzate: deportati, esuli, profughi, emigrati rimpatriati contro la loro volontà. E ci sono, a volte, storie di chi ha contribuito a mandare via qualcun altro. Come per la guerra, lo sguardo sistemico non cerca colpevoli da condannare né vittime da compatire: cerca di riportare alla luce ciò che è rimasto al buio, perché smetta di agire in silenzio.</p>
+      <h3>Che cosa protegge</h3>
+      <p>Le ricerche e l'esperienza di chi lavora con le famiglie, lette insieme, indicano alcune cose che fanno la differenza.</p>
+      <ul>
+<li><strong>Raccontare la partenza.</strong> Perché si è partiti, che cosa si è lasciato, che cosa si è trovato. Una storia raccontata, anche dolorosa, pesa meno di una storia taciuta.</li>
+<li><strong>Dare un posto a chi è rimasto.</strong> Nominare i nonni lontani, i fratelli rimasti al paese, chi non ce l'ha fatta. Tenerli dentro il racconto.</li>
+<li><strong>Riconoscere le perdite ambigue.</strong> Pauline Boss suggerisce di non aspettare che l'ambiguità si risolva per ricominciare a vivere: si può imparare a tenere insieme l'assenza e la presenza, e trovare piccoli riti che diano un nome a ciò che si è perso.</li>
+<li><strong>Tenere vivi i ponti.</strong> La lingua d'origine, le visite, le telefonate, le ricette, le feste: non come nostalgia, ma come un'appartenenza che continua.</li>
+<li><strong>Onorare il coraggio.</strong> Chi è partito non porta con sé solo la ferita, ma anche la forza di aver ricominciato da capo. Anche questa è un'eredità, e va trasmessa.</li>
+<li><strong>Condizioni di accoglienza reali.</strong> Nessun lavoro interiore sostituisce una casa, un lavoro, una scuola, un posto riconosciuto nella comunità.</li>
+</ul>
+      <h3>La domanda utile</h3>
+      <p>Le migrazioni non nascono dal nulla. Sono l'esito di processi più ampi (economici, politici, ambientali, culturali) che condizionano lo sviluppo e i modi di vivere di tutte le società coinvolte: quelle da cui si parte e quelle in cui si arriva.</p>
+      <p>Per questo la domanda sistemica più utile non è <em>"come li fermiamo?"</em>, e nemmeno <em>"come li accogliamo tutti?"</em>. È un'altra:</p>
+      <p class="citazione"><em>Quali squilibri rendono la partenza più sopportabile del restare, e quali condizioni rendono l'arrivo meno minaccioso per tutti?</em></p>
+      <h3>Una frattura che continua a parlare</h3>
+      <p>Il bambino che in Moldavia aspetta la telefonata della domenica e l'anziana signora che da piccola vedeva il padre un mese all'anno non si conoscono. Eppure sono legati da un filo: la stessa assenza, a settant'anni di distanza, passata da una famiglia all'altra lungo la catena della cura.</p>
+      <p>Le deportazioni non eliminano il movimento: lo trasformano in trauma, spostano il conflitto e lasciano nelle famiglie e nelle comunità una frattura che continua a parlare attraverso le generazioni. Le migrazioni, anche quando sono scelte, lasciano posti vuoti e posti nuovi da abitare.</p>
+      <p>Ma, come per la guerra, il loro cammino passa attraverso le relazioni. E dove una storia può essere raccontata, chi parte, chi resta e chi viene dopo possono ritrovare, ciascuno, il proprio posto.</p>
+      <p class="nota fine"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</em></p>
+      <h3>Fonti</h3>
+      <ul class="fonti">
+<li>Satir V. (1972), <em>Peoplemaking</em>, Science and Behavior Books.</li>
+<li>Sluzki C.E. (1979), <em>Migration and family conflict</em>, Family Process, 18(4).</li>
+<li>Fondazione Paolo Cresci per la storia dell'emigrazione italiana, statistiche sull'emigrazione italiana dal 1876.</li>
+<li>Hochschild A.R. (2000), <em>Global care chains and emotional surplus value</em>, in W. Hutton, A. Giddens (a cura di), <em>On the Edge: Living with Global Capitalism</em>, Jonathan Cape.</li>
+<li>Il Post (2017), <em>Le donne ucraine in Italia, lontane dai loro figli</em> (sulla "sindrome Italia").</li>
+<li>Boss P. (1999), <em>Ambiguous Loss: Learning to Live with Unresolved Grief</em>, Harvard University Press.</li>
+<li>Achotegui J. (2004), <em>Emigrar en situación extrema: el síndrome del inmigrante con estrés crónico y múltiple (síndrome de Ulises)</em>, Norte de Salud Mental, 21.</li>
+<li>Böszörményi-Nagy I., Spark G.M. (1973), <em>Invisible Loyalties</em>, Harper &amp; Row (trad. it. <em>Lealtà invisibili</em>, Astrolabio).</li>
+<li>Morales A., Hanson W.E. (2005), <em>Language brokering: an integrative review of the literature</em>, Hispanic Journal of Behavioral Sciences.</li>
+<li>Hansen M.L. (1938), <em>The Problem of the Third Generation Immigrant</em>, Augustana Historical Society.</li>
+<li>Levitt P. (1998), <em>Social remittances: migration driven local-level forms of cultural diffusion</em>, International Migration Review.</li>
+<li>Hirschman A.O. (1970), <em>Exit, Voice, and Loyalty</em>, Harvard University Press (trad. it. <em>Lealtà, defezione, protesta</em>, Bompiani).</li>
+<li>Bowen M. (1978), <em>Family Therapy in Clinical Practice</em>, Jason Aronson.</li>
+<li>Novak N.L., Geronimus A.T., Martinez-Cardoso A.M. (2017), <em>Change in birth outcomes among infants born to Latina mothers after a major immigration raid</em>, International Journal of Epidemiology.</li>
+<li>Dreby J. (2012), <em>The burden of deportation on children in Mexican immigrant families</em>, Journal of Marriage and Family.</li>
+<li>Massey D.S., Durand J., Pren K.A. (2016), <em>Why border enforcement backfired</em>, American Journal of Sociology.</li>
+<li>Sayad A. (1999), <em>La double absence</em>, Seuil (trad. it. <em>La doppia assenza</em>, Raffaello Cortina, 2002).</li>
+</ul>
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+    <li class="voce" id="dopo-la-guerra">
+      <div class="apri" data-slug="dopo-la-guerra">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-10-19">19 ottobre 2026</time>
+        <h3>Dopo la guerra</h3>
+        <p class="estratto">Che cosa dicono gli studi sulle generazioni che vengono dopo: una lettura sistemica</p>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-dopo-la-guerra"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
+      <div class="corpo" id="c-dopo-la-guerra"><div class="corpo-in"><div class="pad">
+       <div class="testo">
+      <p>In molte famiglie italiane c'è un nonno che "non parlava della guerra". Era stato in Russia, o internato in un campo in Germania, o sulle montagne con i partigiani. Tornato a casa, si era rimesso a lavorare, si era sposato, aveva cresciuto i figli. E di quegli anni non aveva detto quasi niente.</p>
+      <p>Eppure qualcosa, in quelle case, si sentiva lo stesso. Un pane che non si poteva buttare. Uno scatto improvviso a un rumore forte. Una tristezza senza nome nei giorni di festa. Un'impossibilità, per i figli, di fare domande.</p>
+      <p>Nell'articolo precedente abbiamo visto il lavoro di Rachel Yehuda sui figli dei sopravvissuti alla Shoah. Qui allarghiamo lo sguardo: che cosa sappiamo, oggi, degli effetti della guerra sulle generazioni che vengono dopo? E che cosa può aggiungere a queste ricerche una lettura sistemica della famiglia?</p>
+      <h3>Due parole da distinguere</h3>
+      <p>Prima di cominciare serve una distinzione, perché nei titoli dei giornali viene quasi sempre ignorata.</p>
+      <p>Si parla di effetti <strong>intergenerazionali</strong> quando passano da una generazione a quella immediatamente successiva: da un genitore che ha vissuto la guerra al figlio. Si parla di effetti <strong>transgenerazionali</strong>, in senso stretto, quando arrivano a generazioni che non sono mai state esposte all'evento, nemmeno nel grembo materno: i nipoti, i pronipoti.</p>
+      <p>La distinzione conta. Se una donna incinta vive un bombardamento o una carestia, anche il bambino che porta in grembo vi è esposto direttamente. Quello che gli accade non è un'eredità misteriosa: è un'esperienza vissuta prima di nascere.</p>
+      <h3>Quello che si può misurare</h3>
+      <p>Alcuni studi sono diventati classici, e vale la pena conoscerli.</p>
+      <p><strong>L'inverno della fame.</strong> Tra il 1944 e il 1945 i Paesi Bassi occupati furono colpiti da una carestia gravissima. Sessant'anni dopo, un gruppo di ricercatori guidato da Bastiaan Heijmans confrontò le persone concepite durante la carestia con i loro fratelli e sorelle nati in tempi normali. Nelle prime si osservò una metilazione diversa di un gene legato alla crescita, <em>IGF2</em>: una traccia epigenetica, cioè una modifica non nel gene ma nel modo in cui viene attivato. Il confronto tra fratelli è prezioso, perché tiene ferma la famiglia e cambia solo l'esposizione alla fame.</p>
+      <p><strong>Il genocidio dei Tutsi.</strong> Nel 2014 uno studio su donne ruandesi che erano incinte durante il genocidio del 1994, e sui loro figli, osservò in entrambi alterazioni nella metilazione del gene del recettore dei glucocorticoidi, coinvolto nella risposta allo stress, e nei figli una maggiore vulnerabilità a sintomi di stress post-traumatico. I gruppi erano piccoli: 25 madri esposte e 25 non esposte.</p>
+      <p><strong>I prigionieri della guerra civile americana.</strong> Uno studio del 2018 ha analizzato i registri dei soldati dell'Unione catturati e rinchiusi nei campi di prigionia peggiori. I loro figli maschi, nati dopo la guerra, avevano in età adulta una mortalità un po' più alta di quella dei figli di soldati mai catturati. Un dettaglio sorprendente: l'effetto spariva nei figli nati nei mesi dell'anno in cui le madri, durante la gravidanza, potevano nutrirsi meglio.</p>
+      <p><strong>I bambini evacuati dalla Finlandia.</strong> Durante la Seconda guerra mondiale circa settantamila bambini finlandesi furono mandati in Svezia, lontani dai genitori, per proteggerli dai bombardamenti. Uno studio pubblicato nel 2017 ha confrontato i figli di questi bambini con i figli dei loro fratelli rimasti a casa. Le figlie delle madri evacuate avevano un rischio più alto di ricovero psichiatrico per disturbi dell'umore — secondo i ricercatori, fino a quattro volte — anche quando la madre non era mai stata ricoverata. Nei figli maschi non si osservò alcuna differenza.</p>
+      <p>Quest'ultimo studio merita attenzione, perché il trauma in questione non è un bombardamento: è una <strong>separazione</strong>. Bambini piccoli strappati alla madre, per il loro bene, e poi restituiti anni dopo. Ciò che sembra attraversare le generazioni, in questo caso, è la ferita di un legame interrotto.</p>
+      <h3>Più prudenti dei titoli</h3>
+      <p>Studi come questi sono stati spesso raccontati con frasi come <em>"il trauma si eredita nel DNA"</em>. È una semplificazione che il lettore merita di vedere corretta.</p>
+      <p>Primo: molti di questi studi si basano su campioni piccoli e su osservazioni che attendono ancora di essere confermate.</p>
+      <p>Secondo: negli esseri umani è molto difficile dimostrare che una traccia epigenetica passi davvero da una generazione a un'altra, perché nelle prime fasi dello sviluppo gran parte di queste tracce viene cancellata e riscritta. Negli studi sugli esseri umani, inoltre, è quasi impossibile separare ciò che passa per via biologica da ciò che passa vivendo nella stessa casa.</p>
+      <p>Terzo, e soprattutto: non tutti i figli di chi ha vissuto una guerra stanno male. Nel 2003 una grande meta-analisi, che ha riunito 32 campioni e oltre quattromila figli di sopravvissuti alla Shoah, non ha trovato differenze nei figli che non si erano rivolti a servizi clinici. La sofferenza compariva soprattutto in chi stava già affrontando altre difficoltà importanti. Gli autori ne hanno concluso che la storia dei genitori può rendere più vulnerabili, ma non decide il destino.</p>
+      <p>È un dato che non toglie nulla al dolore di chi soffre. Ma ricorda che la trasmissione non è automatica, e che qualcosa, in mezzo, fa la differenza.</p>
+      <h3>La famiglia come luogo della trasmissione</h3>
+      <p>Quel "qualcosa" è, in gran parte, la famiglia.</p>
+      <p><strong>Il silenzio.</strong> La psicologa Yael Danieli, che dagli anni Settanta lavora con i sopravvissuti alla Shoah e con i loro figli, ha chiamato <strong>congiura del silenzio</strong> quello che accadde dopo la guerra. I sopravvissuti impararono presto che il mondo intorno a loro non voleva ascoltare. Smisero di parlare. E quel silenzio, dice Danieli, poteva ferire quasi quanto il trauma stesso, perché lasciava i figli soli davanti a qualcosa che sentivano senza poterlo capire.</p>
+      <p>Danieli ha anche osservato che le famiglie si organizzano intorno al trauma in modi molto diversi. In alcune prevale il ruolo di vittima. In altre l'intorpidimento emotivo: si va avanti, ma senza sentire. In altre ancora lo spirito combattivo, o il bisogno di dimostrare a ogni costo di avercela fatta. Lo stesso evento storico, in case diverse, diventa un clima diverso.</p>
+      <p><strong>La differenziazione.</strong> Uno studio del 2015 su figli adulti di soldati israeliani fatti prigionieri nella guerra del 1973 ha trovato in loro più sintomi di traumatizzazione secondaria rispetto ai figli di altri veterani. Il dato più interessante, però, è un altro: a fare da ponte tra la sofferenza del padre e quella dei figli era la loro <strong>differenziazione del sé</strong>. È un concetto che viene dalla teoria sistemica della famiglia di Murray Bowen, e indica la capacità di restare in contatto con la propria famiglia senza esserne travolti: di sentire il dolore di un genitore senza confonderlo con il proprio. I figli che faticavano di più erano quelli più reattivi, o quelli che si erano tagliati fuori emotivamente.</p>
+      <p>In altre parole, il trauma del padre arriva ai figli soprattutto attraverso la forma della relazione.</p>
+      <p><strong>I rifugiati.</strong> Una revisione sistematica del 2017 sulle famiglie di rifugiati ha raccolto risultati in parte diversi tra loro, ma con un filo comune: gli effetti del trauma dei genitori sui figli passano molto attraverso il modo in cui si cresce un figlio, attraverso la comunicazione in famiglia e attraverso i significati che la famiglia dà a ciò che ha vissuto.</p>
+      <h3>I figli e i nipoti della guerra</h3>
+      <p>In Germania esiste perfino una parola per questo. I <strong>Kriegskinder</strong>, i bambini della guerra, sono le persone nate tra gli anni Trenta e la fine del conflitto: troppo piccoli per combattere, abbastanza grandi per conoscere la fame, i bombardamenti, la fuga. I <strong>Kriegsenkel</strong> sono i loro figli, cresciuti nel benessere del dopoguerra e spesso abitati da un'inquietudine che non sapevano spiegare.</p>
+      <p>La giornalista Sabine Bode, che ha dedicato a entrambe le generazioni diversi libri, riassume tutto in una frase: la guerra non finisce quando tacciono le armi.</p>
+      <p>Molti Kriegsenkel raccontano genitori presenti ma emotivamente lontani, una casa in cui le emozioni non trovavano posto, la sensazione di dover essere funzionali e senza bisogni. E il disorientamento di chi soffre senza poter indicare una ferita propria.</p>
+      <h3>Una lettura sistemica</h3>
+      <p>Che cosa aggiunge a tutto questo lo sguardo delle costellazioni familiari? Alcune domande, più che risposte.</p>
+      <p><strong>Chi è stato escluso?</strong> La guerra lascia dietro di sé morti, dispersi, figli mai conosciuti, fidanzati mai tornati. Lascia anche persone di cui ci si vergogna. Nel lavoro sistemico si osserva che chi viene escluso dalla memoria familiare non scompare: tende a essere rappresentato, senza saperlo, da qualcuno che arriva dopo.</p>
+      <p><strong>Chi ha preso il posto di chi?</strong> Un figlio nato dopo la morte di un fratello in guerra. Una figlia diventata la confidente di una madre rimasta sola. Un primogenito chiamato a fare da padre. Le guerre sconvolgono l'ordine delle famiglie, e i bambini si ritrovano spesso in posti più grandi di loro.</p>
+      <p><strong>Quale lealtà resta attiva?</strong> Non permettersi di stare bene, perché qualcuno ha sofferto troppo. Non lamentarsi mai. Non allontanarsi. Conservare la paura come forma di fedeltà.</p>
+      <p>E una domanda che le costellazioni pongono con particolare forza: <strong>la guerra ha avuto anche dei colpevoli, e anche loro appartengono a una famiglia.</strong> Nel lavoro sistemico i figli e i nipoti di chi ha fatto del male portano spesso un peso diverso ma reale: la vergogna, il silenzio imposto, il senso di una colpa che non è loro e che nessuno ha mai nominato. Guardare questa parte della storia non significa giustificarla. Significa smettere di portarla al buio.</p>
+      <h3>Che cosa protegge</h3>
+      <p>Le ricerche, lette insieme, indicano anche che cosa può fare la differenza.</p>
+      <ul>
+<li><strong>Le parole.</strong> Una storia raccontata, anche dolorosa, pesa meno di una storia taciuta. Il problema non è sapere, ma intuire senza poter chiedere.</li>
+<li><strong>La differenziazione.</strong> Poter sentire il dolore dei propri genitori senza farlo diventare il proprio. Restare legati, senza confondersi.</li>
+<li><strong>La cura.</strong> Perfino nello studio sui prigionieri americani, una gravidanza in condizioni migliori bastava ad attenuare l'effetto. La trasmissione può essere interrotta, e l'ambiente in cui un bambino cresce conta.</li>
+<li><strong>La memoria della sopravvivenza.</strong> Chi ha attraversato una guerra non porta con sé solo la ferita, ma anche la tenacia, l'ingegno, i legami che gli hanno permesso di tornare. Anche questa è un'eredità, e va trasmessa.</li>
+</ul>
+      <h3>La guerra non finisce quando tacciono le armi</h3>
+      <p>Non finisce, forse, nemmeno nella generazione che l'ha vissuta. Continua nei silenzi delle cucine, nelle paure che nessuno spiega, nei posti occupati al posto di qualcun altro.</p>
+      <p>Ma la stessa ricerca che mostra quanto lontano possa arrivare una guerra mostra anche che il suo cammino non è segnato. Passa attraverso le relazioni. E le relazioni, a differenza della storia, si possono cambiare.</p>
+      <p class="nota fine"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</em></p>
+      <h3>Fonti</h3>
+      <ul class="fonti">
+<li>Heijmans B.T. et al. (2008), <em>Persistent epigenetic differences associated with prenatal exposure to famine in humans</em>, PNAS.</li>
+<li>Perroud N. et al. (2014), <em>The Tutsi genocide and transgenerational transmission of maternal stress: epigenetics and biology of the HPA axis</em>, World Journal of Biological Psychiatry.</li>
+<li>Costa D.L., Yetter N., DeSomer H. (2018), <em>Intergenerational transmission of paternal trauma among US Civil War ex-POWs</em>, PNAS.</li>
+<li>Santavirta T., Santavirta N., Gilman S.E. (2018), <em>Association of the World War II Finnish evacuation of children with psychiatric hospitalization in the next generation</em>, JAMA Psychiatry.</li>
+<li>van IJzendoorn M.H., Bakermans-Kranenburg M.J., Sagi-Schwartz A. (2003), <em>Are children of Holocaust survivors less well-adapted? A meta-analytic investigation of secondary traumatization</em>, Journal of Traumatic Stress.</li>
+<li>Danieli Y. (a cura di) (1998), <em>International Handbook of Multigenerational Legacies of Trauma</em>, Plenum Press.</li>
+<li>Zerach G. (2015), <em>Secondary traumatization among ex-POWs' adult children: the mediating role of differentiation of the self</em>, Psychological Trauma: Theory, Research, Practice, and Policy.</li>
+<li>Sangalang C.C., Vang C. (2017), <em>Intergenerational trauma in refugee families: a systematic review</em>, Journal of Immigrant and Minority Health.</li>
+<li>Bode S. (2004), <em>Die vergessene Generation. Die Kriegskinder brechen ihr Schweigen</em>; (2009), <em>Kriegsenkel. Die Erben der vergessenen Generation</em>.</li>
+</ul>
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+    <li class="voce" id="la-memoria-che-passa">
+      <div class="apri" data-slug="la-memoria-che-passa">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-10-12">12 ottobre 2026</time>
+        <h3>La memoria che passa</h3>
+        <p class="estratto">Rachel Yehuda e il trauma tra le generazioni: una lettura sistemica</p>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-la-memoria-che-passa"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
+      <div class="corpo" id="c-la-memoria-che-passa"><div class="corpo-in"><div class="pad">
+       <div class="testo">
+      <p>Immaginiamo una casa qualunque, in una città qualunque, qualche decennio dopo la guerra. Il padre controlla due volte che la porta sia chiusa. Nel piatto non si lascia mai niente. Quando il figlio rientra tardi, la madre non è arrabbiata: è terrorizzata. Della guerra non si parla. Eppure tutti, in quella casa, sanno che c'è.</p>
+      <p>Il figlio cresce, diventa adulto, e si accorge di portarsi addosso qualcosa che non ha vissuto. Un'allerta continua. La sensazione che il mondo possa crollare da un momento all'altro. Un senso del dovere che non gli lascia tregua.</p>
+      <p>Da dove viene? È una domanda che la ricerca scientifica si pone da decenni, e che il lavoro sistemico guarda da un'angolazione propria.</p>
+      <h3>Chi è Rachel Yehuda</h3>
+      <p>Rachel Yehuda è una psichiatra e neuroscienziata americana, tra i nomi più noti al mondo nello studio del disturbo da stress post-traumatico. Insegna e fa ricerca alla Icahn School of Medicine at Mount Sinai, a New York.</p>
+      <p>Una parte importante del suo lavoro riguarda i figli dei sopravvissuti alla Shoah: persone che non hanno vissuto i campi, ma che sono cresciute accanto a chi li aveva attraversati. La domanda era semplice e difficilissima: un trauma estremo vissuto da un genitore lascia qualche traccia misurabile nei figli?</p>
+      <h3>Che cosa hanno osservato le ricerche</h3>
+      <p>Due risultati hanno attirato più attenzione degli altri.</p>
+      <p>Il primo riguarda il <strong>cortisolo</strong>, l'ormone che regola la risposta del corpo allo stress. In diversi studi, i figli dei sopravvissuti mostravano una regolazione del cortisolo diversa da quella di chi non aveva genitori sopravvissuti — soprattutto quando il genitore soffriva a sua volta di stress post-traumatico.</p>
+      <p>Il secondo riguarda un gene chiamato <strong>FKBP5</strong>, coinvolto proprio nella gestione dello stress. In alcuni studi si sono osservate differenze nella sua <strong>metilazione</strong>: un meccanismo <strong>epigenetico</strong>, cioè un cambiamento non nel gene in sé, ma nel modo in cui il gene viene "letto" e attivato. Si può immaginare come un interruttore che regola il volume, non come una riscrittura del testo.</p>
+      <p>Questi risultati hanno fatto molto rumore, e sono stati spesso riassunti con titoli come <em>"il trauma si eredita nel DNA"</em>. È una semplificazione che va corretta. Gli studi suggeriscono una possibile influenza dello stress da una generazione all'altra, ma si basano su gruppi piccoli — poche decine di persone — e sono tuttora discussi. Soprattutto, non dimostrano che il trauma passi come un destino genetico inevitabile. E non riescono a separare del tutto la biologia dall'ambiente: i figli dei sopravvissuti non hanno ereditato solo dei geni, ma sono cresciuti dentro quelle famiglie.</p>
+      <p>È proprio qui che lo sguardo sistemico ha qualcosa da aggiungere.</p>
+      <h3>La domanda sistemica</h3>
+      <p>In una prospettiva sistemica, la domanda non è soltanto <em>"che cosa è successo al genitore?"</em>. È anche:</p>
+      <p class="citazione"><em>Che cosa è accaduto alla relazione tra il genitore e il figlio, dopo quell'esperienza?</em></p>
+      <p>Chi è sopravvissuto a una catastrofe può aver sviluppato un rapporto con il mondo fondato sulla vigilanza, sulla paura della perdita, sul bisogno di controllare ogni possibile rischio. Sono modi di stare al mondo del tutto comprensibili alla luce di ciò che ha vissuto. Ma non restano chiusi dentro di lui: entrano nell'organizzazione della famiglia.</p>
+      <p>Il figlio può crescere in una casa in cui la sicurezza viene verificata di continuo. In cui separarsi è pericoloso. In cui riuscire nella vita diventa un obbligo morale. In cui il dolore è presente ovunque, ma quasi mai nominato.</p>
+      <h3>Il corpo dentro una rete di relazioni</h3>
+      <p>Le differenze nel cortisolo osservate da Yehuda, in questa luce, non sono la spiegazione di tutto, ma una parte della storia.</p>
+      <p>Un bambino che cresce accanto a un genitore sempre all'erta impara a fare attenzione a ogni minimo cambiamento intorno a sé. Diventa sensibile al tono di voce, all'umore degli adulti, ai rumori, alle porte che si chiudono, alle separazioni. Il suo corpo si abitua a un livello di allarme che in quella casa è normale. La sua risposta allo stress, allora, è influenzata insieme dalla biologia e dal clima delle relazioni in cui è cresciuto — e le due cose difficilmente si possono separare.</p>
+      <p>Il lavoro sistemico, però, non si ferma qui. Aggiunge una domanda in più, che sposta lo sguardo dal singolo al sistema:</p>
+      <p class="citazione"><em>Quale funzione ha questa vigilanza, nella famiglia?</em></p>
+      <p>Forse serve a proteggere. Forse è il modo in cui la famiglia resta fedele a chi non è sopravvissuto. Forse è l'unica forma di amore che, dopo la catastrofe, è sembrata possibile.</p>
+      <h3>I figli custodi della memoria</h3>
+      <p>In molte famiglie segnate da traumi storici, i figli assumono, senza saperlo, un ruolo preciso: diventano <strong>custodi della memoria</strong>. Si sentono incaricati di ricordare ciò che è accaduto, di onorare i morti, di non sprecare le opportunità ricevute, di dimostrare che il sacrificio dei genitori non è stato vano.</p>
+      <p>Nessuno lo ha chiesto loro apertamente. Ma dentro risuonano frasi come queste:</p>
+      <ul>
+<li><em>Non posso lamentarmi: i miei genitori hanno sofferto molto più di me.</em></li>
+<li><em>Devo riuscire, perché a loro è stato tolto tutto.</em></li>
+<li><em>Non posso allontanarmi, perché andarmene sarebbe abbandonarli.</em></li>
+</ul>
+      <p>Sono frasi d'amore, e insieme frasi che pesano. Rendono difficile avere un dolore proprio, una vita propria, una distanza propria.</p>
+      <h3>Il peso dei silenzi</h3>
+      <p>La trasmissione in famiglia non passa soltanto attraverso ciò che viene raccontato. Passa, forse ancora di più, attraverso ciò che non viene detto.</p>
+      <p>Un genitore può tacere per proteggere il figlio. Per vergogna. Per paura di riaprire una ferita. O semplicemente perché per certe esperienze non esistono parole. Il bambino, però, sente quasi sempre che c'è qualcosa di importante che non viene nominato. E quel qualcosa, proprio perché taciuto, finisce per organizzare le relazioni: decide di che cosa si può parlare e di che cosa no, quali domande sono permesse, quali emozioni sono ammesse a tavola.</p>
+      <p>Il segreto non è un'assenza. È una presenza silenziosa che occupa un posto in casa.</p>
+      <h3>Dalla trasmissione alla trasformazione</h3>
+      <p>Il trauma non passa da una generazione all'altra come un oggetto che si consegna di mano in mano. Viene piuttosto ricostruito ogni giorno, nelle relazioni: nei gesti, nelle paure, nelle regole non scritte.</p>
+      <p>Ed è proprio per questo che può cambiare. Una famiglia comincia a trasformare la propria storia quando riesce a:</p>
+      <ul>
+<li>distinguere il pericolo di oggi da quello che appartiene al passato;</li>
+<li>riconoscere il dolore senza farne l'unico fondamento della propria identità;</li>
+<li>permettere ai figli di separarsi, senza leggere la separazione come un tradimento;</li>
+<li>trasmettere non soltanto la memoria della catastrofe, ma anche quella della sopravvivenza.</li>
+</ul>
+      <p>L'ultimo punto è forse il più importante. Chi è sopravvissuto non porta con sé solo la ferita: porta anche la forza, l'ingegno, la tenacia che gli hanno permesso di restare vivo. Anche quella è un'eredità, e merita di essere raccontata.</p>
+      <p>La domanda, allora, diventa:</p>
+      <p class="citazione"><em>Quale storia vogliamo continuare a trasmettere?</em></p>
+      <h3>Guardare la famiglia insieme</h3>
+      <p>Un lavoro sistemico sulla famiglia — e, quando serve, un percorso di terapia familiare condotto da un professionista — può aiutare a rendere visibili i legami tra il malessere di una persona, la storia della sua famiglia e il contesto storico in cui quella storia si è svolta.</p>
+      <p>Uno strumento utile è il <strong>genogramma</strong>: una mappa della famiglia su più generazioni, in cui si annotano lutti, migrazioni, separazioni, racconti che si ripetono, silenzi, ruoli assunti dai figli, idee condivise sulla sicurezza, sul dovere, sulla felicità.</p>
+      <p>L'obiettivo non è trovare un colpevole. È capire come quella famiglia abbia cercato di sopravvivere, e quali strategie, un tempo necessarie, oggi possano essere diventate una gabbia. La vigilanza che un tempo salvava la vita oggi può impedire di viverla.</p>
+      <h3>Né vittime né destinatari passivi</h3>
+      <p>Il trauma di una catastrofe storica può continuare a farsi sentire nelle generazioni successive. Non solo, forse, attraverso possibili tracce biologiche, ma soprattutto attraverso il modo in cui la famiglia organizza la sicurezza, la memoria, la protezione, la distanza e l'appartenenza.</p>
+      <p>Ma il figlio non è un semplice destinatario passivo di un trauma ereditato. È parte di un sistema che, dopo una frattura enorme, ha cercato con tutte le sue forze di restare in piedi e di continuare.</p>
+      <p>Quando una famiglia riconosce la propria storia e impara a distinguere il passato dal presente, la memoria smette di essere soltanto un peso. Può diventare una risorsa: di identità, di consapevolezza, di resilienza.</p>
+      <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</em></p>
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+    <li class="voce" id="quando-il-corpo-dice-no">
+      <div class="apri" data-slug="quando-il-corpo-dice-no">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-10-05">5 ottobre 2026</time>
+        <h3>Quando il corpo dice no</h3>
+        <p class="estratto">Una figlia che impara a servire la madre per avere un posto in famiglia. Ruoli invertiti, una ferita che passa tra le generazioni e il peso del dare continuo.</p>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-quando-il-corpo-dice-no"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
+      <div class="corpo" id="c-quando-il-corpo-dice-no"><div class="corpo-in"><div class="pad">
+       <div class="testo">
+      <p>Prendiamo un caso di scuola. Si chiama Alessia, e intorno ai trentacinque anni le viene diagnosticata un&#x27;artrite reumatoide, una malattia autoimmune. Negli anni peggiora, in modo graduale e progressivo, fino a limitarle alcuni movimenti: soprattutto quelli delle mani.</p>
+      <p>Questo articolo non parla della sua malattia, che appartiene alla medicina. Parla della sua storia familiare: di come una bambina possa crescere occupando un posto che non è il suo, e di come questo posto venga a volte tramandato, da una generazione all&#x27;altra, sotto forme diverse.</p>
+      <h3>Una casa in cui nessuno si prende cura</h3>
+      <p>Alessia è figlia unica.</p>
+      <p>La madre, Deborah, è una donna poco attenta ai bisogni della famiglia, e in particolare a quelli della bambina. Non è solo distrazione: c&#x27;è qualcosa di più attivo, una specie di indifferenza aggressiva. Quando sente che ci sarebbe bisogno di lei, non si muove.</p>
+      <p>Il padre, Olindo, è assente in un altro modo. Sembra un uomo che si trova in una vita in cui non avrebbe voluto essere: distaccato dalla moglie e dalla figlia, presente il meno possibile, occupato a farsi gli affari propri.</p>
+      <p>In mezzo, una bambina che cresce sostanzialmente da sola.</p>
+      <h3>Un posto a qualunque costo</h3>
+      <p>Un bambino ha bisogno di un posto nella propria famiglia più di quanto abbia bisogno di qualunque altra cosa. Se il posto di figlio non è disponibile — se nessuno lo accoglie, lo vede, lo nutre — se ne cerca un altro.</p>
+      <p>Alessia capisce molto presto che l&#x27;unico modo per esistere accanto alla madre è diventarle utile. Non ricevere, ma dare. E così diventa, un passo alla volta, la sua inserviente: la governante della casa, quella che si occupa di tutto ciò che serve, perfino la complice di ciò che la madre mette in atto nei confronti del marito.</p>
+      <p>Nel lavoro sistemico questo fenomeno ha un nome: <strong>parentificazione</strong>, o inversione dei ruoli. Il figlio assume nei confronti del genitore una funzione che spetterebbe al genitore: si prende cura, protegge, sostiene, contiene. La relazione diventa asimmetrica nel senso sbagliato. Non è più chi viene prima a dare a chi viene dopo, ma il contrario.</p>
+      <p>Il prezzo è alto, e quasi sempre invisibile. La bambina che serve impara a dimenticarsi di sé. Impara che il suo valore sta in ciò che fa per gli altri. E non impara a ricevere: non perché non lo desideri, ma perché ricevere, nella sua esperienza, non è mai stato possibile.</p>
+      <h3>Uno sguardo alla generazione precedente</h3>
+      <p>Per capire una madre che non riesce a dare, il lavoro sistemico chiede di fare un passo indietro e guardare sua madre.</p>
+      <p>Anche lì si ritrova una dinamica simile, ma con un tratto in più: la colpa. Rosa, la nonna di Alessia, faceva sentire i propri figli colpevoli di esistere — come se fossero loro la causa delle sue fatiche, dei suoi problemi, della sua vita difficile. Bambini continuamente attaccati, svalutati, tolti dal posto di figli e trascinati in un ruolo da adulti: dovevano provvedere non solo a sé stessi, ma al resto della famiglia.</p>
+      <p>In Deborah, ancora bambina, questa esperienza lascia una ferita profonda, che si esprime come una forma depressiva. Una parte di lei si spegne sotto le accuse. Non si sente degna di ricevere.</p>
+      <p>E qui si crea quello che si potrebbe chiamare un cortocircuito. Da adulta, quando si trova nella posizione di dover dare — accudire una figlia, contenerla, confermarla — si riattiva in lei il desiderio mai soddisfatto della bambina che voleva essere amata. Le due cose si scontrano: la bambina che chiede e l&#x27;adulta che dovrebbe offrire. E il sistema si spegne. Non riesce a dare nulla.</p>
+      <h3>Due risposte opposte alla stessa ferita</h3>
+      <p>Visto da questa distanza, il quadro cambia.</p>
+      <p>Deborah e Alessia portano la stessa ferita: nessuna delle due ha potuto essere davvero figlia. Ma hanno reagito in modi opposti. Deborah si è spenta, e non riesce a dare. La figlia, per trovare un ruolo, ha cominciato a dare tutto, senza mai fermarsi e senza mai ricevere.</p>
+      <p>Il <strong>dare continuo</strong> di Alessia non è generosità nel senso comune del termine. È una strategia di sopravvivenza: il modo che una bambina ha trovato per avere un posto in una casa in cui il posto di figlia non c&#x27;era.</p>
+      <p>Questa lettura non serve a stabilire chi ha colpa. Ogni persona in questa catena è stata, prima di tutto, una bambina a cui è mancato qualcosa. Rosa, che accusava. Deborah, che si è spenta. Alessia, che ha servito. Riconoscerlo non giustifica il dolore che ciascuna ha causato, ma permette di vederlo dentro una storia più grande di ogni singola persona.</p>
+      <h3>E il corpo?</h3>
+      <p>Il titolo di questo articolo è un&#x27;immagine, e va preso come tale.</p>
+      <p>Nel lavoro sistemico capita che si guardi anche alla malattia, e nel caso di Alessia la tentazione di collegare le cose è forte: una donna che ha usato le mani per servire tutta la vita, e una malattia che colpisce proprio le mani.</p>
+      <p>Qui serve molta chiarezza. L&#x27;artrite reumatoide è una malattia autoimmune con cause biologiche: vi concorrono fattori genetici, ormonali e ambientali, e richiede la cura di un reumatologo. Non esiste alcuna prova che una dinamica familiare la provochi, né che decida quali articolazioni verranno colpite. Alcuni studi osservano che lo stress cronico e le esperienze difficili vissute nell&#x27;infanzia si associano a un rischio un po&#x27; più alto di malattie autoimmuni in generale: è un fattore tra molti, non una spiegazione della malattia di una persona.</p>
+      <p>Per questo l&#x27;immagine delle mani che hanno sempre dato può avere un valore, ma solo come immagine. Può aiutare Alessia a guardare la propria storia, a riconoscere quanto ha dato e quanto poco ha ricevuto. Non può diventare il racconto di come si è ammalata. Una lettura di questo tipo, presa alla lettera, rischierebbe di aggiungere un peso a chi è già malato — l&#x27;idea di essersi procurato la malattia — e magari di distogliere dalle cure.</p>
+      <p>La storia familiare e la malattia possono stare una accanto all&#x27;altra, nella vita di una persona, senza che una sia la causa dell&#x27;altra.</p>
+      <h3>Imparare a ricevere</h3>
+      <p>Che cosa può cambiare, allora?</p>
+      <p>Il lavoro sistemico non chiede ad Alessia di smettere di voler bene alla madre, né di rinnegarla. Le propone qualcosa di più sottile: tornare al suo posto di figlia. Riconoscere che Deborah ha la sua storia e il suo destino, che vengono da lontano, e che non è compito della figlia ripararli. Restituire ciò che non le appartiene: il ruolo di inserviente, la responsabilità per il benessere di un&#x27;adulta, il dovere di dare per meritare un posto.</p>
+      <p>E poi, forse la parte più difficile, imparare a ricevere. Da altri, se non dalla madre. Ricevere cura, attenzione, aiuto, senza sentirsi in debito e senza correre subito a ricambiare. Per chi è cresciuto servendo, è un apprendimento lento: ricevere può sembrare quasi pericoloso, come se togliesse l&#x27;unica ragione per cui si ha un posto nel mondo.</p>
+      <p>Ma è proprio da lì che passa la possibilità di interrompere la catena. Non dare meno per principio, ma dare per scelta, e non per necessità.</p>
+      <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico. Alessia, Deborah, Olindo e Rosa sono nomi di fantasia: il caso descritto è un caso di scuola, e ogni riferimento a persone o cose è puramente casuale.</em></p>
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+    <li class="voce" id="date-di-nascita-anniversari-e-lealta-invisibili">
+      <div class="apri" data-slug="date-di-nascita-anniversari-e-lealta-invisibili">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-09-28">28 settembre 2026</time>
+        <h3>Date di nascita, anniversari e lealtà invisibili</h3>
+        <p class="estratto">Le famiglie hanno una memoria, e quella memoria sembra avere un calendario. Sindrome da anniversario, lealtà familiari e che cosa farne.</p>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-date-di-nascita-anniversari-e-lealta-invisibili"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
+      <div class="corpo" id="c-date-di-nascita-anniversari-e-lealta-invisibili"><div class="corpo-in"><div class="pad">
+       <div class="testo">
+      <p>Ogni anno, verso la fine di novembre, una donna si sente spenta. Non succede nulla di particolare, eppure il sonno peggiora, l&#x27;umore scende, tutto costa più fatica. Solo dopo molto tempo scopre che in quelle stesse settimane, quando lei aveva due anni, la madre aveva perso un figlio. In casa non se n&#x27;era mai parlato.</p>
+      <p>Un uomo, avvicinandosi ai quarantacinque anni, entra in un&#x27;inquietudine che non riesce a spiegare. Lascia il lavoro all&#x27;improvviso, la sua relazione vacilla. Suo padre era morto a quarantacinque anni.</p>
+      <p>Sono coincidenze? Forse. Ma nel lavoro sistemico storie come queste si incontrano abbastanza spesso da meritare attenzione. Non perché il passato decida il nostro destino, ma perché le famiglie hanno una memoria, e quella memoria sembra avere un calendario.</p>
+      <h3>Una data che non è solo anagrafica</h3>
+      <p>Dal punto di vista sistemico, la data di nascita non è soltanto un&#x27;informazione sul documento d&#x27;identità. È un segnalibro: indica in quale momento della storia emotiva della famiglia una persona è arrivata.</p>
+      <p>Nessuno nasce in un tempo neutro. Si nasce mentre la famiglia sta attraversando qualcosa: un lutto, una migrazione, una difficoltà economica, una separazione, un segreto, un cambiamento importante. A volte si nasce dopo una perdita, e la nuova vita viene accolta — senza che nessuno lo dica — come una riparazione.</p>
+      <p>In questo senso la data di nascita è un punto d&#x27;incontro fra tre storie: la propria biografia, la biografia della famiglia e delle generazioni precedenti — quella che si chiama dimensione <strong>transgenerazionale</strong> — e il contesto storico e sociale del tempo.</p>
+      <p>Si può guardare a quella data come a un appuntamento fra la storia personale e quella del clan. Un appuntamento da esplorare, non una spiegazione da applicare.</p>
+      <h3>Lealtà invisibili</h3>
+      <p>Il concetto di <strong>lealtà familiare</strong> è stato elaborato dallo psichiatra ungherese-americano Ivan Böszörményi-Nagy, fondatore della cosiddetta <em>terapia contestuale</em>. Il suo libro più noto si intitola proprio <em>Lealtà invisibili</em>.</p>
+      <p>L&#x27;idea è semplice e profonda. In ogni famiglia esistono legami di obbligo, di riconoscenza, di fedeltà e di reciprocità. Alcuni sono consapevoli: sappiamo di dovere qualcosa ai nostri genitori, sentiamo di volerli onorare. Altri agiscono in silenzio, e orientano le nostre scelte senza che ce ne accorgiamo.</p>
+      <p>Una lealtà invisibile può spingere una persona a non superare chi l&#x27;ha preceduta. A non concedersi una felicità che sente &quot;troppo grande&quot; rispetto a quella che i suoi hanno avuto. A ripetere una sofferenza familiare pur di non sentirsi estranea. Sotto, in forma implicita, risuona spesso un messaggio che nessuno ha mai pronunciato:</p>
+      <p class="citazione"><em>Se soffro come te, resto con te. Se vivo diversamente, rischio di tradirti.</em></p>
+      <p>Le forme più frequenti sono tre. Non permettersi di stare meglio di un genitore o di un antenato che ha sofferto molto. Ripetere destini difficili — fallimenti, solitudini, malattie, rinunce — per restare vicini al dolore di famiglia. Sacrificare desideri, progetti o relazioni per mantenere l&#x27;equilibrio emotivo del sistema.</p>
+      <p>La data di nascita può diventare uno dei luoghi in cui queste fedeltà si attivano: soprattutto quando cade vicino a un anniversario doloroso, o quando la vita porta la persona a raggiungere un&#x27;età che per qualcuno della famiglia è stata decisiva.</p>
+      <h3>La sindrome da anniversario</h3>
+      <p>Chi ha dato nome a questo fenomeno è Anne Ancelin Schützenberger, psicoterapeuta francese e figura di riferimento dell&#x27;approccio transgenerazionale, autrice di un libro diventato un classico, tradotto in italiano come <em>La sindrome degli antenati</em>.</p>
+      <p>Con <strong>sindrome da anniversario</strong> si indica la possibile riattivazione di emozioni, sintomi, crisi o comportamenti in prossimità di una data collegata a un evento importante della famiglia: una morte, un incidente, una separazione, una perdita, una migrazione, un fallimento, un trauma che non è stato elaborato.</p>
+      <p>La ricorrenza può prendere tre forme:</p>
+      <ul>
+      <li><strong>la stessa data</strong>: un malessere o una crisi che si ripresenta ogni anno nello stesso periodo</li>
+      <li><strong>la stessa età</strong>: una persona attraversa una fase difficile all&#x27;età in cui un genitore è morto, si è separato o ha vissuto una perdita importante</li>
+      <li><strong>il periodo intorno all&#x27;anniversario</strong>, in cui la vulnerabilità emotiva può aumentare.</li>
+      </ul>
+      <p>Schützenberger parla anche di <strong>stress da anniversario</strong>: nelle settimane vicine a una data carica di memoria, una persona può sentirsi più tesa, stanca, triste, ansiosa o conflittuale, senza collegare in alcun modo ciò che prova all&#x27;evento di origine. Spesso, infatti, non conosce nemmeno la data dell&#x27;evento.</p>
+      <h3>Il doppio anniversario</h3>
+      <p>C&#x27;è un caso che colpisce più degli altri, ed è quello che Schützenberger chiama <strong>doppio anniversario</strong>: una persona raggiunge l&#x27;età in cui un genitore o un antenato ha vissuto un evento traumatico, e proprio in quel periodo attraversa una crisi, una difficoltà nella coppia, un sintomo o una svolta improvvisa.</p>
+      <p>È la storia dell&#x27;uomo dei quarantacinque anni. Il lavoro sistemico, però, non afferma che la sua crisi sia <em>causata</em> dalla morte del padre. Si chiede piuttosto se quell&#x27;età custodisca una memoria, una paura o una fedeltà che nessuno ha mai nominato. Magari, senza saperlo, quell&#x27;uomo non si è mai immaginato più vecchio del padre. Magari superare quell&#x27;età gli sembra una specie di sorpasso.</p>
+      <p>La ripetizione non è mai inevitabile, e non ha valore di previsione. È una pista, non una sentenza.</p>
+      <h3>Quando anniversario e lealtà si intrecciano</h3>
+      <p>Le due cose spesso si incontrano. La data o l&#x27;età riattiva la memoria dell&#x27;evento; la lealtà invisibile rende difficile distinguersi da quel destino.</p>
+      <p>Di solito la persona non ripete lo stesso fatto: ne ripete il <strong>nucleo emotivo</strong>. La perdita, l&#x27;esclusione, l&#x27;abbandono, il sacrificio, la colpa, la solitudine.</p>
+      <p>Una bambina nasce pochi mesi dopo la morte di un nonno molto amato, e cresce sentendosi — senza che nessuno glielo chieda — chiamata a consolare. Una persona vive ogni anno un calo dell&#x27;umore nel periodo in cui, decenni prima, un genitore aveva subito un grave fallimento. Un adulto entra in crisi di coppia all&#x27;età in cui un antenato era stato lasciato, o era rimasto solo.</p>
+      <p>In questa prospettiva la ripetizione può essere letta come una forma di fedeltà. Non una scelta consapevole, ma un modo per restare legati a chi ha sofferto, e per dare un posto a un dolore rimasto senza parole.</p>
+      <h3>La data di nascita come appuntamento</h3>
+      <p>Se la data di nascita è un punto d&#x27;ancoraggio nel tempo familiare, allora può suggerire domande. Non risposte definitive, ma domande utili:</p>
+      <ul>
+      <li>Che cosa è successo nella mia famiglia nei mesi prima e dopo la mia nascita?</li>
+      <li>Ci sono lutti, nascite, aborti, migrazioni, separazioni vicini alla mia data?</li>
+      <li>A quali età i miei genitori e i miei nonni hanno attraversato passaggi difficili? E che cosa vivo io, alle stesse età?</li>
+      <li>Ci sono emozioni o sintomi che ritornano in un periodo preciso dell&#x27;anno?</li>
+      </ul>
+      <p>Uno strumento utile per mettere ordine è il <strong>genosociogramma</strong>: un albero genealogico arricchito, in cui accanto ai nomi si annotano date, età, legami, eventi critici, risorse e ripetizioni. Non serve a trovare un colpevole, né a incasellare la persona nel passato. Serve a rendere visibili connessioni che meritano di essere ascoltate.</p>
+      <h3>Trasformare la lealtà</h3>
+      <p>Il lavoro transgenerazionale non chiede di rinnegare la propria famiglia, né di tagliare i legami. Chiede di distinguere l&#x27;amore dalla ripetizione della sofferenza.</p>
+      <p>Posso riconoscere ciò che è accaduto. Posso onorare chi mi ha preceduto. E, nello stesso momento, posso darmi il permesso di vivere una storia diversa. Restare fedeli non significa soffrire allo stesso modo: si può essere leali anche vivendo bene ciò che a qualcun altro è stato negato.</p>
+      <p>Per questo la domanda centrale non è <em>&quot;come faccio a liberarmi dalla mia famiglia?&quot;</em>, ma:</p>
+      <p class="citazione"><em>Come posso appartenere senza rinunciare a me stessa, o a me stesso?</em></p>
+      <p>Rendere consapevoli date, età, ricorrenze e lealtà permette di passare da una ripetizione automatica a una scelta più libera e più responsabile.</p>
+      <h3>Una cautela necessaria</h3>
+      <p>Una parola di onestà, prima di chiudere. Quando si comincia a cercare coincidenze nelle date di famiglia, se ne trovano sempre: in ogni albero genealogico ci sono decine di date, e la nostra mente è bravissima a notare quelle che combaciano e a dimenticare tutte le altre. Per questo la sindrome da anniversario va usata come uno strumento per esplorare, non come una prova.</p>
+      <p>Non è una diagnosi clinica e non dimostra rapporti di causa ed effetto. Se un malessere, psicologico o fisico, è persistente, intenso o preoccupante, la prima cosa da fare è rivolgersi a un medico o a uno psicoterapeuta qualificato. Il lavoro sulla storia familiare può affiancare quel percorso, mai sostituirlo.</p>
+      <p>Fatta questa premessa, resta una possibilità preziosa: guardare il calendario della propria famiglia non per scoprirsi prigionieri, ma per accorgersi di ciò che, fino a quel momento, si ripeteva al buio.</p>
+      <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</em></p>
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+    <li class="voce" id="una-lettura-sistemica-del-giudizio-universale">
+      <div class="apri" data-slug="una-lettura-sistemica-del-giudizio-universale">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-09-21">21 settembre 2026</time>
+        <h3>Una lettura sistemica del Giudizio Universale</h3>
+        <p class="estratto">Il centro che riordina, il femminile che accoglie, gli esclusi che restano dipinti sulla stessa parete. Tutti colpevoli, tutti possono essere graziati.</p>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-una-lettura-sistemica-del-giudizio-universale"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
+      <div class="corpo" id="c-una-lettura-sistemica-del-giudizio-universale"><div class="corpo-in"><div class="pad">
+       <div class="testo">
+      <p>Chi entra nella Cappella Sistina alza gli occhi alla volta, ma è la parete dell&#x27;altare a fermarlo. Quasi quattrocento figure salgono, precipitano, si aggrappano, si voltano. Nessuna cornice le contiene e non c&#x27;è una storia da seguire in ordine: c&#x27;è un movimento, e tutto ruota intorno a un punto.</p>
+      <p>Vorrei provare a guardare quest&#x27;opera con lo sguardo che uso nel lavoro con le costellazioni familiari. Non da storica dell&#x27;arte, e nemmeno da teologa: la mia è una lettura simbolica, e Michelangelo non aveva in mente nulla di tutto questo. Eppure l&#x27;affresco funziona come funziona un campo: ogni figura occupa un posto, porta una memoria e reagisce a un centro di gravità comune.</p>
+      <h3>Il centro che riordina</h3>
+      <p>Al centro non c&#x27;è un Dio lontano e immobile. C&#x27;è Cristo, colto nell&#x27;istante che precede il verdetto, con il braccio sollevato. Intorno a lui i corpi si dispongono come una corona in rotazione.</p>
+      <p>Quel gesto viene letto quasi sempre come una condanna. Guardandolo con attenzione, però, è anche qualcos&#x27;altro: un gesto che rimette le cose al loro posto. Separa, distingue, colloca. È come se una forza centrale dicesse: <em>ora ogni cosa deve essere vista, riconosciuta e messa dove le spetta.</em></p>
+      <p>È ciò che accade quando una costellazione si mette in movimento. Non arriva una spiegazione, arriva una ricollocazione: qualcuno trova finalmente il proprio posto, qualcun altro restituisce quello che non era suo.</p>
+      <p>In questa lettura Cristo è il principio ordinatore del campo: la forza maschile che separa, giudica e dà forma. Tutto si muove intorno a lui, ma nulla gli è estraneo — nemmeno ciò che viene respinto.</p>
+      <h3>Maria: il femminile che accoglie</h3>
+      <p>Accanto a Cristo siede la Vergine. È raccolta, con lo sguardo abbassato e il corpo rivolto verso il Figlio, quasi ritirato. Non contrasta il suo gesto e non cerca di fermarlo. Non incarna una forza: accoglie. Porta nel centro della scena l&#x27;energia del femminile — la comprensione, la compassione, l&#x27;ascolto del dolore.</p>
+      <p>Il centro dell&#x27;affresco, allora, non è una figura sola, ma una coppia di polarità. Da una parte un maschile forte, che giudica, separa e mette ordine. Dall&#x27;altra un femminile compassionevole, che comprende, contiene e ricorda che ogni sentenza cade su vite concrete. L&#x27;uno distingue; l&#x27;altra accoglie ciò che è stato distinto.</p>
+      <p>Nel linguaggio sistemico maschile e femminile non indicano gli uomini e le donne, ma due qualità che ogni persona e ogni famiglia portano dentro di sé. E il campo ha bisogno di entrambe. Una famiglia in cui domina soltanto il maschile che giudica diventa un tribunale: tutto viene valutato, niente viene accolto. Una famiglia in cui c&#x27;è soltanto il femminile che comprende rischia l&#x27;opposto: tutto viene accolto, ma niente viene mai guardato fino in fondo. L&#x27;ordine senza compassione ferisce; la compassione senza ordine confonde.</p>
+      <h3>Gli angeli portano la memoria</h3>
+      <p>Gli angeli, nella parte alta, non sono una decorazione. Alcuni reggono gli strumenti della Passione: la croce, la corona di spine, la colonna della flagellazione. Altri suonano le trombe e risvegliano i morti.</p>
+      <p>I primi dicono una cosa precisa: il giudizio non può essere separato dalla storia del dolore. Prima di stabilire chi è salvo, bisogna riconoscere ciò che è stato attraversato. È il passaggio che nel lavoro sistemico si tende a saltare: si vorrebbe arrivare subito alla soluzione, mentre prima va guardato il prezzo che qualcuno ha pagato.</p>
+      <p>Le trombe chiamano i morti, ma possono chiamare anche ciò che in una famiglia è stato messo a tacere: il lutto che non si nomina, la separazione di cui non si parla, il parente sparito dalle fotografie. Il loro suono dice una cosa sola, e la dice con chiarezza: <strong>nessun elemento escluso scompare davvero.</strong> Prima o poi ritorna e chiede di essere visto.</p>
+      <h3>I reprobi: l&#x27;ombra del sistema</h3>
+      <p>Nella parte bassa, a destra, angeli e demoni trascinano i dannati verso l&#x27;Inferno, mentre Caronte li traghetta oltre la soglia.</p>
+      <p>Considerarli semplicemente &quot;i cattivi&quot; è la lettura più povera. Rappresentano ciò che il sistema ha espulso: la vergogna, la colpa mai elaborata, la rabbia rimossa, l&#x27;antenato dimenticato, il comportamento che tutti condannano senza chiedersi da dove sia nato.</p>
+      <p>La loro posizione in basso non significa che non valgano nulla. Significa che sono lontani dal centro, separati dal movimento ascendente della vita. Ed è qui che l&#x27;affresco diventa una lezione sistemica: ciò che viene escluso continua a esercitare una forza invisibile sul resto del campo. Può essere ripetuto, compensato o rappresentato, senza saperlo, da qualcuno delle generazioni successive.</p>
+      <h3>Esclusi, eppure dipinti sulla stessa parete</h3>
+      <p>È il dettaglio che considero più importante, e sta sotto gli occhi di chiunque entri.</p>
+      <p>I dannati precipitano, ma restano nell&#x27;affresco. La loro esclusione è rappresentata, non cancellata. Michelangelo avrebbe potuto lasciarli fuori dall&#x27;immagine; invece li ha messi dentro: in basso, ma dentro.</p>
+      <p>Da qui si distinguono due livelli che, nel lavoro con le famiglie, fanno tutta la differenza.</p>
+      <p>C&#x27;è l&#x27;<strong>appartenenza originaria</strong>: ogni figura appartiene alla stessa storia, senza eccezioni. E c&#x27;è la <strong>posizione nel campo</strong>: ognuna occupa un posto diverso, secondo la direzione del proprio destino.</p>
+      <p>Confonderli è l&#x27;errore più comune. Una persona può avere un posto nel sistema anche quando il suo comportamento ha causato dolore, anche quando è stata allontanata. <em>Appartenere non significa essere approvati</em>: significa essere riconosciuti come parte della storia.</p>
+      <p>Davanti a una figura esclusa, una costellazione non dice quasi mai &quot;questa persona non appartiene&quot;. Dice piuttosto: questa persona è stata separata, e la separazione deve essere vista.</p>
+      <h3>Il campo comprende anche la caduta</h3>
+      <p>L&#x27;affresco non è diviso in fasce ordinate: è un vortice. A sinistra i risorti riprendono il proprio corpo e risalgono; al centro le trombe chiamano; in alto i santi fanno corona; a destra i dannati vengono trascinati verso il basso.</p>
+      <p>Il campo, quindi, non coincide con il Paradiso. È l&#x27;intero spazio del giudizio e comprende la colpa, la paura, la memoria, la caduta. La salvezza non si comprende senza la dannazione, e il centro esiste perché ci sono figure periferiche.</p>
+      <p>In questa luce la salvezza somiglia a un ritorno al proprio posto, e la dannazione a una caduta fuori dalla relazione e dall&#x27;appartenenza. Non c&#x27;è qualcuno che manda via: c&#x27;è una frattura, una parte del sistema che è stata allontanata e continua a essere trascinata verso il basso.</p>
+      <h3>Colpa e grazia</h3>
+      <p>L&#x27;affresco non è soltanto una scena teologica: rispecchia le convinzioni filosofiche e religiose del suo autore. Negli anni in cui lavorava alla parete, Michelangelo frequentava Vittoria Colonna e il circolo dei cosiddetti &quot;spirituali&quot;, che meditavano sul peccato e sulla salvezza come dono gratuito, non come merito da conquistare. Le sue poesie degli anni successivi sono attraversate dallo stesso tormento: il senso acuto della propria colpa e l&#x27;attesa di una grazia che non si può guadagnare.</p>
+      <p>Sulla parete, questa convinzione diventa un contrasto tragico. Nessuno è innocente: santi e dannati hanno gli stessi corpi, la stessa carne, la stessa inquietudine, e perfino chi si salva guarda Cristo con timore. Secondo una lettura molto diffusa, Michelangelo avrebbe ritratto sé stesso nella pelle scorticata che san Bartolomeo tiene in mano: un volto svuotato, sospeso tra la caduta e la salvezza.</p>
+      <p>Il messaggio è duro e, insieme, consolante: <strong>tutti sono colpevoli, tutti possono essere graziati.</strong> La grazia non cancella la colpa: la attraversa.</p>
+      <p>In chiave sistemica è un passaggio decisivo. Nelle famiglie si tende a dividere il campo tra innocenti e colpevoli, vittime e responsabili. L&#x27;affresco suggerisce un&#x27;altra posizione: la colpa riguarda tutti, e proprio per questo nessuno è escluso dalla possibilità di essere riaccolto. Riconoscere la propria parte, senza scaricarla su un solo membro della famiglia, è spesso ciò che rende possibile la riconciliazione.</p>
+      <h3>La soglia</h3>
+      <p>La fascia inferiore della parete è attraversata da passaggi: i sepolcri che si aprono, i corpi che si ricompongono, la barca di Caronte, il confine oltre il quale i dannati vengono condotti.</p>
+      <p>Non è una scena immobile, ma un momento di trasformazione. Alcuni cercano di salire, altri vengono trascinati giù, molti sono ancora a metà strada.</p>
+      <p>La soglia è il punto in cui una verità non può più essere evitata. Il passato ritorna, ciò che era nascosto affiora, ciascuno si ritrova davanti al proprio posto. In questo senso il giudizio non è soltanto una sentenza: è un processo di chiarificazione. La confusione si trasforma in ordine — e quasi sempre, prima, fa male.</p>
+      <h3>Due costellazioni nella stessa cappella</h3>
+      <p>C&#x27;è un&#x27;ultima cosa che si coglie soltanto alzando lo sguardo e poi riabbassandolo.</p>
+      <p>La volta fu dipinta tra il 1508 e il 1512: la creazione, Adamo ed Eva, il diluvio, i profeti, le sibille, gli antenati di Cristo. È il tempo dell&#x27;origine e ha la forma di una genealogia, in cui ogni cosa discende da ciò che la precede. Al centro, Dio tende la mano e trasmette la vita.</p>
+      <p>La parete dell&#x27;altare arriva più di vent&#x27;anni dopo, tra il 1536 e il 1541. Nel frattempo c&#x27;erano stati la Riforma di Lutero, nel 1517, e il Sacco di Roma, nel 1527: la città considerata il cuore della cristianità era stata profanata dalle truppe imperiali. Michelangelo non torna a dipingere dentro l&#x27;ottimismo del primo Rinascimento: torna dopo una catastrofe collettiva.</p>
+      <p>E si vede. Sulla volta le scene sono ordinate, separate, leggibili una per una. Sulla parete il campo esplode, e la fiducia in un ordine visibile non c&#x27;è più.</p>
+      <p>Le due opere, tuttavia, non si contraddicono: sono due momenti della stessa costellazione. La volta inaugura la relazione, la parete ne chiede conto. La prima dice: <em>tu appartieni a una storia che ha avuto un&#x27;origine.</em> La seconda: <em>tu sei chiamato a rispondere del posto che occupi in questa storia.</em></p>
+      <p>A pensarci bene, l&#x27;intera cappella funziona come un sistema completo: le pareti laterali raccontano l&#x27;alleanza e la comunità, la volta l&#x27;origine, l&#x27;altare il compimento. Chi entra li attraversa con il proprio corpo, in pochi passi.</p>
+      <h3>Il campo di oggi</h3>
+      <p>Il parallelo con il presente è fecondo, a patto di non dire che il nostro tempo sia uguale a quello di Michelangelo. Non lo è. Ma entrambe le epoche vivono una crisi del centro: allora era in discussione l&#x27;unità religiosa e politica dell&#x27;Europa; oggi lo sono la fiducia nelle istituzioni, la possibilità di una verità condivisa, la sensazione di appartenere allo stesso mondo.</p>
+      <p>Nell&#x27;affresco il centro è visibile, e tutte le figure, anche le più lontane, sono in rapporto con esso. Oggi il centro non è più condiviso allo stesso modo: istituzioni, religioni, media, piattaforme digitali, comunità e tecnologie si contendono il compito di orientarci, e nessuna immagine riesce più a dare ordine all&#x27;esperienza di tutti.</p>
+      <p>C&#x27;è poi una differenza che riguarda il giudizio stesso. Nel dipinto è concentrato in una sola figura e avviene alla fine dei tempi. Oggi è disperso e continuo: giudichiamo e veniamo giudicati ogni giorno, in tempo reale, sui social, nel dibattito pubblico, dentro le famiglie. Viviamo in un giudizio universale permanente, ma senza un giudice riconosciuto. Ne deriva una pressione costante: dimostrare di stare dalla parte giusta.</p>
+      <p>E dove c&#x27;è paura, un sistema cerca qualcuno da spingere ai margini. Vale per le famiglie come per le società, in ogni epoca e in ogni schieramento, perché ciascuno ha le proprie figure da mettere fuori dal campo. L&#x27;analogia va usata con prudenza: nessuno, oggi, corrisponde ai dannati dell&#x27;affresco, e non spetta a me indicare chi sarebbero. Ma la domanda che l&#x27;affresco lascia aperta resta seria, e ognuno può rivolgerla a sé stesso e al proprio gruppo: <em>chi stiamo mettendo fuori dal campo per non guardare una crisi che appartiene a tutti?</em></p>
+      <p>Anche i messaggeri sono cambiati. Nell&#x27;affresco gli angeli annunciano e portano i segni della memoria. Oggi questo compito spetta a chi rende visibili sofferenze ignorate: giornalisti, testimoni, scienziati, insegnanti, comunità che custodiscono la memoria di un trauma collettivo. Esistono però anche messaggeri che disorientano, e la difficoltà di distinguere gli uni dagli altri è forse il tratto più caratteristico del nostro campo.</p>
+      <p>Un&#x27;ultima corrispondenza, questa volta con la volta. Il gesto della Creazione di Adamo — due mani che quasi si sfiorano, una che dà la vita e una che la riceve — è diventato improvvisamente attuale in un&#x27;epoca in cui costruiamo cose capaci di agire da sole. Che cosa significa creare? C&#x27;è differenza tra generare una forma e trasmettere la vita? E quale responsabilità ha chi dà origine a qualcosa che poi non controlla del tutto? Sono domande sull&#x27;origine: cioè domande sistemiche.</p>
+      <h3>Perché guardarlo così</h3>
+      <p>Una parete dipinta cinque secoli fa non offre soluzioni a nessuno. Ma tiene insieme, in un&#x27;unica immagine, qualcosa che nella vita delle famiglie e in quella collettiva facciamo fatica a tenere insieme: il giudizio e l&#x27;appartenenza non si escludono.</p>
+      <p>Ogni destino individuale diventa comprensibile soltanto dentro il campo più grande a cui appartiene. La caduta, l&#x27;esclusione, la colpa non stanno fuori dall&#x27;immagine: cambia il loro rapporto con il centro, non la loro presenza.</p>
+      <p>Tutti colpevoli, tutti possono essere graziati: è forse questo il messaggio più sistemico che Michelangelo ci abbia lasciato.</p>
+      <p>Vale la pena ricordarlo la prossima volta che, in una famiglia, qualcuno viene descritto come quello che ha rovinato tutto. Anche lui è dipinto sulla stessa parete.</p>
+      <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</em></p>
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+    <li class="voce" id="potere-personale-una-lettura-sistemica">
+      <div class="apri" data-slug="potere-personale-una-lettura-sistemica">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-09-12">12 settembre 2026</time>
+        <h3>Potere personale: una lettura sistemica</h3>
+        <p class="estratto">Il potere non è un tratto di carattere: è l&#x27;effetto della posizione che una persona occupa nel proprio sistema familiare.</p>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-potere-personale-una-lettura-sistemica"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
+      <div class="corpo" id="c-potere-personale-una-lettura-sistemica"><div class="corpo-in"><div class="pad">
+       <div class="testo">
+      <p>Nel linguaggio comune il potere personale viene descritto come una qualità individuale: c&#x27;è chi ce l&#x27;ha e chi deve conquistarlo. In una prospettiva sistemica il discorso cambia. Il potere non è un tratto di carattere: è l&#x27;effetto della posizione che una persona occupa nel proprio sistema familiare.</p>
+      <p>Chi sta al proprio posto dispone della propria forza. Chi occupa il posto di un altro — più grande o più piccolo del suo — dispone di una forza che non gli appartiene, e prima o poi la paga.</p>
+      <p>Da qui nasce una domanda diversa. Non &quot;come faccio ad avere più potere&quot;, ma: <strong>quale posto occupo, e di chi era prima di me?</strong></p>
+      <h3>I tre principi che reggono un sistema</h3>
+      <p>Il lavoro sistemico osserva che ogni famiglia tende a organizzarsi intorno a tre esigenze di fondo. Quando una di queste viene disattesa, il sistema cerca di compensare, e quasi sempre lo fa attraverso chi arriva dopo.</p>
+      <p><strong>Appartenenza.</strong> Chiunque sia entrato a far parte del sistema ne fa parte per sempre: un figlio non nato, un primo marito, un fratello morto da piccolo, un parente di cui non si parla più. Se qualcuno viene escluso, il suo posto non resta vuoto: un discendente tenderà a rappresentarlo, spesso ripetendone il destino senza saperne nulla.</p>
+      <p><strong>Ordine.</strong> Chi è arrivato prima ha la precedenza su chi è arrivato dopo. I genitori vengono prima dei figli, il primo legame prima del secondo. Quando l&#x27;ordine si inverte — un figlio che sostiene un genitore, un secondo matrimonio che cancella il primo — la responsabilità si sposta sulle spalle sbagliate.</p>
+      <p><strong>Equilibrio tra dare e ricevere.</strong> Tra pari, quello che si riceve va restituito, altrimenti il legame si carica. Tra genitori e figli l&#x27;equilibrio non è possibile né richiesto: i genitori danno, i figli ricevono e passano avanti, alla generazione successiva.</p>
+      <p>Quasi tutte le distorsioni del potere che si osservano nelle relazioni adulte nascono da una di queste tre.</p>
+      <h3>Il motore: la coscienza familiare</h3>
+      <p>C&#x27;è un meccanismo che tiene in piedi tutto il sistema, e vale la pena nominarlo perché spiega molte cose che sembrano irrazionali.</p>
+      <p>Ogni persona porta con sé una specie di bussola che segnala quando l&#x27;appartenenza è al sicuro e quando è a rischio. La sentiamo come <strong>senso di colpa e senso di innocenza</strong>. Ci sentiamo innocenti quando facciamo ciò che tiene insieme il nostro gruppo, in colpa quando ce ne allontaniamo — anche se ciò che ci tiene dentro ci fa male, e anche se ciò che ci allontanerebbe sarebbe un bene.</p>
+      <p>È per questo che tante persone rinunciano alla propria forza con una determinazione che a loro stesse appare incomprensibile. Riuscire meglio dei propri genitori, essere più felici, amare con più libertà: tutto ciò può essere vissuto inconsciamente come un tradimento. Dove c&#x27;è una rinuncia al potere personale, quasi sempre c&#x27;è un&#x27;appartenenza da proteggere.</p>
+      <h3>Quando il potere si gonfia</h3>
+      <p><strong>Si sviluppa quando</strong> un bambino prende un posto più grande del suo: un genitore assente, malato, in lutto, oppure occupato a sostenere il proprio dolore; un genitore escluso di cui non si può parlare; una coppia in cui uno dei due si appoggia al figlio invece che al partner.</p>
+      <p>Il bambino non sceglie: accorre. È ciò che nel lavoro sistemico viene chiamato <strong>amore cieco</strong> — la disponibilità totale di un figlio a farsi carico, purché il sistema regga.</p>
+      <p><strong>Da adulti</strong> questa posizione si riconosce da alcuni tratti ricorrenti: iper-responsabilità, difficoltà quasi fisica a ricevere, tendenza a scegliere partner da salvare o da sistemare, e un&#x27;autorità che funziona finché l&#x27;altro ha bisogno e vacilla appena l&#x27;altro sta bene. È un potere reale ma faticoso, perché poggia su una posizione che non è mai stata la propria. E si accompagna spesso a una stanchezza che nessun riposo risolve.</p>
+      <h3>Quando il potere si ritira</h3>
+      <p><strong>Si sviluppa quando</strong> occupare spazio è stato pericoloso: un fratello più fragile da non superare, un genitore che non tollerava di essere messo in discussione, una madre o una nonna a cui la forza era stata tolta, un ambiente in cui la femminilità o l&#x27;iniziativa venivano punite.</p>
+      <p>Qui il bambino impara l&#x27;operazione inversa: restare piccolo per non minacciare nessuno. Anche questa è lealtà. <em>Se tu non hai potuto, non lo farò nemmeno io.</em></p>
+      <p><strong>Da adulti</strong> compaiono l&#x27;attesa come modalità principale di relazione, l&#x27;adattamento automatico, la difficoltà a dire no, e — questo è il punto meno ovvio — un potere che continua comunque a esercitarsi, ma per vie indirette: il silenzio, la colpa, il sacrificio esibito, il ritiro. Nessuno rinuncia davvero al potere. Chi non può esercitarlo apertamente lo esercita di nascosto, e le relazioni diventano illeggibili.</p>
+      <h3>Quando l&#x27;avvicinamento si interrompe</h3>
+      <p><strong>Si sviluppa quando</strong> il movimento naturale del bambino verso un genitore viene interrotto presto: una separazione, un ricovero, una nascita difficile, un lutto che ha reso la madre irraggiungibile, una depressione, un trasferimento.</p>
+      <p>Il movimento non scompare: si blocca a metà, insieme al dolore e alla rabbia che lo accompagnavano.</p>
+      <p><strong>Da adulti</strong> questo produce la dinamica più comune nelle coppie: si desidera la vicinanza e la si teme nello stesso momento. Ci si avvicina e poi ci si ritira, si cerca chi è distante e si fugge chi è disponibile. Chi vive dall&#x27;altra parte lo interpreta come un gioco di potere, e in un certo senso lo è — ma la posta in gioco non è l&#x27;altro. È un avvicinamento rimasto sospeso trent&#x27;anni prima.</p>
+      <h3>Lo squilibrio nella coppia</h3>
+      <p><strong>Si sviluppa quando</strong> il dare e il ricevere smettono di alternarsi.</p>
+      <p>Chi dà molto più di quanto riceve accumula un credito, e il credito è potere: rende l&#x27;altro debitore, quindi in posizione subordinata. Chi riceve senza poter restituire accumula un debito, e il debito diventa insostenibile: prima o poi si allontana, spesso senza sapere spiegare perché. Il partner che dà si sente tradito proprio da chi ha aiutato di più. È una delle scene più frequenti nel lavoro con le coppie, ed è un problema di equilibrio, non di ingratitudine.</p>
+      <p>C&#x27;è poi una variante più profonda: quando uno dei due guarda l&#x27;altro come si guarda un genitore — chiedendo ciò che avrebbe dovuto ricevere altrove. In quel caso la coppia non è più tra pari, e il potere si distribuisce come tra un adulto e un bambino. Nessuna buona volontà risolve la cosa finché la richiesta resta indirizzata alla persona sbagliata.</p>
+      <h3>Che cosa riequilibra</h3>
+      <p>Il lavoro sistemico non punta a rafforzare la persona, ma a rimetterla al suo posto. Quando la posizione si sistema, la forza torna da sola.</p>
+      <p>I movimenti che si osservano più spesso sono questi:</p>
+      <ul>
+      <li><strong>riconoscere chi è stato escluso</strong>, e dargli un posto nel proprio sguardo, anche solo interiormente</li>
+      <li><strong>restituire ciò che non ci appartiene</strong> — un peso, un dolore, un compito preso in prestito da qualcuno che è venuto prima</li>
+      <li><strong>lasciare ai genitori ciò che è loro</strong>, compreso il loro destino, senza doverlo riparare</li>
+      <li><strong>ricevere ciò che è stato dato</strong>, per quanto incompleto sia stato: chi non riceve dai genitori resta in difficoltà a ricevere da chiunque</li>
+      <li><strong>mettersi alla pari nella coppia</strong>, riportando all&#x27;origine le richieste che appartengono all&#x27;infanzia.</li>
+      </ul>
+      <p>Nessuno di questi movimenti è un esercizio da fare una volta. Sono orientamenti, e chiedono tempo.</p>
+      <h3>Il potere personale, in termini sistemici</h3>
+      <p>Il potere personale non è forza di volontà, e non si conquista contro qualcuno.</p>
+      <p>È ciò che rimane disponibile a una persona quando smette di occupare posti che non sono suoi: quando non porta più il peso di un genitore, non rappresenta più un escluso, non chiede al partner ciò che spettava a un padre o a una madre.</p>
+      <p>A quel punto la forza non serve più a tenere insieme il sistema. Può essere finalmente rivolta altrove — verso il proprio lavoro, i propri legami, la propria vita.</p>
+      <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</em></p>
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+    <li class="voce" id="il-potere-che-attribuiamo-allaltro">
+      <div class="apri" data-slug="il-potere-che-attribuiamo-allaltro">
+        <span class="nodo" aria-hidden="true"></span>
+        <time datetime="2026-08-28">28 agosto 2026</time>
+        <h3>Il potere che attribuiamo all&#x27;altro</h3>
+        <p class="estratto">Ci sono incontri che ci accendono e insieme ci mettono a nudo. Una lettura sistemica delle relazioni.</p>
+        <div class="azioni"><button class="leggi" type="button" aria-expanded="false" aria-controls="c-il-potere-che-attribuiamo-allaltro"><span class="vai-t">Leggi l&#x27;articolo completo</span><svg viewBox="0 0 18 10" aria-hidden="true"><path d="M1 5h15M12 1l4 4-4 4"/></svg></button><span class="tempo"></span></div>
+      </div>
+      <div class="corpo" id="c-il-potere-che-attribuiamo-allaltro"><div class="corpo-in"><div class="pad">
+       <div class="testo">
+      <p class="nota"><em>Una lettura sistemica delle relazioni</em></p>
+      <p>Ci sono incontri che ci accendono e insieme ci mettono a nudo. La persona che abbiamo davanti sembra più sicura, più libera, più desiderata: qualcuno che sceglie, mentre a noi resta la speranza di essere scelte. In quel momento le consegniamo un potere speciale e, senza accorgercene, dimentichiamo che molte delle qualità che ammiriamo in lei vivono anche in noi.</p>
+      <p>Ma l&#x27;intensità di un legame non riguarda sempre e soltanto chi ci sta davanti. Riguarda anche le storie d&#x27;amore che abbiamo ereditato: il modo in cui, nella nostra famiglia, si sono vissuti il desiderio, la scelta, la fedeltà, l&#x27;attesa, il rifiuto. E il potere.</p>
+      <p>Due domande bastano ad aprire uno spazio:</p>
+      <p class="citazione">Che cosa sta accadendo tra me e questa persona?</p>
+      <p class="citazione">Quale storia familiare si sta riattivando dentro di me?</p>
+      <h3>Il potere nella storia familiare</h3>
+      <p>Ogni famiglia trasmette, quasi sempre senza dirlo, un&#x27;idea implicita di come funziona l&#x27;amore. In certe case il potere appartiene a chi se ne va, a chi non si espone, a chi decide quando avvicinarsi e quando sparire. In altre appartiene a chi resta, aspetta, accudisce e sopporta.</p>
+      <p>Raramente queste idee arrivano sotto forma di racconto. Passano attraverso ciò che si diceva dell&#x27;amore e, ancora di più, attraverso ciò che non si nominava mai: le separazioni taciute, i tradimenti diventati leggenda oppure segreto, i ruoli che madri, padri e nonni hanno occupato senza mai discuterli, il modo in cui era lecito — o vietato — mostrare desiderio e rabbia, lo spazio riservato alle donne e quello riservato agli uomini.</p>
+      <p>Gli studi sull&#x27;attaccamento e sui sistemi familiari indicano che certi modelli relazionali possono attraversare le generazioni. Mai però in modo lineare, e mai come una condanna.</p>
+      <h3>Quando l&#x27;altro occupa una posizione antica</h3>
+      <p>Capita che una persona appena incontrata ci risulti, emotivamente, già familiare. Non perché somigli davvero a qualcuno della nostra storia, ma perché rimette in moto una configurazione che conosciamo a memoria.</p>
+      <p>Lui cerca e io mi nascondo. Lui decide la distanza e io aspetto. Lui sembra avere molte possibilità e io temo di non essere scelta. Lui ha il potere e io cerco di riconquistarlo. Oppure: lui si avvicina e io devo proteggere il mio spazio, perché desidero essere vista ma temo ciò che accadrebbe se lo fossi davvero.</p>
+      <p>Quando accade, la relazione presente diventa il luogo in cui un vecchio equilibrio torna a cercare il suo assetto. La persona che ci attrae non è necessariamente la causa di tutto quello che proviamo: è piuttosto il punto attraverso cui una memoria relazionale più ampia riesce finalmente a farsi sentire.</p>
+      <h3>Il potere maschile e il potere femminile</h3>
+      <p>Una lettura sistemica può interrogare anche il modo in cui, nella nostra famiglia, il potere è stato distribuito tra uomini e donne.</p>
+      <p>Possiamo aver assorbito messaggi mai pronunciati ad alta voce: che l&#x27;uomo sceglie e la donna viene scelta; che lui può avere una vita affettiva ampia mentre lei attende; che il desiderio femminile è pericoloso, o quantomeno sconveniente; che per essere amate bisogna restare disponibili; che una donna forte finisce sola; che il proprio potere va tenuto nascosto, per non spaventare l&#x27;altro; che l&#x27;amore, per essere vero, deve costare una rinuncia.</p>
+      <p>Queste convinzioni diventano invisibili proprio perché sono arrivate presto, prima che avessimo parole per discuterle. Non le condividiamo, eppure possiamo ritrovarci a viverle.</p>
+      <p class="citazione">Sto riconoscendo in lui una qualità reale, o sto ripetendo l&#x27;antica idea che il potere appartenga soprattutto al maschile?</p>
+      <h3>Lealtà invisibili</h3>
+      <p>Nel lavoro sistemico si parla di <em>lealtà invisibili</em> per indicare quei legami interiori attraverso cui, senza saperlo, restiamo fedeli alla nostra famiglia.</p>
+      <p>Una fedeltà di questo tipo può prendere forme molto diverse. Può portarci a scegliere persone emotivamente non disponibili, o a innamorarci proprio di chi mantiene le distanze. Può farci vivere l&#x27;attesa come una prova d&#x27;amore, o attrarci verso chi ha molte relazioni. Può assegnarci il ruolo di colei che comprende, aspetta, salva. E può spingerci a evitare la reciprocità nel momento esatto in cui diventa concreta e possibile — perché una reciprocità piena rischierebbe di smentire il modello familiare in cui l&#x27;amore non è mai del tutto accessibile.</p>
+      <p>Nulla di tutto questo significa che le nostre scelte sentimentali siano decise dagli antenati. La storia familiare è una chiave di lettura tra le altre: contano anche il temperamento, le esperienze personali, il contesto culturale, le relazioni che ci hanno formate lungo la strada.</p>
+      <p class="citazione">Quale posizione relazionale sto ripetendo? E quale posizione nuova vorrei sperimentare?</p>
+      <h3>Quando sottrarsi significa proteggere una storia</h3>
+      <p>Il bisogno di non essere raggiunte può voler dire molte cose. Può essere un confine sano, una richiesta di tempo, il rifiuto legittimo di un contatto vissuto come invadente.</p>
+      <p>In una prospettiva sistemica, però, quello stesso bisogno può diventare una domanda sulla storia da cui proveniamo. Nella nostra famiglia, essere cercate era rassicurante o minaccioso? La presenza dell&#x27;altro era affidabile o imprevedibile? Si poteva dire di no senza perdere l&#x27;amore? Le donne avevano uno spazio personale, e gli uomini rispettavano i confini? La vicinanza somigliava alla cura o al controllo? Sparire era l&#x27;unico modo conosciuto per sentirsi libere?</p>
+      <p>A volte non ci stiamo nascondendo dalla persona che abbiamo davanti, ma dall&#x27;esperienza antica che la sua presenza risveglia.</p>
+      <h3>Ritirare la proiezione</h3>
+      <p>Ritirare una proiezione non significa smettere di vedere l&#x27;altro. Significa riprendersi ciò che gli abbiamo consegnato senza accorgercene.</p>
+      <p>Se gli attribuiamo libertà, vale la pena chiederci dove, nella nostra vita, desideriamo essere più libere. Se gli attribuiamo fascino, possiamo riconoscere la nostra capacità di desiderare e di essere desiderate. Se gli attribuiamo il potere di scegliere, possiamo tornare a sentire che scegliamo anche noi.</p>
+      <p>Alcune domande aiutano questo passaggio:</p>
+      <ul>
+      <li>Che cosa penso che lui possieda e io no?</li>
+      <li>Quale ruolo assumo accanto a lui?</li>
+      <li>Questo ruolo somiglia a quello di qualcuno nella mia famiglia?</li>
+      <li>Che cosa temo accadrebbe se riconoscessi pienamente il mio potere?</li>
+      <li>Da chi ho imparato che in amore uno insegue e l&#x27;altra si fa raggiungere?</li>
+      <li>Che cosa significa, per me, essere scelta?</li>
+      <li>Quale forma di reciprocità è mancata nella mia storia?</li>
+      </ul>
+      <h3>Il potere nella relazione presente</h3>
+      <p>Il potere personale non consiste nel controllare l&#x27;altro, né nel sottrarsi per alimentare il desiderio. Consiste nel restare capaci di scegliere anche quando l&#x27;attrazione è forte.</p>
+      <p>Significa potersi dire: <em>mi piaci, e non ho bisogno di idealizzarti</em>. Posso ascoltare ciò che provo senza trasformarlo subito in una certezza. Posso desiderare vicinanza e, allo stesso tempo, avere bisogno di distanza. Posso guardare i fatti invece di vivere di supposizioni. Posso essere disponibile senza essere sempre reperibile. Posso essere amata senza rinunciare ai miei confini. E posso scegliere un rapporto diverso da tutti quelli che la mia famiglia ha conosciuto.</p>
+      <p>I modelli relazionali si trasmettono, è vero. Ma si trasformano anche, attraverso le esperienze concrete, la qualità dei legami che costruiamo e la possibilità di imparare modi nuovi e più sicuri di stare con l&#x27;altro.</p>
+      <h3>Dalla ripetizione alla trasformazione</h3>
+      <p>Una lettura sistemica non si esaurisce nella ricerca di antenati, date e corrispondenze. Il suo valore più profondo sta nello spazio di consapevolezza che apre.</p>
+      <p class="citazione">Sto vivendo questa relazione soltanto nel presente, o sto anche rispondendo a una storia più antica?</p>
+      <p>La consapevolezza non cancella il passato: interrompe l&#x27;automatismo. Permette di distinguere ciò che appartiene alla famiglia da ciò che appartiene alla nostra scelta di oggi.</p>
+      <p>Forse nella nostra genealogia l&#x27;amore è stato legato all&#x27;attesa. O alla rinuncia. O al controllo. O alla paura di essere sostituite. Ma una storia ereditata può diventare il punto di partenza di qualcosa di diverso. Non siamo obbligate a occupare la posizione che ci è stata consegnata.</p>
+      <h3>Conclusione</h3>
+      <p>L&#x27;altro può risvegliare il nostro potere, ma può anche riattivare un&#x27;organizzazione antica: chi cerca e chi fugge, chi decide e chi aspetta, chi ha molte possibilità e chi teme di non essere scelto.</p>
+      <p>Per questo una relazione intensa è anche un&#x27;occasione: ci mostra il presente e, insieme, le tracce della nostra storia.</p>
+      <p class="citazione">Quale posizione ho imparato ad assumere in amore? Da chi l&#x27;ho appresa? E sono ancora disposta a occuparla?</p>
+      <p>Riprendere il proprio potere significa riconoscere ciò che si è ereditato, distinguerlo da ciò che stiamo vivendo ora e scegliere, nel presente, una forma di relazione più libera, più reciproca, più consapevole.</p>
+      <p class="nota"><em>Questa è una chiave di lettura, non una legge. Le dinamiche descritte sono ipotesi di lavoro utilizzate in ambito sistemico: illuminano molto, ma non spiegano tutto, e accanto a esse agiscono il temperamento, le esperienze personali e il contesto in cui si vive. Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</em></p>
+       </div>
+       <div class="fine-art"><button class="btn-c" type="button" data-chiudi><svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg><span>Chiudi l&#x27;articolo</span></button></div>
+      </div></div></div>
+    </li>
+  </ol>
+</section>
+</main>
+
+<section class="coda" id="instagram">
+  <div class="coda-in">
+    <h2>Anche su Instagram</h2>
+    <a class="btn-o" href="https://www.instagram.com/costellazioni_q.r/" target="_blank" rel="noopener">Vai al profilo</a>
+  </div>
+</section>
+
+<footer class="piede">
+  <p>Costellazioni quantiche retrocausali — costellazioni familiari.</p>
+  <p>Il lavoro sistemico non è una psicoterapia e non sostituisce un percorso psicologico o un trattamento medico.</p>
+  <!-- versione 26 ottobre 2026 · v15 -->
+</footer>
+
+<button class="pill" id="pill" type="button" aria-haspopup="dialog" aria-controls="foglio" hidden>
+  <span class="pill-t"><span class="pill-l">Sezioni dell&#x27;articolo</span><span class="pill-s" id="pill-s"></span></span>
+  <svg viewBox="0 0 14 9" aria-hidden="true"><path d="M1 8l6-6 6 6"/></svg>
+  <span class="pill-pr" aria-hidden="true"><i id="pill-pr"></i></span>
+</button>
+<div class="velo-f" id="velo-f" hidden></div>
+<div class="foglio" id="foglio" role="dialog" aria-modal="true" aria-label="Sezioni dell&#x27;articolo" hidden></div>
+
+<script>
+(function(){
+  var d=document, root=d.documentElement;
+  root.classList.remove('no-js'); root.classList.add('js');
+
+  /* palette di prova: ?palette=indaco | archivio | notturno | rame | vinaccia */
+  var pal=new URLSearchParams(location.search).get('palette');
+  if(pal&&/^(originale|indaco|archivio|notturno|rame|vinaccia)$/.test(pal)) root.dataset.palette=pal;
+
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)'), wide=matchMedia('(min-width:1000px)'),
+      fine=matchMedia('(hover:hover) and (pointer:fine)'),
+      voci=[].slice.call(d.querySelectorAll('.voce')), gen=d.querySelector('.gen'),
+      testata=d.getElementById('testata'), prog=d.getElementById('prog'), pill=d.getElementById('pill'),
+      leggendo=d.getElementById('leggendo'), fig=d.getElementById('fig'),
+      foglio=d.getElementById('foglio'), velo=d.getElementById('velo-f'), pillS=d.getElementById('pill-s'), pillPr=d.getElementById('pill-pr'),
+      cur=null, tick=false, busy=false;
+  var X='<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 1l8 8M9 1L1 9"/></svg>';
+  function clamp(n){return Math.max(0,Math.min(1,n));}
+  function jump(y){window.scrollTo(0,y);}
+  function topOf(el){return el.getBoundingClientRect().top+window.scrollY-72;}
+  function smoothTo(y,done){
+    if(reduce.matches||Math.abs(window.scrollY-y)<4){jump(y);if(done)done();return;}
+    var fired=false;function end(){if(fired)return;fired=true;removeEventListener('scrollend',end);if(done)done();}
+    if('onscrollend' in window) addEventListener('scrollend',end);
+    setTimeout(end,900);
+    try{window.scrollTo({top:y,behavior:'smooth'});}catch(err){window.scrollTo(0,y);}
+  }
+
+  /* titolo: parole che salgono una alla volta */
+  (function(){
+    var h=d.getElementById('titolo'), i=0;
+    function split(node){
+      [].slice.call(node.childNodes).forEach(function(n){
+        if(n.nodeType===3){
+          var frag=d.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(function(part){
+            if(!part) return;
+            if(/^\s+$/.test(part)){frag.appendChild(d.createTextNode(' '));return;}
+            var w=d.createElement('span'),inner=d.createElement('span');
+            w.className='w'; inner.textContent=part; inner.style.setProperty('--i',i++); w.appendChild(inner); frag.appendChild(w);
+          });
+          node.replaceChild(frag,n);
+        } else if(n.nodeType===1) split(n);
+      });
+    }
+    split(h);
+  })();
+
+  /* tempo di lettura e preparazione delle voci */
+  voci.forEach(function(v){
+    var t=v.querySelector('.testo'),
+        min=Math.max(1,Math.round(t.textContent.trim().split(/\s+/).length/200));
+    v.querySelector('.tempo').textContent=min+' min di lettura';
+    [].forEach.call(t.querySelectorAll('h3'),function(h,k){h.id=v.id+'-s'+(k+1);});
+  });
+
+  function setLabel(v,open){
+    v.querySelector('.vai-t').textContent=open?'Chiudi l’articolo':'Leggi l’articolo completo';
+    v.querySelector('.leggi').setAttribute('aria-expanded',open?'true':'false');
+  }
+  function shut(v){ /* chiusura istantanea, senza spostare la vista */
+    var c=v.querySelector('.corpo'); c.classList.add('subito'); v.classList.remove('aperta'); setLabel(v,false);
+    c.offsetHeight; c.classList.remove('subito');
+  }
+  function buildLato(v){
+    var hs=v.querySelectorAll('.testo h3'), html='<p class="lt">Stai leggendo</p><p class="lt-t">'+v.querySelector('h3').innerHTML+'</p><ol class="sez">';
+    [].forEach.call(hs,function(h){html+='<li><a href="#'+h.id+'">'+h.innerHTML+'</a></li>';});
+    html+='</ol><button class="btn-c" type="button" data-chiudi>'+X+'<span>Chiudi l’articolo</span></button>';
+    leggendo.innerHTML=html; leggendo.hidden=false;
+    foglio.innerHTML='<span class="maniglia" aria-hidden="true"></span>'+html;
+  }
+  function apri(v,instant){
+    if(busy) return;
+    if(cur&&cur!==v){
+      var before=v.getBoundingClientRect().top; shut(cur);
+      jump(window.scrollY+v.getBoundingClientRect().top-before);
+    }
+    cur=v; v.classList.add('visto');
+    if(instant){var c=v.querySelector('.corpo');c.classList.add('subito');}
+    v.classList.add('aperta'); setLabel(v,true);
+    if(instant){c.offsetHeight;c.classList.remove('subito');}
+    history.replaceState(null,'','#/'+v.id);
+    buildLato(v); prog.classList.add('on'); pill.hidden=false;
+    if(instant) jump(topOf(v)); else smoothTo(topOf(v));
+    update();
+  }
+  function chiudi(v){
+    if(!v||busy) return;
+    var collapse=function(){
+      v.classList.remove('aperta'); setLabel(v,false);
+      if(cur===v) cur=null;
+      leggendo.hidden=true; prog.classList.remove('on'); pill.classList.remove('su'); last.pill=false; chiudiFoglio(false);
+      history.replaceState(null,'',location.pathname+location.search);
+      busy=false; update();
+    };
+    busy=true;
+    if(v.getBoundingClientRect().top<0) smoothTo(topOf(v),collapse); else collapse();
+  }
+
+  function apriFoglio(){
+    velo.hidden=false; foglio.hidden=false; foglio.offsetHeight;
+    velo.classList.add('su'); foglio.classList.add('su'); pill.setAttribute('aria-expanded','true');
+    var c=foglio.querySelector('[aria-current]')||foglio.querySelector('.sez a'); if(c) c.focus({preventScroll:true});
+    if(c&&c.scrollIntoView) c.scrollIntoView({block:'center'});
+  }
+  function chiudiFoglio(back){
+    if(foglio.hidden) return;
+    velo.classList.remove('su'); foglio.classList.remove('su'); pill.setAttribute('aria-expanded','false');
+    setTimeout(function(){foglio.hidden=true;velo.hidden=true;},reduce.matches?0:450);
+    if(back) pill.focus({preventScroll:true});
+  }
+  addEventListener('keydown',function(e){if(e.key==='Escape') chiudiFoglio(true);});
+  d.addEventListener('click',function(e){
+    var t=e.target.closest?e.target:null; if(!t) return;
+    var a=t.closest('.leggi');
+    if(a){ e.preventDefault(); var v=a.closest('.voce'); if(v.classList.contains('aperta')) chiudi(v); else apri(v,false); return; }
+    if(t.closest('#pill')){ e.preventDefault(); apriFoglio(); return; }
+    if(t.closest('#velo-f')){ chiudiFoglio(true); return; }
+    if(t.closest('[data-chiudi]')){ e.preventDefault(); chiudiFoglio(false); chiudi(cur); return; }
+    var s=t.closest('.sez a');
+    if(s){ e.preventDefault(); chiudiFoglio(false); var h=d.getElementById(s.getAttribute('href').slice(1)); if(h) smoothTo(h.getBoundingClientRect().top+window.scrollY-84); }
+  });
+
+  /* le voci entrano quando arrivano nello schermo */
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visto');io.unobserve(e.target);}});},{rootMargin:'0px 0px -12% 0px'});
+    voci.forEach(function(v){io.observe(v);});
+  } else voci.forEach(function(v){v.classList.add('visto');});
+
+  /* il filo rosso scende con la lettura e accende i nodi che raggiunge */
+  var filo=d.querySelector('.filo'), last={};
+  function setOnce(k,v,fn){if(last[k]!==v){last[k]=v;fn(v);}}
+  function update(){
+    tick=false;
+    /* letture */
+    var y=window.scrollY, vh=window.innerHeight, g=gen.getBoundingClientRect(),
+        tops=voci.map(function(v){return v.getBoundingClientRect().top;}), c=null, hs=null, hTops=null, apriB=0;
+    if(cur){
+      c=cur.querySelector('.testo').getBoundingClientRect();
+      hs=cur.querySelectorAll('.testo h3'); hTops=[].map.call(hs,function(h){return h.getBoundingClientRect().top;});
+      apriB=cur.querySelector('.apri').getBoundingClientRect().bottom;
+    }
+    /* scritture */
+    var L=g.height-46, p=clamp((vh*.62-g.top-46)/L), tip=g.top+46+p*L;
+    setOnce('scesa',y>8,function(v){testata.classList.toggle('scesa',v);});
+    setOnce('p',p.toFixed(3),function(v){filo.style.transform='scaleY('+v+')';});
+    voci.forEach(function(v,i){setOnce('n'+i,tops[i]+44<tip,function(on){v.classList.toggle('acceso',on);});});
+    if(cur){
+      setOnce('pr',clamp((vh*.25-c.top)/c.height).toFixed(3),function(v){prog.style.transform='scaleX('+v+')';pillPr.style.transform='scaleX('+v+')';});
+      var idx=-1; for(var k=0;k<hTops.length;k++){ if(hTops[k]<vh*.35) idx=k; }
+      setOnce('idx',cur.id+idx,function(){
+        pillS.textContent=idx>=0?hs[idx].textContent:cur.querySelector('.apri h3').textContent;
+        for(var k=0;k<hs.length;k++) hs[k].classList.toggle('passato',k<=idx);
+        var links=d.querySelectorAll('#leggendo .sez a, #foglio .sez a'), nl=links.length/2;
+        for(var j=0;j<links.length;j++){
+          var jj=j%nl; links[j].classList.toggle('fatto',jj<idx);
+          if(jj===idx) links[j].setAttribute('aria-current','true'); else links[j].removeAttribute('aria-current');
+        }
+      });
+      setOnce('pill',apriB<0&&c.bottom>vh*.6,function(v){pill.classList.toggle('su',v);});
+    } else { setOnce('pill',false,function(){pill.classList.remove('su');}); last.idx=null; }
+  }
+  function onScroll(){if(!tick){tick=true;requestAnimationFrame(update);}}
+  addEventListener('scroll',onScroll,{passive:true});
+  addEventListener('resize',onScroll);
+
+  /* lo schema segue appena il puntatore */
+  if(fig&&!reduce.matches){
+    var tx=0,ty=0,cx=0,cy=0,running=false;
+    function loop(){cx+=(tx-cx)*.08;cy+=(ty-cy)*.08;fig.style.setProperty('--fx',cx.toFixed(2)+'px');fig.style.setProperty('--fy',cy.toFixed(2)+'px');
+      if(Math.abs(tx-cx)>.05||Math.abs(ty-cy)>.05) requestAnimationFrame(loop); else running=false;}
+    addEventListener('pointermove',function(e){
+      if(!fine.matches||window.scrollY>window.innerHeight) return;
+      tx=(e.clientX/window.innerWidth-.5)*-16; ty=(e.clientY/window.innerHeight-.5)*-12;
+      if(!running){running=true;requestAnimationFrame(loop);}
+    },{passive:true});
+  }
+
+  if(fig&&'IntersectionObserver' in window){
+    var svg=fig.querySelector('svg');
+    new IntersectionObserver(function(es){var vis=es[0].isIntersecting;fig.classList.toggle('fermo',!vis);
+      if(svg.pauseAnimations){ if(vis) svg.unpauseAnimations(); else svg.pauseAnimations(); }}).observe(fig);
+  }
+
+  /* link diretto a un articolo: #/titolo */
+  function daHash(){
+    var m=location.hash.match(/^#\/(.+)$/); if(!m) return;
+    var v=d.getElementById(decodeURIComponent(m[1])); if(v&&v.classList.contains('voce')&&v!==cur) apri(v,true);
+  }
+  addEventListener('hashchange',daHash);
+  daHash(); update();
+})();
+</script>
+</body>
+</html>
